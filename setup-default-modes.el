@@ -1,3 +1,6 @@
+;; Load up some colour themes
+(load-theme 'solarized-dark t)
+
 ;; c-c left, c-c right - to move between previous open window settings
 (winner-mode 1)
 

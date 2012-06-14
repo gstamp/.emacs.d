@@ -154,4 +154,12 @@ If point was already at that position, move point to beginning of line."
 (fset 'kill-opposite-buffer
       "\C-xo\C-xk\C-m\C-xo")
 
+;; Stops the mini buffer when switching back to emacs with mouse
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+    (abort-recursive-edit)))
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+
 (provide 'custom-defuns)
+

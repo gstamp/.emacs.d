@@ -45,9 +45,6 @@
 ;; Part of bookmarks plugin.  Only highlight bookmarks on fringe.
 (setq bm-highlight-style 'bm-highlight-only-fringe)
 
-;; TODO: Remove, not sure if needed:
-;; (setq autopair-autowrap t)
-
 ;; ignore slime complaining about the version mismatch (& set default
 ;; ports)
 (setq slime-protocol-version 'ignore)
@@ -65,8 +62,6 @@
 
 ;; Display/redraw defaults
 (setq set-cursor-type 'box)
-;; TODO: Not sure I need this
-;;(setq redisplay-dont-pause t)
 (set-cursor-color "yellow")
 
 ;; Can't see a good reason not to enable these commands
@@ -87,5 +82,7 @@
 ;; (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 ;; ..or globally..
 ;; (global-rainbow-delimiters-mode)
+
+
 
 (provide 'setup-defaults)
