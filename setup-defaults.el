@@ -70,11 +70,26 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;; map meta to the command key on mac
-(setq mac-option-key-is-meta nil)
-(setq mac-left-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier nil)
+(setq is-mac (equal system-type 'darwin))
+
+(when is-mac
+  (progn
+    ;; map meta to the command key on mac
+    (setq mac-option-key-is-meta nil)
+    (setq mac-left-command-key-is-meta t)
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier nil)
+
+    ;; keybinding to toggle full screen mode
+    (global-set-key (quote [M-f10]) (quote ns-toggle-fullscreen))
+
+    ;; Move to trash when deleting stuff
+    (setq delete-by-moving-to-trash t
+          trash-directory "~/.Trash/emacs")
+
+    ;; mac friendly font
+    (set-face-attribute 'default nil :font "Monaco-16")
+    ))
 
 ;; Add rainbow delimiters to all programming modes
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)

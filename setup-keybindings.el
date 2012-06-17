@@ -11,14 +11,23 @@
 (global-set-key [(control f2)] 'multi-occur-in-this-mode)
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
 (global-set-key [(control f4)] 'kill-this-buffer)
-(global-set-key "\C-c\C-l" 'kill-opposite-buffer)
+(global-set-key [(control f6)] 'elein-reswank)
+;; Turn on the menu bar for exploring new modes
+(global-set-key (kbd "C-<f10>") 'menu-bar-mode)
 
 (global-set-key [(shift f2)] 'bm-toggle)
 (global-set-key [(shift f3)] 'bm-next)
 (global-set-key [(shift f4)] 'bm-prev)
 (global-set-key [(shift f6)] 'elein-swank)
-(global-set-key [(control f6)] 'elein-reswank)
+
 (global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
+(global-set-key "\C-c\C-l" 'kill-opposite-buffer)
+
+(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
+(global-set-key (kbd "C-x o") 'find-file-in-project)
+;; Jump from file to containing directory
+(global-set-key (kbd "C-x C-j") 'dired-jump)
+(global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
 
 (require 'clojure-mode)
 (define-key clojure-mode-map (kbd "C-c f") 'define-function)

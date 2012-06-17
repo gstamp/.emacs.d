@@ -54,8 +54,12 @@
                       mark-multiple
                       undo-tree
                       projectile
+                      markdown-mode
+                      graphviz-dot-mode
+                      js2-mode
                       )
   "A list of packages to ensure are installed at launch.")
+
 
 ;; Install any missing packages
 (dolist (p my-packages)
@@ -74,7 +78,5 @@
 (require 'custom-defuns)
 (require 'setup-keybindings)
 (require 'setup-clojure)
-
-
 
 

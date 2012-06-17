@@ -161,5 +161,12 @@ If point was already at that position, move point to beginning of line."
     (abort-recursive-edit)))
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
+(defun recentf-ido-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+    (when file
+      (find-file file))))
+
 (provide 'custom-defuns)
 
