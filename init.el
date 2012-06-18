@@ -1,23 +1,7 @@
-;; TODO:
-;; Document keys:
-;;  - general emacs keys
-;;  - redefined keys
-;;  - bookmark mode
-;;  - clojure mode
-;;  - slime
-;;  - feature-mode
-;;  - expand-region
-;;  - wgrep
-;;  - mark-multiple
-;;  - undo-tree
-;; Install:
-;;  - dot mode
-;;  - js2-refactor.el
-;;  - multiple-cursors.el
-;;  - auto-complete
-;; Fix broken plugins:
-;;  - Durendal
-;; 
+;; Emac 24 configuration for Glen Stampoultzis
+;;
+;; See README.md for more details.  The latest version of this
+;; configuration can be found at https://github.com/gstamp/.emacs.d
 ;;  
 
 ;; Start by requiring and initializing the package manager.

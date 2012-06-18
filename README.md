@@ -84,13 +84,17 @@ take what you need for your own Emacs configuration.
 * `C-`    ` Toggle window split
 * `C-F4   ` Kill current buffer
 * `C-c C-l` Kill opposite buffer
+* `C-c left ` Restore previous window layout
+* `C-c right` Undo restore previous window layout
+* `C-x r w a` Save window configuration into register a
+* `C-x r j a` Restore window configuration that was saved into
+  register a.
 
 ### Editing
 
 * `C-S-j  ` Join with next line
 * `S-ret  ` Open new line below
 * `C-S-o  ` Open new line above
-
 
 ### Clojure/SLIME Support
 
