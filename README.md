@@ -111,6 +111,31 @@ take what you need for your own Emacs configuration.
 * `F10    ` Open/create shell
 * `M-x    ` (or `C-x C-m` or `C-c C-m`) execute command
 
+### Dired
+
+* `C-x d  ` Open dired
+* `q      ` Bury dired buffer
+* `space  ` Navigate to next dired listing
+* `^      ` Navigate to parent
+* `d      ` Flag file for deletion
+* `D      ` Delete immediately
+* `u      ` Unmark file
+* `m      ` Mark file
+* `x      ` Go ahead and actually delete flagged files
+* `enter  ` Visit file
+* `C-o    ` Open the file in another window (but stay in dired)
+* `v      ` View file (q to quit out, e start editing)
+* `M-up   ` Go to top of dired list
+* `M-down ` Go to bottom of dired list
+* `C      ` Copy file
+* `R      ` Rename file
+* `+      ` Create new directory
+* `Z      ` Compress file
+* `% m    ` Mark using regex
+* `g      ` Refresh file listing
+* `C-x C-q` Start editing dired buffer, `C-c C-c` to finish and then
+  `C-c esc` to abort.
+
 ### Magit
 
 * `C-c g  ` Magit status (magit-status)

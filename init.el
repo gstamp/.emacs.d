@@ -41,6 +41,7 @@
                       markdown-mode
                       graphviz-dot-mode
                       js2-mode
+                      dired-details
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -62,5 +63,6 @@
 (require 'custom-defuns)
 (require 'setup-keybindings)
 (require 'setup-clojure)
+(require 'setup-dired)
 
 
