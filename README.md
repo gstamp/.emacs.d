@@ -8,9 +8,11 @@ This was originally migrated from my Emacs 23 version however it's structure
 has changed somewhat since the starter kit has change significantly since
 that time.
 
-# Features
+# Credits
 
-
+This file contains helpful shortcuts pulled from many sources.  As
+such it's somewhat difficult to provide full credit.  Feel free to
+take what you need for your own Emacs configuration.
 
 # Using
 
@@ -26,6 +28,7 @@ that time.
 * `C-x M-j` Jump to this files' current directory in another window
 * `C-x b  ` (or `f1`) Switch to another open file (buffer)
 * `C-x C-b` List all open files (buffers)
+* `F8     ` Find file at point
 
 ### Cut copy and paste
 
@@ -36,7 +39,7 @@ that time.
 * `C-y    ` Paste (aka yank)
 * `M-y    ` Cycle last paste through previous kills
 * `C-@    ` Mark stuff quickly. Press multiple times
-* `C-.    ` Retype the last thing you typed
+* `C-.    ` Retype the last thing you typed (dot-mode)
 
 ### General
 
@@ -55,8 +58,15 @@ that time.
 * `M-i    ` Go to indentation
 * `M-g M-g` Go to line number
 * `C-x C-i` Go to symbol
+
+### Searching
+
 * `C-s    ` Regexp search forward. Press `C-s` again to go further.
+  Press `c-o` while searching to run an occur search on the buffer.
 * `C-r    ` Regexp search backward. Press `C-r` again to go further.
+* `F2     ` Grep for string
+* `C-F2   ` Find occurances in this buffer (opens in new window)
+* `C-F3   ` Highlight symbol at point (currently broken).
 
 ### Bookmarks
 
@@ -71,15 +81,75 @@ that time.
 * `C-x 2  ` Split window horizontally
 * `C-x 3  ` Split window vertically
 * `S-arrow` Jump to window to the left/right/up/down
+* `C-`    ` Toggle window split
+* `C-F4   ` Kill current buffer
+* `C-c C-l` Kill opposite buffer
 
-## Clojure/SLIME Support
+### Editing
 
-TBA
+* `C-S-j  ` Join with next line
+* `S-ret  ` Open new line below
+* `C-S-o  ` Open new line above
+
+
+### Clojure/SLIME Support
+
+* `F6     ` Save and compile clojure
+* `C-F6   ` Restart swank (using elein)
+* `S-F6   ` Start swank (using elein)
+* `C-c C-v` Slime eval and print last expression
+* `C-c C-a` Align clojure statements (let, hashes etc)
+* `C-c C-,` Send form to SLIME repl
+* `C-c C-.` Send form to SLIME repl and evalute
+
+### Other
+
+* `F10    ` Open/create shell
+* `M-x    ` (or `C-x C-m` or `C-c C-m`) execute command
+
+### Magit
+
+* `C-c g  ` Magit status (magit-status)
+* `s      ` Stage file
+* `S      ` Stage all files
+* `u      ` Unstage file
+* `c      ` Commit staged files. `C-c C-c` after writing commit
+  message or `C-c C-k` to abort. `C-c C-a` sdlkfjlkdfj
+* `b b    ` To switch to a branch
+* `b m    ` Rename branch
+* `b d    ` Delete branch
+* `b v    ` List branches (can checkout from resultant screen using RET)
+* `P P    ` Git push
+* `f f    ` Git fetch
+* `F F    ` Git pull
+* `TAB    ` Shows diff of file in the list or expand collapse section.
+  Stage and unstage actually work on bits of the diff as well.
+* `i      ` Ignore file (adds to .gitignore)
+* `k      ` Delete. Deletes untracked file and stashes (on section header
+  it deletes all untracked files). If you're positioned in a diff
+  for an uncommited file you can also delete just the hunk.
+* `l l    ` Show history
+* `l L    ` Show history in verbose format
+* `t t    ` Make lightweight tag
+* `t a    ` Make annotated tag
+* `x      ` Revert commit history to entered revision
+* `z z    ` Create a stash
+* `a      ` Apply a stash
+* `A      ` Apply the stash and pop it off the stash list
+* `z s    ` Creates a snapshot (the stash gets created but the working
+  tree is not deleted.
+* `w      ` Show how other branches related to the current one
+* `m m    ` Start merging.  In the event of conflicts resolve changes
+  using e then stage with s.
+* `R      ` Starts a rebase `R c` will continue a rebase.  Stage
+  resolved conflicts before continuing.
+
 
 ## To Be Completed
 
  - auto-complete
  - snippets
+ - mark multiple not working.
 
 ## Fix broken plugins
  - Durendal

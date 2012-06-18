@@ -151,8 +151,11 @@ If point was already at that position, move point to beginning of line."
 (fset 'save-and-compile
       "\C-x\C-s\C-c\C-k")
 
-(fset 'kill-opposite-buffer
-      "\C-xo\C-xk\C-m\C-xo")
+(defun kill-opposite-buffer ()
+  "kill the buffer in the opposite window (closing it in the process)"
+  (interactive)
+  (next-multiframe-window)
+  (kill-buffer-and-window))
 
 ;; Stops the mini buffer when switching back to emacs with mouse
 (defun stop-using-minibuffer ()

@@ -41,24 +41,19 @@
 (global-set-key "\r" 'newline-and-indent)
 (global-set-key [(control shift j)] 'join-with-next-line)
 (global-set-key [(control c) (control a)] 'align-cljlet)
-(global-set-key [(super up)] 'scroll-down)
-(global-set-key [(super down)] 'scroll-up)
 (global-set-key (kbd "<S-return>") 'open-line)
 (global-set-key (kbd "C-S-o") '"\C-p\C-o") ; open line above
 (global-set-key [home] 'smart-beginning-of-line)
-;; You can use this mode to mark similar occuring text then type over it.
+;; You can use this mode to mark similar occuring text then type over
+;; it. (TODO: broken)
 (global-set-key (kbd "C-<") 'mark-previous-like-this)
 (global-set-key (kbd "C->") 'mark-next-like-this)
+
 (global-set-key (kbd "C-@") 'er/expand-region)
 (global-set-key (kbd "C-c C-,") 'slime-send-dwim)
 (global-set-key (kbd "C-c C-.") '(lambda ()
                                    (interactive)
                                    (slime-send-dwim 1)))
-;;(define-key sgml-mode-map (kbd "C-c C-r") 'rename-sgml-tag)
-
-;; interactive search & replace c-; again to finish
-(global-set-key [(control ";")] 'iedit-mode)
-(define-key isearch-mode-map (kbd "C-;") 'iedit-mode)
 
 (eval-after-load 'paredit
   '(progn
