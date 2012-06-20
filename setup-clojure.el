@@ -14,6 +14,11 @@
      (it 'defun)
      (do-it 'defun)))
 
+;; Make the slime buffer font a bit smaller when we switch over to it.
+(defadvice slime-switch-to-output-buffer (after reduce-font-advice activate)
+  (text-scale-set -1)
+  (keyboard-quit))
+
 ;; Redirect output from other threads.
 ;; Disabled - enabling this seems to cause bugs in slime
 ;; (add-hook 'slime-mode-hook 'slime-redirect-inferior-output)
