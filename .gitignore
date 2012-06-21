@@ -5,3 +5,4 @@ swank/
 url/
 .smex-items
 auto-save-list/
+/eshell/history
