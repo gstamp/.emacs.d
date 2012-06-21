@@ -24,7 +24,7 @@
                       clojure-mode
                       align-cljlet
                       cljdoc
-                      clojure-test-mode
+                      midje-mode
                       slime
                       solarized-theme
                       yaml-mode
