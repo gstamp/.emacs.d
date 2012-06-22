@@ -40,6 +40,8 @@
 (global-set-key [(control tab)] 'other-window)
 (global-set-key "\r" 'newline-and-indent)
 (global-set-key [(control shift j)] 'join-with-next-line)
+
+(require 'align-cljlet)
 (global-set-key [(control c) (control a)] 'align-cljlet)
 (global-set-key (kbd "<S-return>") 'open-line)
 (global-set-key (kbd "C-S-o") '"\C-p\C-o") ; open line above
