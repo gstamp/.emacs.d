@@ -40,11 +40,9 @@
                       projectile
                       markdown-mode
                       graphviz-dot-mode
-                      js2-mode
                       dired-details
                       )
   "A list of packages to ensure are installed at launch.")
-
 
 ;; Install any missing packages
 (dolist (p my-packages)
@@ -57,6 +55,9 @@
 ;; Set up load path
 (add-to-list 'load-path dotfiles-dir)
 
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
 (require 'setup-defaults)
 (require 'setup-grep)
 (require 'setup-default-modes)
@@ -64,5 +65,6 @@
 (require 'setup-keybindings)
 (require 'setup-clojure)
 (require 'setup-dired)
+(require 'setup-javascript)
 
 
