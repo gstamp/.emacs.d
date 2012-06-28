@@ -41,6 +41,8 @@
                       markdown-mode
                       graphviz-dot-mode
                       dired-details
+                      auto-complete
+                      ac-slime
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -66,5 +68,5 @@
 (require 'setup-clojure)
 (require 'setup-dired)
 (require 'setup-javascript)
-
+(require 'setup-completion)
 
