@@ -70,6 +70,8 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
+(setq org-src-fontify-natively t)
+
 (setq is-mac (equal system-type 'darwin))
 
 (when is-mac
