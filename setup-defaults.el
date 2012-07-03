@@ -82,6 +82,13 @@
     (setq mac-command-modifier 'meta)
     (setq mac-option-modifier nil)
 
+    ;; I like the right option key to be control because there's no
+    ;; right control key on the mac
+    (setq mac-right-option-modifier 'control)
+
+    ;; sets fn-delete to be right-delete
+    (global-set-key [kp-delete] 'delete-char)
+
     ;; keybinding to toggle full screen mode
     (global-set-key (quote [M-f10]) (quote ns-toggle-fullscreen))
 
