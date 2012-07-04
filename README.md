@@ -136,6 +136,20 @@ take what you need for your own Emacs configuration.
 * `C-x C-q` Start editing dired buffer, `C-c C-c` to finish and then
   `C-c esc` to abort.
 
+### Org Mode
+
+* `M-up   ` Move section up
+* `M-down ` Move section down
+* `C-x n s` Narrow to a single section
+* `C-x n w` Widen to the whole file
+* `C-c C-t` Toggle todo state (acts on sections).
+* `S-right` (and S-left) change list type (eg bullet or numbered)
+* `M-ret  ` New headline (or list item)
+* `C-ret  ` New headline
+* `M-left ` Promote headline or list
+* `M-right` Demote headline or list
+* `M-S-left` Demote headline or list including subtree
+
 ### Magit
 
 * `C-c g  ` Magit status (magit-status)

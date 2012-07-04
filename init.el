@@ -69,4 +69,5 @@
 (require 'setup-dired)
 (require 'setup-javascript)
 (require 'setup-completion)
+(require 'setup-orgmode)
 
