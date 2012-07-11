@@ -49,6 +49,7 @@ take what you need for your own Emacs configuration.
 * `C-_    ` Undo
 * `M-_    ` Redo
 * `C-x u  ` Show the undo-tree (q to quit out)
+* `C-x z  ` Repeat last command (keep pressing z to keep repeating)
 
 ### Navigation
 
