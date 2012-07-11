@@ -70,6 +70,9 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
+;; ELPA turns on flyspell by default but I prefer it off
+(remove-hook 'text-mode-hook 'turn-on-flyspell)
+
 (setq org-src-fontify-natively t)
 
 (setq is-mac (equal system-type 'darwin))
