@@ -5,9 +5,11 @@ swank/
 url/
 .smex-items
 auto-save-list/
-/eshell/history
+/eshell
 /js2-mode.elc
 /ac-comphist.dat
 /session.*
 /d128414.el
 /Admin-PC.el
+/Glens-MacBook-Air.local.el
+/eshell/lastdir
