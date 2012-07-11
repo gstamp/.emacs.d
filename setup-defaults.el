@@ -70,8 +70,11 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;; ELPA turns on flyspell by default but I prefer it off
+;; Emacs starter kit turns on flyspell by default but I prefer it off
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
+
+;; Emacs starter kit also turns on idle-highlight-mode.  Not a fan.
+(remove-hook 'prog-mode-hook 'esk-turn-on-idle-highlight-mode)
 
 (setq org-src-fontify-natively t)
 
