@@ -199,27 +199,6 @@ in the sexp, not the end of the current one."
         (backward-sexp))
     (paredit-forward)))
 
-(defun live-paredit-forward-slurp-sexp-neatly ()
-  (interactive)
-  (save-excursion
-    (cond ((or (paredit-in-comment-p)
-               (paredit-in-char-p))
-           (error "Invalid context for slurping S-expressions."))
-          ((paredit-in-string-p)
-           (paredit-forward-slurp-into-string))
-          (t
-
-           (save-excursion
-             (paredit-forward-up)
-             (paredit-backward-down)
-             (paredit-forward-slurp-sexp)
-             (just-one-space)))))
-  (when (not (save-excursion
-               (ignore-errors
-                 (backward-sexp)
-                 t)))
-    (delete-horizontal-space)))
-
 (defun live-paredit-reindent-defun (&optional argument)
   "Reindent the definition that the point is on. If the point is
   in a string or a comment, fill the paragraph instead, and with
@@ -251,6 +230,10 @@ in the sexp, not the end of the current one."
   (cond ((or (paredit-in-comment-p)
              (paredit-in-string-p)) (backward-kill-word (or arg 1)))
         (t (backward-kill-sexp (or arg 1)))))
+
+
+
+
 
 (provide 'custom-defuns)
 
