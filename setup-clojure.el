@@ -14,6 +14,9 @@
      (it 'defun)
      (do-it 'defun)))
 
+;; Save the buffer before running the tests
+(defadvice clojure-test-run-tests (before save-first activate)
+  (save-buffer))
 
 ;;Treat hyphens as a word character when transposing words
 (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
