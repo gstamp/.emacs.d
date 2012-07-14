@@ -67,7 +67,7 @@ take what you need for your own Emacs configuration.
 * `C-r    ` Regexp search backward. Press `C-r` again to go further.
 * `F2     ` Grep for string
 * `C-F2   ` Find occurances in this buffer (opens in new window)
-* `C-F3   ` Highlight symbol at point (currently broken).
+* `C-F3   ` Highlight symbol at point.
 
 ### Bookmarks
 

@@ -43,6 +43,7 @@
                       dired-details
                       auto-complete
                       ac-slime
+                      highlight-symbol
                       )
   "A list of packages to ensure are installed at launch.")
 
