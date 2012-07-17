@@ -69,6 +69,18 @@ take what you need for your own Emacs configuration.
 * `C-F2   ` Find occurances in this buffer (opens in new window)
 * `C-F3   ` Highlight symbol at point.
 
+Editable grep buffers with wgrep
+
+* `C-c C-p` Toggle read-only area.
+* `C-c C-e` Apply the highlighting changes to file buffers.
+* `C-c C-u` All changes are unmarked and ignored.
+* `C-c C-d` Delete current line include new line. Command result immediately reflect to file buffer.
+* `C-c C-r` Remove the highlight in the region (The Changes doesn't
+            apply to files. Of course, if you type C-c C-e, the remained
+            highlight changes are applied to files.)
+* `C-c C-k` Discard all changes and exit.
+* `C-x C-q` Exit wgrep mode.
+
 ### Bookmarks
 
 * `S-F2   ` Toggle bookmark

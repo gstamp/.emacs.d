@@ -44,6 +44,7 @@
                       auto-complete
                       ac-slime
                       highlight-symbol
+                      wgrep
                       )
   "A list of packages to ensure are installed at launch.")
 
