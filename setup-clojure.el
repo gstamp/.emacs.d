@@ -32,6 +32,23 @@
 
 (define-key clojure-mode-map (kbd "M-t") 'live-transpose-words-with-hyphens)
 
+(defun clojure-hide-successful-compile (msg)
+  ;;When you add a hook to the slime compilation-finished hook it
+  ;;seems to override the default behaviour. We I manually call the
+  ;;oringal code.
+  (slime-maybe-show-compilation-log msg)
+  (with-struct (slime-compilation-result. notes duration successp)
+      slime-last-compilation-result
+    (when successp
+      (if (get-buffer "*SLIME Compilation*")
+          (progn
+            (kill-buffer "*SLIME Compilation*")
+            (when (> (length (window-list)) 1)
+              (delete-window (next-window))
+              ))))))
+
+(add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
+
 
 ;; Redirect output from other threads.
 ;; Disabled - enabling this seems to cause bugs in slime
