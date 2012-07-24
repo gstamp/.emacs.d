@@ -5,6 +5,7 @@
 (global-set-key [f4] 'kmacro-end-or-call-macro)
 (global-set-key [f6] 'save-and-compile)  ; Hit this to eval an entire file
 (global-set-key [f8] 'find-file-at-point)
+(global-set-key [f9] 'org-agenda)
 (global-set-key [f10] 'ansi-term)
 (global-set-key [f11] 'ido-kill-buffer)
 
