@@ -156,6 +156,7 @@ Editable grep buffers with wgrep
 * `C-x n s` Narrow to a single section
 * `C-x n w` Widen to the whole file
 * `C-c C-t` Toggle todo state (acts on sections).
+* `C-c .  ` Add a timestamp (run twice to do a date range)
 * `S-right` (and S-left) change list type (eg bullet or numbered)
 * `M-ret  ` New headline (or list item)
 * `C-ret  ` New headline
