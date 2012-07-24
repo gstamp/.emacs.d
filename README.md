@@ -162,6 +162,11 @@ Editable grep buffers with wgrep
 * `M-left ` Promote headline or list
 * `M-right` Demote headline or list
 * `M-S-left` Demote headline or list including subtree
+* `C-c .  ` Insert date
+* `C-c C-d` Insert deadline time
+* `C-c C-s` Insert scheduled time
+* `C-c C-c` Set tags
+* `C-u C-c C-c` Align tags
 
 ### Magit
 
