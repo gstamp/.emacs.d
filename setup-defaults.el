@@ -76,7 +76,10 @@
 ;; Emacs starter kit also turns on idle-highlight-mode.  Not a fan.
 (remove-hook 'prog-mode-hook 'esk-turn-on-idle-highlight-mode)
 
+;; Colour org mode source code
 (setq org-src-fontify-natively t)
+;; When a task is finished log when it's done
+(setq org-log-done 'time)
 
 (setq is-mac (equal system-type 'darwin))
 
