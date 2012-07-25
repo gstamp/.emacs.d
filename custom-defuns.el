@@ -108,11 +108,13 @@
 
 Move point to the first non-whitespace character on this line.
 If point was already at that position, move point to beginning of line."
-  (interactive) ; Use (interactive "^") in Emacs 23 to make shift-select work
-  (let ((oldpos (point)))
-    (back-to-indentation)
-    (and (= oldpos (point))
-         (beginning-of-line))))
+  (interactive) 
+  (if (not (string-equal major-mode "org-mode"))
+      (let ((oldpos (point)))
+        (back-to-indentation)
+        (and (= oldpos (point))
+             (beginning-of-line)))
+    (beginning-of-line)))
 
 ;; this will indent the yanked region automatically in the provided
 ;; modes
