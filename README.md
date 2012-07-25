@@ -166,8 +166,13 @@ Editable grep buffers with wgrep
 * `C-c .  ` Insert date
 * `C-c C-d` Insert deadline time
 * `C-c C-s` Insert scheduled time
+* `C-c C-o` Open link
+* `C-c C-l` Create link
+* `C-c l  ` Store link
 * `C-c C-c` Set tags
+* `C-c C-t` Toggle task state (TODO, DONE)
 * `C-u C-c C-c` Align tags
+* `F9     ` Agenda view
 
 ### Magit
 
