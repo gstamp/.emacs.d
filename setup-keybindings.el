@@ -1,3 +1,5 @@
+(require 'clojure-mode)
+(require 'align-cljlet)
 
 (global-set-key [f1] 'ido-switch-buffer)
 (global-set-key [f2] 'lgrep)
@@ -29,8 +31,9 @@
 ;; Jump from file to containing directory
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 (global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
+;; Store an org mode link C-cC-l to use it.
+(define-key global-map "\C-cl" 'org-store-link)
 
-(require 'clojure-mode)
 (define-key clojure-mode-map (kbd "C-c f") 'define-function)
 (global-set-key [(control ?.)] (lambda () (interactive) (dot-mode 1)
                                  (message "Dot mode activated.")))
@@ -42,7 +45,6 @@
 (global-set-key "\r" 'newline-and-indent)
 (global-set-key [(control shift j)] 'join-with-next-line)
 
-(require 'align-cljlet)
 (global-set-key [(control c) (control a)] 'align-cljlet)
 (global-set-key (kbd "<S-return>") 'open-line)
 (global-set-key (kbd "C-S-o") '"\C-p\C-o") ; open line above
