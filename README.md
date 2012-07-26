@@ -68,6 +68,9 @@ take what you need for your own Emacs configuration.
 * `F2     ` Grep for string
 * `C-F2   ` Find occurances in this buffer (opens in new window)
 * `C-F3   ` Highlight symbol at point.
+* `C-=    ` Expand highlighted region (by semantic units)
+* `C->    ` Mark next match
+* `C-<    ` Mark previous match
 
 Editable grep buffers with wgrep
 

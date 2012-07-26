@@ -1,5 +1,7 @@
 (require 'clojure-mode)
 (require 'align-cljlet)
+(require 'mark-multiple)
+(require 'mark-more-like-this)
 
 (global-set-key [f1] 'ido-switch-buffer)
 (global-set-key [f2] 'lgrep)
@@ -49,12 +51,11 @@
 (global-set-key (kbd "<S-return>") 'open-line)
 (global-set-key (kbd "C-S-o") '"\C-p\C-o") ; open line above
 (global-set-key [home] 'smart-beginning-of-line)
-;; You can use this mode to mark similar occuring text then type over
-;; it. (TODO: broken)
+(define-key dot-mode-map (kbd "C->") nil) ; fix conflict with dot-mode
 (global-set-key (kbd "C-<") 'mark-previous-like-this)
 (global-set-key (kbd "C->") 'mark-next-like-this)
 
-(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-c C-,") 'slime-send-dwim)
 (global-set-key (kbd "C-c C-.") '(lambda ()
                                    (interactive)
