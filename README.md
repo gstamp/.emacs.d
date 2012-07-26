@@ -38,14 +38,13 @@ take what you need for your own Emacs configuration.
 * `M-w    ` Copy
 * `C-y    ` Paste (aka yank)
 * `M-y    ` Cycle last paste through previous kills
-* `C-@    ` Mark stuff quickly. Press multiple times
+* `C-=    ` Mark stuff quickly. Press multiple times
 * `C-.    ` Retype the last thing you typed (dot-mode)
 
 ### General
 
 * `C-g    ` Quit out of whatever mess you've gotten yourself into
 * `M-x    ` Run a command by name
-* `C-.    ` Autocomplete
 * `C-_    ` Undo
 * `M-_    ` Redo
 * `C-x u  ` Show the undo-tree (q to quit out)
@@ -63,7 +62,8 @@ take what you need for your own Emacs configuration.
 ### Searching
 
 * `C-s    ` Regexp search forward. Press `C-s` again to go further.
-  Press `c-o` while searching to run an occur search on the buffer.
+  Press `C-o` while searching to run an occur search on the buffer.
+  Press `C-w` to search for word under the point.
 * `C-r    ` Regexp search backward. Press `C-r` again to go further.
 * `F2     ` Grep for string
 * `C-F2   ` Find occurances in this buffer (opens in new window)
@@ -166,7 +166,6 @@ Editable grep buffers with wgrep
 * `M-left ` Promote headline or list
 * `M-right` Demote headline or list
 * `M-S-left` Demote headline or list including subtree
-* `C-c .  ` Insert date
 * `C-c C-d` Insert deadline time
 * `C-c C-s` Insert scheduled time
 * `C-c C-o` Open link
