@@ -213,12 +213,9 @@ Editable grep buffers with wgrep
 * `R      ` Starts a rebase `R c` will continue a rebase.  Stage
   resolved conflicts before continuing.
 
-
 ## To Be Completed
 
- - auto-complete
  - snippets
- - mark multiple not working.
 
 ## Fix broken plugins
  - Durendal
