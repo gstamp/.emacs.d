@@ -27,7 +27,6 @@
 
 (global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
 (global-set-key "\C-c\C-l" 'kill-opposite-buffer)
-
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 (global-set-key (kbd "C-x o") 'find-file-in-project)
 ;; Jump from file to containing directory

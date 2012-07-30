@@ -174,7 +174,27 @@ Editable grep buffers with wgrep
 * `C-c C-c` Set tags
 * `C-c C-t` Toggle task state (TODO, DONE)
 * `C-u C-c C-c` Align tags
-* `F9     ` Agenda view
+* `F9     ` Agenda view (ie, `org-agenda`)
+
+### In the Agenda View
+
+* `L      ` Display agenda item
+* `<RET>  ` Go to agenda item (replacing agenda view window)
+* `F      ` Follow mode
+* `q      ` Quit out of agenda view (closes window). `x` will close
+  windows opened through agend view.
+* `o      ` Delete the other (non-agenda) window
+* `d      ` Day view
+* `w      ` Week view
+* `v m    ` Month view
+* `v y    ` Year view
+* `f      ` Forward in time 1 day
+* `b      ` Back in time 1 day
+* `.      ` Go to today
+* `l      ` Toggle show closed/done items
+* `r      ` Refresh agenda view
+* `\      ` Narrow agenda view (see prompts for more info)
+
 
 ### Magit
 
@@ -183,7 +203,7 @@ Editable grep buffers with wgrep
 * `S      ` Stage all files
 * `u      ` Unstage file
 * `c      ` Commit staged files. `C-c C-c` after writing commit
-  message or `C-c C-k` to abort. `C-c C-a` sdlkfjlkdfj
+  message or `C-c C-k` to abort. `C-c C-a` ammend commit.
 * `b b    ` To switch to a branch
 * `b m    ` Rename branch
 * `b d    ` Delete branch
