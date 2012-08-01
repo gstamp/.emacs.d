@@ -109,7 +109,8 @@
           trash-directory "~/.Trash/emacs")
 
     ;; mac friendly font
-    (set-face-attribute 'default nil :font "Monaco-16")
+    (if window-system
+        (set-face-attribute 'default nil :font "Monaco-16"))
     ))
 
 ;; Add rainbow delimiters to all programming modes
