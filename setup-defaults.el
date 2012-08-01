@@ -81,6 +81,9 @@
 ;; When a task is finished log when it's done
 (setq org-log-done 'time)
 
+;; Redraw more frequently
+(setq redisplay-dont-pause t)
+
 (setq is-mac (equal system-type 'darwin))
 
 (when is-mac
