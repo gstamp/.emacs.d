@@ -76,3 +76,4 @@
 (require 'setup-javascript)
 (require 'setup-completion)
 (require 'setup-orgmode)
+(require 'setup-idomode)
