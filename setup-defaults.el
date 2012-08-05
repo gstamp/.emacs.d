@@ -78,6 +78,12 @@
 
 ;; Colour org mode source code
 (setq org-src-fontify-natively t)
+;; Valid task states in org mode
+;; Shift left/right switches between modes in the current sequence.
+;; Control shift left/right switches to a different sequence.
+(setq org-todo-keywords
+      '((sequence "TODO" "INPROGRESS" "|" "DONE")
+        (sequence "ONHOLD" "|" "CANCELLED")))
 ;; When a task is finished log when it's done
 (setq org-log-done 'time)
 
