@@ -90,6 +90,12 @@
 ;; Redraw more frequently
 (setq redisplay-dont-pause t)
 
+;; Add some extra snippets
+(require 'yasnippet)
+(setq yas/snippet-dirs
+       '("~/.emacs.d/snippets"))
+(yas/global-mode 1)
+
 (setq is-mac (equal system-type 'darwin))
 
 (when is-mac

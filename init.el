@@ -47,6 +47,7 @@
                       highlight-symbol
                       wgrep
                       htmlize
+                      yasnippet
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -77,3 +78,5 @@
 (require 'setup-completion)
 (require 'setup-orgmode)
 (require 'setup-idomode)
+
+
