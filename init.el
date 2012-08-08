@@ -48,6 +48,7 @@
                       wgrep
                       htmlize
                       yasnippet
+                      csv-mode
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -67,6 +68,7 @@
 
 (require 'setup-site-lisp)
 (require 'org-confluence)
+(require 'csv-mode)
 (require 'setup-defaults)
 (require 'setup-grep)
 (require 'setup-default-modes)
@@ -78,5 +80,3 @@
 (require 'setup-completion)
 (require 'setup-orgmode)
 (require 'setup-idomode)
-
-
