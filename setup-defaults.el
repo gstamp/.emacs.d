@@ -88,7 +88,7 @@
 (setq org-log-done 'time)
 
 ;; Redraw more frequently
-(setq redisplay-dont-pause t)
+(setq redisplay-dont-pause nil)
 
 ;; Add some extra snippets
 (require 'yasnippet)

@@ -16,6 +16,8 @@
 (global-set-key [(control f2)] 'multi-occur-in-this-mode)
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
 (global-set-key [(control f4)] 'kill-this-buffer)
+(autoload 'linum-mode "linum" "toggle line numbers on/off" t)
+(global-set-key [(control f5)] 'linum-mode)
 (global-set-key [(control f6)] 'elein-reswank)
 ;; Turn on the menu bar for exploring new modes
 (global-set-key (kbd "C-<f10>") 'menu-bar-mode)
