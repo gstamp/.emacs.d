@@ -34,17 +34,18 @@
 
 (defun clojure-hide-successful-compile (msg)
   ;;When you add a hook to the slime compilation-finished hook it
-  ;;seems to override the default behaviour. We I manually call the
-  ;;oringal code.
+  ;;seems to override the default behaviour. So I manually call the
+  ;;original code.
   (slime-maybe-show-compilation-log msg)
+  
   (with-struct (slime-compilation-result. notes duration successp)
       slime-last-compilation-result
     (when successp
-      (if (get-buffer "*SLIME Compilation*")
-          (progn
-            (kill-buffer "*SLIME Compilation*")
-            (when (> (length (window-list)) 1)
-              (delete-window (next-window))
+      (dolist (w (window-list))
+        (if (string= (buffer-name (window-buffer w)) "*SLIME Compilation*")
+            (progn
+              (kill-buffer "*SLIME Compilation*")
+              (delete-window w)
               ))))))
 
 (add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
