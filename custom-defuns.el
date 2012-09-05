@@ -173,6 +173,14 @@ If point was already at that position, move point to beginning of line."
     (when file
       (find-file file))))
 
+(defun ert-run ()
+  "Evaluate the current buffer and run ert"
+  (interactive)
+
+  (eval-buffer)
+  (ert 't)
+  )
+
 ;; Paredit improvements pinched from emacs-live
 (defun live-paredit-next-top-level-form ()
   (interactive)

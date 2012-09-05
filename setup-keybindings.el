@@ -7,6 +7,7 @@
 (global-set-key [f2] 'lgrep)
 (global-set-key [f3] 'kmacro-start-macro-or-insert-counter)
 (global-set-key [f4] 'kmacro-end-or-call-macro)
+(global-set-key [f5] 'ert-run)
 (global-set-key [f6] 'save-and-compile)  ; Hit this to eval an entire file
 (global-set-key [f8] 'find-file-at-point)
 (global-set-key [f9] 'org-agenda)
