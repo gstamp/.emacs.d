@@ -63,8 +63,8 @@
 ;; Set up load path
 (add-to-list 'load-path dotfiles-dir)
 
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;; (autoload 'js2-mode "js2-mode" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (require 'setup-site-lisp)
 (require 'org-confluence)
