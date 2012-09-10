@@ -80,3 +80,4 @@
 (require 'setup-completion)
 (require 'setup-orgmode)
 (require 'setup-idomode)
+(require 'setup-powerline)
