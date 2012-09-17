@@ -67,7 +67,6 @@
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (require 'setup-site-lisp)
-(require 'org-confluence)
 (require 'csv-mode)
 (require 'setup-defaults)
 (require 'setup-grep)
@@ -81,3 +80,4 @@
 (require 'setup-orgmode)
 (require 'setup-idomode)
 (require 'setup-powerline)
+(require 'restclient)
