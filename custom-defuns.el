@@ -114,7 +114,7 @@ If point was already at that position, move point to beginning of line."
         (back-to-indentation)
         (and (= oldpos (point))
              (beginning-of-line)))
-    (beginning-of-line)))
+    (move-beginning-of-line nil)))
 
 ;; this will indent the yanked region automatically in the provided
 ;; modes
