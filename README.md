@@ -72,7 +72,7 @@ take what you need for your own Emacs configuration.
 * `C->    ` Mark next match
 * `C-<    ` Mark previous match
 
-Editable grep buffers with wgrep
+#### Editable grep buffers with wgrep
 
 * `C-c C-p` Toggle read-only area.
 * `C-c C-e` Apply the highlighting changes to file buffers.
