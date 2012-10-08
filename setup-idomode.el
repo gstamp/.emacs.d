@@ -12,14 +12,19 @@
         (if ido-temp-list
             (sort ido-temp-list 
                   (lambda (a b)
-                    (time-less-p
-                     (sixth (file-attributes (concat ido-current-directory b)))
-                     (sixth (file-attributes (concat ido-current-directory a))))))))
+                    ;; Small hack: Don't sort on stuff with colons
+                    ;; because it could be a reference to a remote
+                    ;; machine (this typically appears when browsing
+                    ;; to root).
+                    (if (and (not (string-match ":" b)) (not (string-match ":" a)))
+                        (time-less-p
+                         (sixth (file-attributes (concat ido-current-directory b)))
+                         (sixth (file-attributes (concat ido-current-directory a))))
+                      nil)))))
   (ido-to-end ;; move . files to end (again)
    (delq nil (mapcar
               (lambda (x) (and (char-equal (string-to-char x) ?.) x))
               ido-temp-list))))
-
 
 
 (provide 'setup-idomode)
