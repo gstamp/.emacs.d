@@ -49,6 +49,7 @@
                       htmlize
                       yasnippet
                       csv-mode
+                      slime-repl
                       )
   "A list of packages to ensure are installed at launch.")
 
