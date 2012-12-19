@@ -14,6 +14,7 @@
 (global-set-key [f10] 'ansi-term)
 (global-set-key [f11] 'ido-kill-buffer)
 
+(global-set-key [(control f1)] 'toggle-selective-display)
 (global-set-key [(control f2)] 'multi-occur-in-this-mode)
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
 (global-set-key [(control f4)] 'kill-this-buffer)

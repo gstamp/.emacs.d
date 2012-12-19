@@ -103,6 +103,10 @@
    (get-buffers-matching-mode major-mode)
    (car (occur-read-primary-args))))
 
+(defun toggle-selective-display ()
+  (interactive)
+  (set-selective-display (if selective-display nil 1)))
+
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line.
 
