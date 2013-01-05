@@ -82,4 +82,5 @@
 (require 'setup-idomode)
 (require 'setup-powerline)
 (require 'setup-magit)
+(require 'setup-shell)
 (require 'restclient)
