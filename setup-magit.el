@@ -4,6 +4,9 @@
 ;; This code makes magit-status run alone in the frame, and then
 ;; restores the old window configuration when you quit out of magit.
 
+(require 'magit)
+
+
 (defadvice magit-status (around magit-fullscreen activate)
   (window-configuration-to-register :magit-fullscreen)
   ad-do-it
@@ -37,6 +40,5 @@
   (magit-refresh))
 
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
-
 
 (provide 'setup-magit)
