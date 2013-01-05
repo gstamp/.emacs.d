@@ -5,6 +5,8 @@
 (winner-mode 1)
 
 (global-auto-revert-mode)  ; auto revert if there are external changes
+(setq global-auto-revert-non-file-buffers t) ; auto revert dired as well
+(setq auto-revert-verbose nil)
 (global-linum-mode 0) ; line numbers on by default
 (show-paren-mode t)   ; show matching parens
 
