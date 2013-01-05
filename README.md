@@ -24,6 +24,7 @@ take what you need for your own Emacs configuration.
 * `C-x f  ` Open a recently visited file
 * `C-x o  ` Open a file in the current project (based on .git ++)
 * `C-x C-s` Save this file
+* `C-x C-r` Rename buffers file
 * `C-x C-j` Jump to this files' current directory
 * `C-x M-j` Jump to this files' current directory in another window
 * `C-x b  ` (or `f1`) Switch to another open file (buffer)

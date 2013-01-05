@@ -38,6 +38,7 @@
 (global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
 ;; Store an org mode link C-cC-l to use it.
 (define-key global-map "\C-cl" 'org-store-link)
+(global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
 
 (define-key clojure-mode-map (kbd "C-c f") 'define-function)
 (global-set-key [(control ?.)] (lambda () (interactive) (dot-mode 1)
