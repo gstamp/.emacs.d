@@ -107,6 +107,8 @@ take what you need for your own Emacs configuration.
 * `C-x r w a` Save window configuration into register a
 * `C-x r j a` Restore window configuration that was saved into
   register a.
+* `S-F9     ` Toggle between vertical and horizontal split windows.
+* `S-F10    ` Rotate spit windows
 
 ### Editing
 

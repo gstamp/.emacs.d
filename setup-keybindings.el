@@ -28,6 +28,8 @@
 (global-set-key [(shift f3)] 'bm-next)
 (global-set-key [(shift f4)] 'bm-prev)
 (global-set-key [(shift f6)] 'elein-swank)
+(global-set-key [(shift f9)] 'toggle-window-split)
+(global-set-key [(shift f10)] 'rotate-windows)
 
 (global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
 (global-set-key "\C-c\C-l" 'kill-opposite-buffer)
