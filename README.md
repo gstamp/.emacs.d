@@ -116,6 +116,18 @@ take what you need for your own Emacs configuration.
 * `S-ret  ` Open new line below
 * `C-S-o  ` Open new line above
 
+### Paredit keys
+
+* `C-S-d  ` Duplicate the content of the line that is after the point.
+* `C-M-f  ` Paredit forward
+* `C-M-b  ` Paredit backward
+* `M-s    ` Splice sexp into parent
+* `M-S-s  ` Split sexp
+* `M-S-j  ` Join two sibling sexps.
+* `C-)    ` Grab sexp from the right
+* `C-}    ` Split out last expression from the right
+* `M-q    ` Reindent sexp
+
 ### Clojure/SLIME Support
 
 * `F6     ` Save and compile clojure
@@ -199,7 +211,6 @@ take what you need for your own Emacs configuration.
 * `r      ` Refresh agenda view
 * `\      ` Narrow agenda view (see prompts for more info)
 
-
 ### Magit
 
 * `C-c g  ` Magit status (magit-status)
@@ -237,9 +248,4 @@ take what you need for your own Emacs configuration.
 * `R      ` Starts a rebase `R c` will continue a rebase.  Stage
   resolved conflicts before continuing.
 
-## To Be Completed
 
- - snippets
-
-## Fix broken plugins
- - Durendal
