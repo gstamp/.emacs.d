@@ -2,6 +2,7 @@
 (require 'align-cljlet)
 (require 'mark-multiple)
 (require 'mark-more-like-this)
+(require 'paredit)
 
 (global-set-key [f1] 'ido-switch-buffer)
 (global-set-key [f2] 'lgrep)
@@ -68,23 +69,19 @@
                                    (interactive)
                                    (slime-send-dwim 1)))
 
-(eval-after-load 'paredit
-  '(progn
-     ;; Some paredit keybindings conflict with windmove and SLIME
-     (define-key paredit-mode-map (kbd "<C-left>") nil)
-     (define-key paredit-mode-map (kbd "<C-right>") nil)
-     (define-key paredit-mode-map "\M-r" nil)
-     (define-key paredit-mode-map (kbd "C-M-f") 'live-paredit-forward)
-     (define-key paredit-mode-map (kbd "C-M-k") 'live-paredit-forward-kill-sexp)
-     (define-key paredit-mode-map (kbd "C-M-<backspace>") 'live-paredit-backward-kill-sexp)
-     (define-key paredit-mode-map (kbd "M-q") 'live-paredit-reindent-defun)
-     (define-key paredit-mode-map (kbd "M-<up>") 'live-paredit-previous-top-level-form)
-     (define-key paredit-mode-map (kbd "M-<down>") 'live-paredit-next-top-level-form)
-
-     ;; duplicate after point
-     (define-key paredit-mode-map (kbd "C-S-d") 'paredit-duplicate-after-point)
-     
-     ))
+;; Some paredit keybindings conflict with windmove and SLIME,
+;; adjust those and make some new bindings.
+(define-key paredit-mode-map (kbd "<C-left>") nil)
+(define-key paredit-mode-map (kbd "<C-right>") nil)
+(define-key paredit-mode-map "\M-r" nil)
+(define-key paredit-mode-map (kbd "C-M-f") 'live-paredit-forward)
+(define-key paredit-mode-map (kbd "C-M-k") 'live-paredit-forward-kill-sexp)
+(define-key paredit-mode-map (kbd "C-M-<backspace>") 'live-paredit-backward-kill-sexp)
+(define-key paredit-mode-map (kbd "M-q") 'live-paredit-reindent-defun)
+(define-key paredit-mode-map (kbd "M-<up>") 'live-paredit-previous-top-level-form)
+(define-key paredit-mode-map (kbd "M-<down>") 'live-paredit-next-top-level-form)
+(define-key paredit-mode-map (kbd "M-)") 'paredit-wrap-round-from-behind)
+(define-key paredit-mode-map (kbd "C-S-d") 'paredit-duplicate-after-point)
 
 
 ;; This adds an extra keybinding to interactive search (C-s) that runs

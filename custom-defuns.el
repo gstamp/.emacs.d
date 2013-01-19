@@ -39,6 +39,13 @@
         (kill-buffer buffer)
         (message "File '%s' successfully removed" filename)))))
 
+(defun paredit-wrap-round-from-behind ()
+  (interactive)
+  (forward-sexp -1)
+  (paredit-wrap-round)
+  (insert " ")
+  (forward-char -1))
+
 (defun iwb ()
   "indent whole buffer"
   (interactive)

@@ -125,6 +125,7 @@ take what you need for your own Emacs configuration.
 * `M-S-s  ` Split sexp
 * `M-S-j  ` Join two sibling sexps.
 * `C-)    ` Grab sexp from the right
+* `M-)    ` Surround previous sexp
 * `C-}    ` Split out last expression from the right
 * `M-q    ` Reindent sexp
 
