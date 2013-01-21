@@ -81,7 +81,7 @@
 (define-key paredit-mode-map (kbd "M-<up>") 'live-paredit-previous-top-level-form)
 (define-key paredit-mode-map (kbd "M-<down>") 'live-paredit-next-top-level-form)
 (define-key paredit-mode-map (kbd "M-)") 'paredit-wrap-round-from-behind)
-(define-key paredit-mode-map (kbd "C-S-d") 'paredit-duplicate-after-point)
+(define-key paredit-mode-map (kbd "C-S-d") 'paredit-duplicate-closest-sexp)
 
 
 ;; This adds an extra keybinding to interactive search (C-s) that runs

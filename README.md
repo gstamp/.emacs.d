@@ -118,7 +118,7 @@ take what you need for your own Emacs configuration.
 
 ### Paredit keys
 
-* `C-S-d  ` Duplicate the content of the line that is after the point.
+* `C-S-d  ` Duplicate the current s-expression on the next line.
 * `C-M-f  ` Paredit forward
 * `C-M-b  ` Paredit backward
 * `M-s    ` Splice sexp into parent

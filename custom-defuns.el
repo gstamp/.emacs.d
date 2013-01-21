@@ -332,16 +332,20 @@ in the sexp, not the end of the current one."
              (set-window-start w2 s1)
              (setq i (1+ i)))))))
 
-(defun paredit-duplicate-after-point
-  ()
-  "Duplicates the content of the line that is after the point."
+(defun paredit--is-at-start-of-sexp ()
+  (and (looking-at "(\\|\\[")
+       (not (nth 3 (syntax-ppss))) ;; inside string
+       (not (nth 4 (syntax-ppss))))) ;; inside comment
+
+(defun paredit-duplicate-closest-sexp ()
   (interactive)
-  ;; skips to the next sexp
-  (while (looking-at " ")
-    (forward-char))
+  ;; skips to start of current sexp
+  (while (not (paredit--is-at-start-of-sexp))
+    (paredit-backward))
   (set-mark-command nil)
   ;; while we find sexps we move forward on the line
-  (while (and (<= (point) (car (bounds-of-thing-at-point 'sexp)))
+  (while (and (bounds-of-thing-at-point 'sexp)
+              (<= (point) (car (bounds-of-thing-at-point 'sexp)))
               (not (= (point) (line-end-position))))
     (forward-sexp)
     (while (looking-at " ")
@@ -349,7 +353,6 @@ in the sexp, not the end of the current one."
   (kill-ring-save (mark) (point))
   ;; go to the next line and copy the sexprs we encountered
   (paredit-newline)
-  (set-mark-command nil)
   (yank)
   (exchange-point-and-mark))
 
