@@ -4,6 +4,8 @@
 ;; c-c left, c-c right - to move between previous open window settings
 (winner-mode 1)
 
+(delete-selection-mode)
+
 (global-auto-revert-mode)  ; auto revert if there are external changes
 (setq global-auto-revert-non-file-buffers t) ; auto revert dired as well
 (setq auto-revert-verbose nil)
