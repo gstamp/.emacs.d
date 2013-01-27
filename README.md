@@ -60,6 +60,7 @@ take what you need for your own Emacs configuration.
 * `M-i    ` Go to indentation
 * `M-g M-g` Go to line number
 * `C-x C-i` Go to symbol
+* `C-S-f,b,n,p` Jump around multiple lines/characters at a time.
 
 ### Searching
 
