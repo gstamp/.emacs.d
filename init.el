@@ -83,4 +83,6 @@
 (require 'setup-powerline)
 (require 'setup-magit)
 (require 'setup-shell)
+(require 'setup-git-gutter)
 (require 'restclient)
+
