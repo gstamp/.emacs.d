@@ -144,6 +144,7 @@ take what you need for your own Emacs configuration.
 
 * `F10    ` Open/create shell
 * `M-x    ` (or `C-x C-m` or `C-c C-m`) execute command
+* `C-x C-g` Toggle git-gutter diff display
 
 ### Dired
 

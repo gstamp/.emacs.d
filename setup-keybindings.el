@@ -75,6 +75,8 @@
 (global-set-key (kbd "C-S-f") (lambda () (interactive) (ignore-errors (forward-char 5))))
 (global-set-key (kbd "C-S-b") (lambda () (interactive) (ignore-errors (backward-char 5))))
 
+;; bind git-gutter toggle command
+(global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
 
 ;; Some paredit keybindings conflict with windmove and SLIME,
 ;; adjust those and make some new bindings.
