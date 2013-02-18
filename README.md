@@ -171,6 +171,31 @@ take what you need for your own Emacs configuration.
 * `C-x C-q` Start editing dired buffer, `C-c C-c` to finish and then
   `C-c esc` to abort.
 
+### Rails (Rinari)
+
+* `C-c ; f c` Find controller
+* `C-c ; f e` Find environment
+* `C-c ; f f` Find file-in-project
+* `C-c ; f h` Find helper
+* `C-c ; f i` Find migration
+* `C-c ; f j` Find javascript
+* `C-c ; f l` Find plugin
+* `C-c ; f m` Find model
+* `C-c ; f n` Find configuration
+* `C-c ; f o` Find log
+* `C-c ; f p` Find public
+* `C-c ; f s` Find script
+* `C-c ; f t` Find test
+* `C-c ; f v` Find view
+* `C-c ; f w` Find worker
+* `C-c ; f x` Find fixture
+* `C-c ; f y` Find stylesheet
+* `M-x rinari-test` Run tests
+* `M-x rinari-rake` Run rake
+* `M-x rinari-console` Run console
+* `M-x rinari-sql` Browse the applications database.
+* `M-x rinari-web-server` Browse the applications web server
+
 ### Org Mode
 
 * `M-up   ` Move section up

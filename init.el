@@ -50,6 +50,7 @@
                       yasnippet
                       csv-mode
                       slime-repl
+                      rinari
                       )
   "A list of packages to ensure are installed at launch.")
 
