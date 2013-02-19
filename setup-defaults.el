@@ -1,7 +1,14 @@
 ;; Some sane defaults
 
-;; Save my place so that when I reopen a file I go back to the same place
-(setq-default save-place t)
+;; Customize save places not to save for certain file types.
+(require 'saveplace)
+(setq save-place-skip-check-regexp
+      (concat
+       save-place-skip-check-regexp
+       "\\|\\.org$"
+       "\\|\\.\\(arc\\|lzh\\|zip\\|zoo\\)$"
+       "\\|\\.t\\(ar\\.\\)?gz$"
+       "\\|\\.t\\(ar\\.bz2\\|bz\\)$"))
 
 ;; By default, Emacs inserts tabs in place of multiple spaces when it
 ;; formats a region. We want spaces.
