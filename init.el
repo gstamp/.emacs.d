@@ -51,6 +51,7 @@
                       csv-mode
                       slime-repl
                       rinari
+                      zencoding-mode
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -85,5 +86,6 @@
 (require 'setup-magit)
 (require 'setup-shell)
 (require 'setup-git-gutter)
+(require 'setup-html)
 (require 'restclient)
 

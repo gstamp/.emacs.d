@@ -117,6 +117,13 @@ take what you need for your own Emacs configuration.
 * `S-ret  ` Open new line below
 * `C-S-o  ` Open new line above
 
+### HTML
+
+* `C-j    ` Zenmode completion (https://github.com/rooney/zencoding)
+* `C-c C-a` Add attributes
+* `C-c C-e` Close tag
+* `C-c C-d` Delete tag (but not contents)
+
 ### Paredit keys
 
 * `C-S-d  ` Duplicate the current s-expression on the next line.
