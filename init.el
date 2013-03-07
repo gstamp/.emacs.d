@@ -52,6 +52,7 @@
                       slime-repl
                       rinari
                       zencoding-mode
+                      color-theme-sanityinc-tomorrow
                       )
   "A list of packages to ensure are installed at launch.")
 
