@@ -54,6 +54,7 @@
                       rspec-mode
                       zencoding-mode
                       color-theme-sanityinc-tomorrow
+                      ack-and-a-half
                       )
   "A list of packages to ensure are installed at launch.")
 

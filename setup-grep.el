@@ -7,5 +7,6 @@
      (add-to-list 'grep-find-ignored-directories ".svn")))
 (grep-compute-defaults)
 
+(setq ack-and-a-half-root-directory-functions 'ack-and-a-half-guess-project-root)
 
 (provide 'setup-grep)
