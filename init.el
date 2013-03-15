@@ -51,6 +51,7 @@
                       csv-mode
                       slime-repl
                       rinari
+                      rspec-mode
                       zencoding-mode
                       color-theme-sanityinc-tomorrow
                       )
