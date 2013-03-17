@@ -91,4 +91,4 @@
 (require 'setup-git-gutter)
 (require 'setup-html)
 (require 'restclient)
-
+(require 'rcodetools)
