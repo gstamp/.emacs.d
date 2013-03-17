@@ -55,6 +55,7 @@
                       zencoding-mode
                       color-theme-sanityinc-tomorrow
                       ack-and-a-half
+                      exec-path-from-shell
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -69,8 +70,9 @@
 ;; Set up load path
 (add-to-list 'load-path dotfiles-dir)
 
-;; (autoload 'js2-mode "js2-mode" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;; When starting GUI from mac correctly initialize PATH
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 (require 'setup-site-lisp)
 (require 'csv-mode)
