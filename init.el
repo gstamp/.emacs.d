@@ -92,5 +92,6 @@
 (require 'setup-shell)
 (require 'setup-git-gutter)
 (require 'setup-html)
+(require 'setup-notifications)
 (require 'restclient)
 (require 'rcodetools)

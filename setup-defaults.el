@@ -103,9 +103,7 @@
        '("~/.emacs.d/snippets"))
 (yas/global-mode 1)
 
-(setq is-mac (equal system-type 'darwin))
-
-(when is-mac
+(when (equal system-type 'darwin)
   (progn
     ;; map meta to the command key on mac
     (setq mac-option-key-is-meta nil)
