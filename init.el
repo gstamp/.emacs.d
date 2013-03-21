@@ -2,7 +2,7 @@
 ;;
 ;; See README.md for more details.  The latest version of this
 ;; configuration can be found at https://github.com/gstamp/.emacs.d
-;;  
+;;
 
 ;; Start by requiring and initializing the package manager.
 (require 'package)
@@ -16,8 +16,8 @@
   (package-refresh-contents))
 
 ;; This is the list of packages we want installed by default.
-(defvar my-packages '(starter-kit 
-                      starter-kit-lisp 
+(defvar my-packages '(starter-kit
+                      starter-kit-lisp
                       starter-kit-bindings
                       starter-kit-eshell
                       starter-kit-ruby
@@ -56,6 +56,7 @@
                       color-theme-sanityinc-tomorrow
                       ack-and-a-half
                       exec-path-from-shell
+                      multi-term
                       )
   "A list of packages to ensure are installed at launch.")
 
