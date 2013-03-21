@@ -95,3 +95,4 @@
 (require 'setup-notifications)
 (require 'restclient)
 (require 'rcodetools)
+(require 'org-html5presentation)
