@@ -103,6 +103,9 @@
        '("~/.emacs.d/snippets"))
 (yas/global-mode 1)
 
+;; Stop ERC telling me about all those people joining/quiting.
+(setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
 (when (equal system-type 'darwin)
   (progn
     ;; map meta to the command key on mac
