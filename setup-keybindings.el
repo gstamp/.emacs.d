@@ -5,7 +5,7 @@
 (require 'paredit)
 
 (global-set-key [f1] 'ido-switch-buffer)
-(global-set-key [f2] 'lgrep)
+(global-set-key [f2] 'ack-and-a-half)
 (global-set-key [f3] 'kmacro-start-macro-or-insert-counter)
 (global-set-key [f4] 'kmacro-end-or-call-macro)
 (global-set-key [f5] 'ert-run)

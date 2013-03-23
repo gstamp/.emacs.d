@@ -68,7 +68,7 @@ take what you need for your own Emacs configuration.
   Press `C-o` while searching to run an occur search on the buffer.
   Press `C-w` to search for word under the point.
 * `C-r    ` Regexp search backward. Press `C-r` again to go further.
-* `F2     ` Grep for string
+* `F2     ` ACK for string
 * `C-F2   ` Find occurances in this buffer (opens in new window)
 * `C-F3   ` Highlight symbol at point.
 * `C-=    ` Expand highlighted region (by semantic units)
