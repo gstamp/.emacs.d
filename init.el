@@ -57,6 +57,7 @@
                       ack-and-a-half
                       exec-path-from-shell
                       multi-term
+                      coffee-mode
                       )
   "A list of packages to ensure are installed at launch.")
 
