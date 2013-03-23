@@ -178,8 +178,11 @@ take what you need for your own Emacs configuration.
 * `C-x C-q` Start editing dired buffer, `C-c C-c` to finish and then
   `C-c esc` to abort.
 
-### Rails (Rinari)
+### Ruby/Rails
 
+* `C-c C-e  ` Insert end and reindent
+* `M-C-F1   ` Run xmp to evaluate buffer
+* `M-S-C-F1 ` Eval entire buffer
 * `C-c ; f c` Find controller
 * `C-c ; f e` Find environment
 * `C-c ; f f` Find file-in-project

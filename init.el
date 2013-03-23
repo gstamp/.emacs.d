@@ -85,6 +85,7 @@
 (require 'setup-clojure)
 (require 'setup-dired)
 (require 'setup-javascript)
+(require 'setup-ruby)
 (require 'setup-completion)
 (require 'setup-orgmode)
 (require 'setup-idomode)
