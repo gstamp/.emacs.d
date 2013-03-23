@@ -130,7 +130,7 @@
 
     ;; mac friendly font
     (if window-system
-        (set-face-attribute 'default nil :font "Monaco-16"))
+        (set-face-attribute 'default nil :font "Monaco-14"))
     ))
 
 ;; Add rainbow delimiters to all programming modes
