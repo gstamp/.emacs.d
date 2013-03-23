@@ -128,6 +128,20 @@
     (setq delete-by-moving-to-trash t
           trash-directory "~/.Trash/emacs")
 
+    (setenv "LANG" "en_AU.UTF-8")
+
+    (defadvice ansi-term (after advise-ansi-term-coding-system)
+      (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))
+    (ad-activate 'ansi-term)
+    (defadvice multi-term (after advise-multi-term-coding-system)
+      (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))
+    (ad-activate 'multi-term)
+    
+    (prefer-coding-system 'utf-8)
+    (set-default-coding-systems 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    
     ;; mac friendly font
     (if window-system
         (set-face-attribute 'default nil :font "Monaco-14"))
