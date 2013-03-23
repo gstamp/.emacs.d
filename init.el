@@ -58,6 +58,7 @@
                       exec-path-from-shell
                       multi-term
                       coffee-mode
+                      sass-mode
                       )
   "A list of packages to ensure are installed at launch.")
 
