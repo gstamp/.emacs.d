@@ -8,11 +8,15 @@
 ;; Local key bindings
 (add-hook 'ruby-mode-hook
           (lambda ()
-            ;; (ruby-electric-mode)
             (local-set-key [(control c) (control e)] 'ruby-insert-end)
             (local-set-key [(control meta f1)] 'xmp) ;; gem install rcodetools
             (local-set-key [(control meta shift f1)] 'ruby-eval-buffer)
             (local-set-key (kbd "TAB") 'smart-tab)
+
+            ;; conflict with kill opposite buffer
+            (define-key ruby-mode-map "\C-c\C-l" nil) 
             ))
+
+
 
 (provide 'setup-ruby)
