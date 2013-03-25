@@ -106,6 +106,9 @@
 ;; Stop ERC telling me about all those people joining/quiting.
 (setq erc-hide-list '("JOIN" "PART" "QUIT"))
 
+;; Increase find file in project file limit
+(setq ffip-limit 3500)
+
 (when (equal system-type 'darwin)
   (progn
     ;; map meta to the command key on mac
@@ -128,9 +131,6 @@
     (setq delete-by-moving-to-trash t
           trash-directory "~/.Trash/emacs")
 
-    ;; Increase find file in project file limit
-    (setq ffip-limit 1500)
-    
     (setenv "LANG" "en_AU.UTF-8")
 
     (defadvice ansi-term (after advise-ansi-term-coding-system)
