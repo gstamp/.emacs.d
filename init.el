@@ -59,6 +59,7 @@
                       multi-term
                       coffee-mode
                       sass-mode
+                      company
                       )
   "A list of packages to ensure are installed at launch.")
 

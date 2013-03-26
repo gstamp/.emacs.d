@@ -1,0 +1,68 @@
+2013-03-24  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company: Release 0.6.2
+
+2013-03-23  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company: Release 0.6.1
+
+2013-03-21  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company: Remove angle brackets from README
+
+2013-03-19  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company: Update pkg.el and summary string
+
+2013-03-19  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company-tests.el: add copyright boilerplate
+
+2013-03-19  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company-mode: Release 0.6
+
+2011-08-01  Stefan Monnier  <monnier@iro.umontreal.ca>
+
+	* company/*.el: Fix case misunderstanding.  Use checkdoc.
+	* company/company.el (company-capf): First cut at making Company use
+	completion-at-point-functions.
+
+2011-07-01  Chong Yidong  <cyd@stupidchicken.com>
+
+	Remove version numbers from filenames in packages/ dir.
+
+2011-06-30  Chong Yidong  <cyd@stupidchicken.com>
+
+	Remove version numbers in packages/ directory
+
+2011-04-20  Stefan Monnier  <monnier@iro.umontreal.ca>
+
+	* admin/archive-contents.el: New file.
+	* packages/rainbow-mode-readme.txt:
+	* packages/js2-mode-readme.txt: Auto-update from the commentary.
+	* packages/js2-mode-20090814.el: Capitalize the description.
+	* packages/debbugs-0.1/debbugs.el: Require cl since it uses `case'.
+	(debbugs-get-bugs): Fix up typo.
+	* packages/company-0.5/company-gtags.el
+	(company-gtags-gnu-global-program-name): Pass the "when" argument.
+	* packages/auctex-11.86/auctex-pkg.el: Capitalize the description.
+	* packages/archive-contents: Almost auto-regenerate.
+
+2010-11-20  Ted Zlatanov  <tzz@lifelogs.com>
+
+	* COPYING, ChangeLog, README, admin/org-synch.el,
+	admin/org-synch.sh, admin/package-update.sh: Initial import.
+	
+	* packages/archive-contents, packages/auctex-11.86,
+	packages/auctex-readme.txt, packages/company-0.5/,
+	packages/company-readme.txt, packages/elpa.rss,
+	packages/js2-mode-20090814.el, packages/js2-mode-readme.txt,
+	packages/muse-3.20/, packages/muse-readme.txt,
+	packages/org-readme.txt, packages/rainbow-mode-0.1.el,
+	packages/rainbow-mode-readme.txt: Renamed from the root directory.
+
+2010-11-18  ELPA admin
+
+	Initial repository contents
+
