@@ -46,6 +46,22 @@
   (insert " ")
   (forward-char -1))
 
+(defun split-window-right-and-choose-last-buffer ()
+  "Like split-window-right but selects the last buffer"
+  (interactive)
+  (split-window-right)
+  (other-window 1)
+  (switch-to-next-buffer)
+  (other-window -1))
+
+(defun split-window-below-and-choose-last-buffer ()
+  "Like split-window-below but selects the last buffer"
+  (interactive)
+  (split-window-below)
+  (other-window 1)
+  (switch-to-next-buffer)
+  (other-window -1))
+
 (defun iwb ()
   "indent whole buffer"
   (interactive)

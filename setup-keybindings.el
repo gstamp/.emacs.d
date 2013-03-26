@@ -68,6 +68,8 @@
 (global-set-key (kbd "C-c C-.") '(lambda ()
                                    (interactive)
                                    (slime-send-dwim 1)))
+(global-set-key (kbd "C-x 2") 'split-window-below-and-choose-last-buffer)
+(global-set-key (kbd "C-x 3") 'split-window-right-and-choose-last-buffer)
 
 ;; Move more quickly
 (global-set-key (kbd "C-S-n") (lambda () (interactive) (ignore-errors (next-line 5))))
