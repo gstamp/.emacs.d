@@ -150,6 +150,7 @@ take what you need for your own Emacs configuration.
 ### Other
 
 * `F10    ` Open/create shell
+* `M-g M-l` Popup a shell at the bottom or hide if already open
 * `M-x    ` (or `C-x C-m` or `C-c C-m`) execute command
 * `C-x C-g` Toggle git-gutter diff display
 

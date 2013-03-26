@@ -60,4 +60,9 @@ PWD is not in a git repo (or the git command is not found)."
 (setq eshell-highlight-prompt nil)
 
 
+(require 'shell-pop)
+(shell-pop-set-internal-mode "ansi-term")
+(shell-pop-set-window-height 30)
+
+
 (provide 'setup-shell)
