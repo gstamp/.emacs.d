@@ -9,8 +9,7 @@
 
 (defadvice magit-status (around magit-fullscreen activate)
   (window-configuration-to-register :magit-fullscreen)
-  ad-do-it
-  (delete-other-windows))
+  ad-do-it)
 
 (defun magit-quit-session ()
   "Restores the previous window configuration and kills the magit buffer"
