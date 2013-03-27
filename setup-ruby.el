@@ -14,7 +14,8 @@
 
             ;; conflict with kill opposite buffer
             (define-key ruby-mode-map "\C-c\C-l" nil)
-            (add-to-list ‘write-file-functions ‘delete-trailing-whitespace)
+            (add-to-list 'write-file-functions 'delete-trailing-whitespace) 
+            (company-mode)
             ))
 
 
