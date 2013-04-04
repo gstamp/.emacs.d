@@ -216,6 +216,18 @@ If point was already at that position, move point to beginning of line."
   (next-multiframe-window)
   (kill-buffer-and-window))
 
+(defun mark-line-or-next ()
+  "Marks the current line or extends the mark if there is no current selection"
+  (interactive)
+  (if mark-active
+      (forward-line)
+    (progn
+      (beginning-of-line)
+      (push-mark (point))
+      (end-of-line)
+      (forward-char)
+      (activate-mark))))
+
 ;; Stops the mini buffer when switching back to emacs with mouse
 (defun stop-using-minibuffer ()
   "kill the minibuffer"

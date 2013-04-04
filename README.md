@@ -35,6 +35,7 @@ take what you need for your own Emacs configuration.
 ### Cut copy and paste
 
 * `C-space` Start marking stuff. C-g to cancel.
+* `C-;    ` Mark current line or extend by one line
 * `C-w    ` Cut (aka kill)
 * `C-k    ` Cut till end of line
 * `M-w    ` Copy

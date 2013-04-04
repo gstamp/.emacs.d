@@ -65,6 +65,8 @@
 (global-set-key (kbd "C-<") 'mark-previous-like-this)
 (global-set-key (kbd "C->") 'mark-next-like-this)
 
+(global-set-key (kbd "C-;") 'mark-line-or-next)
+
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-c C-,") 'slime-send-dwim)
 (global-set-key (kbd "C-c C-.") '(lambda ()
