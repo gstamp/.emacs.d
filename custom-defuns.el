@@ -222,6 +222,12 @@ If point was already at that position, move point to beginning of line."
       (forward-char)
       (activate-mark))))
 
+(defun smart-kill-whole-line (&optional arg)
+  "A simple wrapper around `kill-whole-line' that respects indentation."
+  (interactive "P")
+  (kill-whole-line arg)
+  (back-to-indentation))
+
 ;; Stops the mini buffer when switching back to emacs with mouse
 (defun stop-using-minibuffer ()
   "kill the minibuffer"

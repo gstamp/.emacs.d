@@ -45,6 +45,8 @@
 
 (global-set-key (kbd "M-g M-l") 'shell-pop)
 
+(global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
+
 (define-key clojure-mode-map (kbd "C-c f") 'define-function)
 (global-set-key [(control ?.)] (lambda () (interactive) (dot-mode 1)
                                  (message "Dot mode activated.")))
