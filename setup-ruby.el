@@ -14,9 +14,13 @@
 
             ;; conflict with kill opposite buffer
             (define-key ruby-mode-map "\C-c\C-l" nil)
-            (add-to-list 'write-file-functions 'delete-trailing-whitespace) 
+
             (company-mode)
             ))
+
+(add-hook 'before-save-hook (lambda ()
+                              (if (string= major-mode "ruby-mode")
+                                  (whitespace-cleanup))))
 
 
 (provide 'setup-ruby)
