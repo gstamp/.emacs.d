@@ -216,7 +216,8 @@ take what you need for your own Emacs configuration.
 * `C-x n w` Widen to the whole file
 * `C-c C-t` Toggle todo state (acts on sections).
 * `C-c .  ` Add a timestamp (run twice to do a date range)
-* `S-right` (and S-left) change list type (eg bullet or numbered)
+* `M-+    ` (and M--) change the todo-date or list type (eg bullet or numbered)
+* `M-S-+  ` (and M-S--) change the priority
 * `M-ret  ` New headline (or list item)
 * `C-ret  ` New headline
 * `M-left ` Promote headline or list
