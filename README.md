@@ -101,7 +101,7 @@ take what you need for your own Emacs configuration.
 * `C-x 2  ` Split window horizontally
 * `C-x 3  ` Split window vertically
 * `S-arrow` Jump to window to the left/right/up/down
-* `C-`    ` Toggle window split
+* `C-|    ` Toggle window split
 * `C-F4   ` Kill current buffer
 * `C-c C-l` Kill opposite buffer
 * `C-c left ` Restore previous window layout

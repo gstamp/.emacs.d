@@ -52,7 +52,7 @@
 (global-set-key "\C-c\C-v" 'slime-eval-print-last-expression)
 (global-set-key "\C-x\C-m" 'execute-extended-command) ;; M-x replacement
 (global-set-key "\C-c\C-m" 'execute-extended-command) ;; M-x replacement
-(define-key global-map (kbd "C-`") 'toggle-windows-split)
+(define-key global-map (kbd "C-|") 'toggle-windows-split)
 (global-set-key [(control tab)] 'other-window)
 (global-set-key "\r" 'newline-and-indent)
 (global-set-key [(control shift j)] 'join-with-next-line)
