@@ -210,12 +210,6 @@ If point was already at that position, move point to beginning of line."
 (fset 'save-and-compile
       "\C-x\C-s\C-c\C-k")
 
-(defun kill-opposite-buffer ()
-  "kill the buffer in the opposite window (closing it in the process)"
-  (interactive)
-  (next-multiframe-window)
-  (kill-buffer-and-window))
-
 (defun mark-line-or-next ()
   "Marks the current line or extends the mark if there is no current selection"
   (interactive)
