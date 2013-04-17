@@ -112,6 +112,8 @@
 ;; Increase find file in project file limit
 (setq ffip-limit 3500)
 
+(setq feature-cucumber-command "bundle exec cucumber {options} {feature}")
+
 (when (equal system-type 'darwin)
   (progn
     ;; map meta to the command key on mac
