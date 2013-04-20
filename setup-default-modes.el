@@ -30,7 +30,4 @@
 (if (file-exists-p "/usr/local/bin/markdown")
     (setq markdown-command "/usr/local/bin/markdown"))
 
-;; Start up ido-better-flex
-(ido-better-flex/enable)
-
 (provide 'setup-default-modes)

@@ -60,7 +60,6 @@
                       coffee-mode
                       sass-mode
                       company
-                      ido-better-flex
                       )
   "A list of packages to ensure are installed at launch.")
 
