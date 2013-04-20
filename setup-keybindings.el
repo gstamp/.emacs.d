@@ -34,7 +34,8 @@
 
 (global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
-(global-set-key (kbd "C-x o") 'find-file-in-project)
+(global-set-key (kbd "C-x o") 'ack-and-a-half-find-file)
+(global-set-key (kbd "C-x C-o") 'ack-and-a-half-find-file)
 ;; Jump from file to containing directory
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 (global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
