@@ -114,6 +114,22 @@
 
 (setq feature-cucumber-command "bundle exec cucumber {options} {feature}")
 
+;; Enable undo in region
+(setq undo-in-region t)
+(setq undo-tree-enable-undo-in-region t)
+
+;; Keep region when undoing in region
+(defadvice undo-tree-undo (around keep-region activate)
+  (if (use-region-p)
+      (let ((m (set-marker (make-marker) (mark)))
+            (p (set-marker (make-marker) (point))))
+        ad-do-it
+        (goto-char p)
+        (set-mark m)
+        (set-marker p nil)
+        (set-marker m nil))
+    ad-do-it))
+
 (when (equal system-type 'darwin)
   (progn
     ;; map meta to the command key on mac
