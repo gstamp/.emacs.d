@@ -147,10 +147,17 @@ take what you need for your own Emacs configuration.
 * `C-c C-,` Send form to SLIME repl
 * `C-c C-.` Send form to SLIME repl and evalute
 
-### Other
+### Shell/Command Execution
 
 * `F10    ` Open/create shell
 * `M-g M-l` Popup a shell at the bottom or hide if already open
+* `M-!    ` Execute command and output results into new buffer
+* `C-u M-!` Insert shell output into buffer
+* `M-|    ` Pipe region to shell command
+* `C-u M-|` Pipe region to shell command and replace region with results
+
+### Other
+
 * `M-x    ` (or `C-x C-m` or `C-c C-m`) execute command
 * `C-x C-g` Toggle git-gutter diff display
 
