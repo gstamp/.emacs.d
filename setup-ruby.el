@@ -12,9 +12,6 @@
             (local-set-key [(control meta f1)] 'xmp) ;; gem install rcodetools
             (local-set-key [(control meta shift f1)] 'ruby-eval-buffer)
 
-            ;; conflict with kill opposite buffer
-            (define-key ruby-mode-map "\C-c\C-l" nil)
-
             (company-mode)
             ))
 
