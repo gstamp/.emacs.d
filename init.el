@@ -79,6 +79,7 @@
   (exec-path-from-shell-initialize))
 
 (require 'setup-site-lisp)
+(require 'setup-git-gutter)
 (require 'csv-mode)
 (require 'setup-defaults)
 (require 'setup-grep)
@@ -95,7 +96,6 @@
 (require 'setup-powerline)
 (require 'setup-magit)
 (require 'setup-shell)
-(require 'setup-git-gutter)
 (require 'setup-html)
 (require 'setup-notifications)
 (require 'restclient)
