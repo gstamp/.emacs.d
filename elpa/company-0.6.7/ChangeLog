@@ -1,3 +1,41 @@
+2013-04-05  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company: Release 0.6.7
+	
+	* Two `company-elisp` tweaks.
+	
+	Git commit 8dceda389115b397de48becc4b68a64f4dc4bbab
+
+2013-04-01  Dmitry Gutov  <dgutov@yandex.ru>
+
+	company: Release 0.6.6
+	
+	## 2013-04-01 (0.6.6)
+	
+	* `company-elisp` doesn't offer completions when typing the name and
+	the arguments of a new function or macro definition, allowing to
+	fall back to other back-ends like `company-dabbrev-code`.
+	
+	## 2013-03-30 (0.6.5)
+	
+	* Fixed keybindings when running in a terminal.
+	* `company-elisp-show-locals-first`: new customizable variable.
+	* `company-elisp` shows more accurate and comprehensive candidates list.
+	
+	## 2013-03-26 (0.6.4)
+	
+	* `company-eclim` shows valid completions after an opening paren.
+	* Expanded template does not get removed until the point leaves it.
+	After your input the last argument in a method call expanded by
+	`company-eclim`, you can press `<tab>` once more, to jump after the
+	closing paren. No other bundled back-ends are affected.
+	
+	## 2013-03-25 (0.6.3)
+	
+	* New tooltip face colors used on themes with light background.
+	* Pseudo-tooltip stays up-to-date when text is inserted after the point.
+	* Fixed `company-require-match` mechanics.
+
 2013-03-24  Dmitry Gutov  <dgutov@yandex.ru>
 
 	company: Release 0.6.2

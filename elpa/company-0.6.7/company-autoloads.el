@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (global-company-mode company-mode) "company" "company.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27363))
 ;;; Generated autoloads from company.el
 
 (autoload 'company-mode "company" "\
@@ -58,7 +58,7 @@ See `company-mode' for more information on Company mode.
 ;;;***
 
 ;;;### (autoloads (company-abbrev) "company-abbrev" "company-abbrev.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-abbrev.el
 
 (autoload 'company-abbrev "company-abbrev" "\
@@ -68,8 +68,8 @@ A `company-mode' completion back-end for abbrev.
 
 ;;;***
 
-;;;### (autoloads (company-css) "company-css" "company-css.el" (20817
-;;;;;;  28547))
+;;;### (autoloads (company-css) "company-css" "company-css.el" (20855
+;;;;;;  27362))
 ;;; Generated autoloads from company-css.el
 
 (autoload 'company-css "company-css" "\
@@ -80,7 +80,7 @@ A `company-mode' completion back-end for `css-mode'.
 ;;;***
 
 ;;;### (autoloads (company-dabbrev) "company-dabbrev" "company-dabbrev.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-dabbrev.el
 
 (autoload 'company-dabbrev "company-dabbrev" "\
@@ -91,7 +91,7 @@ A dabbrev-like `company-mode' completion back-end.
 ;;;***
 
 ;;;### (autoloads (company-dabbrev-code) "company-dabbrev-code" "company-dabbrev-code.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27363))
 ;;; Generated autoloads from company-dabbrev-code.el
 
 (autoload 'company-dabbrev-code "company-dabbrev-code" "\
@@ -104,7 +104,7 @@ comments or strings.
 ;;;***
 
 ;;;### (autoloads (company-elisp) "company-elisp" "company-elisp.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-elisp.el
 
 (autoload 'company-elisp "company-elisp" "\
@@ -115,7 +115,7 @@ A `company-mode' completion back-end for `emacs-lisp-mode'.
 ;;;***
 
 ;;;### (autoloads (company-etags) "company-etags" "company-etags.el"
-;;;;;;  (20817 28546))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-etags.el
 
 (autoload 'company-etags "company-etags" "\
@@ -126,7 +126,7 @@ A `company-mode' completion back-end for etags.
 ;;;***
 
 ;;;### (autoloads (company-files) "company-files" "company-files.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-files.el
 
 (autoload 'company-files "company-files" "\
@@ -137,7 +137,7 @@ A `company-mode' completion back-end existing file names.
 ;;;***
 
 ;;;### (autoloads (company-gtags) "company-gtags" "company-gtags.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27363))
 ;;; Generated autoloads from company-gtags.el
 
 (autoload 'company-gtags "company-gtags" "\
@@ -148,7 +148,7 @@ A `company-mode' completion back-end for GNU Global.
 ;;;***
 
 ;;;### (autoloads (company-ispell) "company-ispell" "company-ispell.el"
-;;;;;;  (20817 28546))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-ispell.el
 
 (autoload 'company-ispell "company-ispell" "\
@@ -159,7 +159,7 @@ A `company-mode' completion back-end using ispell.
 ;;;***
 
 ;;;### (autoloads (company-keywords) "company-keywords" "company-keywords.el"
-;;;;;;  (20817 28546))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-keywords.el
 
 (autoload 'company-keywords "company-keywords" "\
@@ -170,7 +170,7 @@ A `company-mode' back-end for programming language keywords.
 ;;;***
 
 ;;;### (autoloads (company-nxml) "company-nxml" "company-nxml.el"
-;;;;;;  (20817 28546))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-nxml.el
 
 (autoload 'company-nxml "company-nxml" "\
@@ -181,7 +181,7 @@ A `company-mode' completion back-end for `nxml-mode'.
 ;;;***
 
 ;;;### (autoloads (company-oddmuse) "company-oddmuse" "company-oddmuse.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27362))
 ;;; Generated autoloads from company-oddmuse.el
 
 (autoload 'company-oddmuse "company-oddmuse" "\
@@ -192,7 +192,7 @@ A `company-mode' completion back-end for `oddmuse-mode'.
 ;;;***
 
 ;;;### (autoloads (company-pysmell) "company-pysmell" "company-pysmell.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27363))
 ;;; Generated autoloads from company-pysmell.el
 
 (autoload 'company-pysmell "company-pysmell" "\
@@ -204,7 +204,7 @@ This requires pysmell.el and pymacs.el.
 ;;;***
 
 ;;;### (autoloads (company-semantic) "company-semantic" "company-semantic.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27363))
 ;;; Generated autoloads from company-semantic.el
 
 (autoload 'company-semantic "company-semantic" "\
@@ -215,7 +215,7 @@ A `company-mode' completion back-end using CEDET Semantic.
 ;;;***
 
 ;;;### (autoloads (company-tempo) "company-tempo" "company-tempo.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27363))
 ;;; Generated autoloads from company-tempo.el
 
 (autoload 'company-tempo "company-tempo" "\
@@ -226,7 +226,7 @@ A `company-mode' completion back-end for tempo.
 ;;;***
 
 ;;;### (autoloads (company-xcode) "company-xcode" "company-xcode.el"
-;;;;;;  (20817 28547))
+;;;;;;  (20855 27363))
 ;;; Generated autoloads from company-xcode.el
 
 (autoload 'company-xcode "company-xcode" "\
@@ -238,7 +238,7 @@ A `company-mode' completion back-end for Xcode projects.
 
 ;;;### (autoloads nil nil ("company-clang.el" "company-eclim.el"
 ;;;;;;  "company-pkg.el" "company-ropemacs.el" "company-template.el"
-;;;;;;  "company-tests.el") (20817 28547 775570))
+;;;;;;  "company-tests.el") (20855 27363 380913))
 
 ;;;***
 
