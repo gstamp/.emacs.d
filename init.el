@@ -101,4 +101,3 @@
 (require 'restclient)
 (require 'rcodetools)
 (require 'org-html5presentation)
-(require 'ruby-electric)
