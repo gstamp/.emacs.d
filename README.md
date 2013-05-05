@@ -18,6 +18,12 @@ take what you need for your own Emacs configuration.
 
 ## Keys Quick Reference
 
+General emacs reference sheet:
+
+http://www.emacswiki.org/emacs/Reference_Sheet_by_Aaron_Hawley
+
+Custom changes follow:
+
 ### Files
 
 * `C-x C-f` Open a file. Starts in the current directory
