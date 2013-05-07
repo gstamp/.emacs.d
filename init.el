@@ -60,7 +60,8 @@
                       coffee-mode
                       sass-mode
                       company
-                      puppet-mode)
+                      puppet-mode
+                      tabkey2)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages

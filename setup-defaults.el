@@ -14,6 +14,10 @@
 ;; formats a region. We want spaces.
 (setq-default intent-tabs-mode nil)
 
+;; Make tabkey2 on by default
+(require 'tabkey2)
+(tabkey2-mode)
+
 ;; Indenting defaults
 (setq nxml-child-indent 4)
 (setq lua-indent-level 4)
