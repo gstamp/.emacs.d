@@ -30,4 +30,12 @@
 (if (file-exists-p "/usr/local/bin/markdown")
     (setq markdown-command "/usr/local/bin/markdown"))
 
+;; Puppet mode
+(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+
+;; yaml setup
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+
 (provide 'setup-default-modes)
