@@ -18,6 +18,12 @@
 (require 'tabkey2)
 (tabkey2-mode)
 
+;; Setup flx (https://github.com/lewang/flx)
+(require 'flx-ido)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-use-faces nil)
+
 ;; Indenting defaults
 (setq nxml-child-indent 4)
 (setq lua-indent-level 4)
