@@ -1036,15 +1036,21 @@ in the sexp, not the end of the current one."
   (ruby-indent-line t)
   (end-of-line))
 
-;; Local key bindings
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (local-set-key [(control c) (control e)] 'ruby-insert-end)
-            (local-set-key [(control meta f1)] 'xmp) ;; gem install rcodetools
-            (local-set-key [(control meta shift f1)] 'ruby-eval-buffer)
+(require 'rspec-mode)
 
-            (company-mode)
-            ))
+;; Local key bindings
+
+(defun init-rubymode ()
+  (local-set-key [(control c) (control e)] 'ruby-insert-end)
+  (local-set-key [(control meta f1)] 'xmp) ;; gem install rcodetools
+  (local-set-key [(control meta shift f1)] 'ruby-eval-buffer)
+
+  (company-mode)
+  nil
+  )
+(add-hook 'ruby-mode-hook
+          'init-rubymode
+          )
 
 (add-hook 'before-save-hook (lambda ()
                               (if (string= major-mode "ruby-mode")
