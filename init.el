@@ -104,6 +104,9 @@
 ;;;; Some sane defaults
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Load up some colour themes
+(load-theme 'solarized-dark t)
+
 ;; Customize save places not to save for certain file types.
 (require 'saveplace)
 (setq save-place-skip-check-regexp
@@ -442,7 +445,6 @@ in the sexp, not the end of the current one."
 ;; Update changes information after save buffer
 (add-hook 'after-save-hook 'git-gutter-save-hook)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: CSV Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -450,7 +452,6 @@ in the sexp, not the end of the current one."
 (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
 (autoload 'csv-mode "csv-mode"
   "Major mode for editing comma-separated value files." t)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Setup: Ack and a Half
@@ -461,9 +462,6 @@ in the sexp, not the end of the current one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Some random mode stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Load up some colour themes
-(load-theme 'solarized-dark t)
 
 ;; c-c left, c-c right - to move between previous open window settings
 (winner-mode 1)
@@ -1144,7 +1142,7 @@ same directory as the org-buffer and insert a link to this file."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'powerline)
-(powerline-default)
+(powerline-default-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Magit
