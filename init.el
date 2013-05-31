@@ -300,17 +300,17 @@
 ;; (global-rainbow-delimiters-mode)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 ;; This is simply a wrapper around eval-after-load.
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
   (declare (indent defun))
   `(eval-after-load ,mode
      '(progn ,@body)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Paredit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (after 'paredit
        ;; making paredit work with delete-selection-mode
@@ -319,7 +319,115 @@
        (put 'paredit-open-round 'delete-selection t)
        (put 'paredit-open-square 'delete-selection t)
        (put 'paredit-doublequote 'delete-selection t)
-       (put 'paredit-newline 'delete-selection t))
+       (put 'paredit-newline 'delete-selection t)
+
+       (defun paredit-wrap-round-from-behind ()
+         (interactive)
+         (forward-sexp -1)
+         (paredit-wrap-round)
+         (insert " ")
+         (forward-char -1))
+
+       ;; Paredit improvements pinched from emacs-live
+       (defun live-paredit-next-top-level-form ()
+         (interactive)
+         (while (ignore-errors (paredit-backward-up) t))
+         (live-paredit-forward))
+
+       (defun live-paredit-previous-top-level-form ()
+         (interactive)
+         (if (ignore-errors (paredit-backward-up) t)
+             (while (ignore-errors (paredit-backward-up) t))
+           (paredit-backward)))
+
+       (defun live-paredit-forward ()
+         "Feels more natural to move to the beginning of the next item
+in the sexp, not the end of the current one."
+         (interactive)
+         (if (and (not (paredit-in-string-p))
+                  (save-excursion
+                    (ignore-errors
+                      (forward-sexp)
+                      (forward-sexp)
+                      t)))
+             (progn
+               (forward-sexp)
+               (forward-sexp)
+               (backward-sexp))
+           (paredit-forward)))
+
+       (defun live-paredit-reindent-defun (&optional argument)
+         "Reindent the definition that the point is on. If the point is
+  in a string or a comment, fill the paragraph instead, and with
+  a prefix argument, justify as well. Doesn't mess about with
+  Clojure fn arglists when filling-paragraph in docstrings."
+         (interactive "P")
+         (cond ((paredit-in-comment-p) (fill-paragraph argument))
+               ((paredit-in-string-p) (progn
+                                        (save-excursion
+                                          (paredit-forward-up)
+                                          (insert "\n"))
+                                        (fill-paragraph argument)
+                                        (save-excursion
+                                          (paredit-forward-up)
+                                          (delete-char 1))))
+               (t (save-excursion
+                    (end-of-defun)
+                    (beginning-of-defun)
+                    (indent-sexp)))))
+
+       (defun live-paredit-forward-kill-sexp (&optional arg)
+         (interactive "p")
+         (cond ((or (paredit-in-comment-p)
+                    (paredit-in-string-p)) (kill-word (or arg 1)))
+               (t (kill-sexp (or arg 1)))))
+
+       (defun live-paredit-backward-kill-sexp (&optional arg)
+         (interactive "p")
+         (cond ((or (paredit-in-comment-p)
+                    (paredit-in-string-p)) (backward-kill-word (or arg 1)))
+               (t (backward-kill-sexp (or arg 1)))))
+
+       (defun paredit--is-at-start-of-sexp ()
+         (and (looking-at "(\\|\\[")
+              (not (nth 3 (syntax-ppss))) ;; inside string
+              (not (nth 4 (syntax-ppss))))) ;; inside comment
+
+       (defun paredit-duplicate-closest-sexp ()
+         (interactive)
+         ;; skips to start of current sexp
+         (while (not (paredit--is-at-start-of-sexp))
+           (paredit-backward))
+         (set-mark-command nil)
+         ;; while we find sexps we move forward on the line
+         (while (and (bounds-of-thing-at-point 'sexp)
+                     (<= (point) (car (bounds-of-thing-at-point 'sexp)))
+                     (not (= (point) (line-end-position))))
+           (forward-sexp)
+           (while (looking-at " ")
+             (forward-char)))
+         (kill-ring-save (mark) (point))
+         ;; go to the next line and copy the sexprs we encountered
+         (paredit-newline)
+         (yank)
+         (exchange-point-and-mark))
+
+
+       ;; Some paredit keybindings conflict with windmove and SLIME,
+       ;; adjust those and make some new bindings.
+       (define-key paredit-mode-map (kbd "<C-left>") nil)
+       (define-key paredit-mode-map (kbd "<C-right>") nil)
+       (define-key paredit-mode-map "\M-r" nil)
+       (define-key paredit-mode-map (kbd "C-M-f") 'live-paredit-forward)
+       (define-key paredit-mode-map (kbd "C-M-k") 'live-paredit-forward-kill-sexp)
+       (define-key paredit-mode-map (kbd "C-M-<backspace>") 'live-paredit-backward-kill-sexp)
+       (define-key paredit-mode-map (kbd "M-q") 'live-paredit-reindent-defun)
+       (define-key paredit-mode-map (kbd "M-<up>") 'live-paredit-previous-top-level-form)
+       (define-key paredit-mode-map (kbd "M-<down>") 'live-paredit-next-top-level-form)
+       (define-key paredit-mode-map (kbd "M-)") 'paredit-wrap-round-from-behind)
+       (define-key paredit-mode-map (kbd "C-S-d") 'paredit-duplicate-closest-sexp)
+       
+       )
 
 ;; If the *scratch* buffer is killed, recreate it automatically
 (defun kill-scratch-buffer ()
@@ -460,13 +568,6 @@
         (delete-file filename)
         (kill-buffer buffer)
         (message "File '%s' successfully removed" filename)))))
-
-(defun paredit-wrap-round-from-behind ()
-  (interactive)
-  (forward-sexp -1)
-  (paredit-wrap-round)
-  (insert " ")
-  (forward-char -1))
 
 (defun split-window-right-and-choose-last-buffer ()
   "Like split-window-right but selects the last buffer"
@@ -690,66 +791,6 @@ If point was already at that position, move point to beginning of line."
   (ert 't)
   )
 
-;; Paredit improvements pinched from emacs-live
-(defun live-paredit-next-top-level-form ()
-  (interactive)
-  (while (ignore-errors (paredit-backward-up) t))
-  (live-paredit-forward))
-
-(defun live-paredit-previous-top-level-form ()
-  (interactive)
-  (if (ignore-errors (paredit-backward-up) t)
-      (while (ignore-errors (paredit-backward-up) t))
-    (paredit-backward)))
-
-(defun live-paredit-forward ()
-  "Feels more natural to move to the beginning of the next item
-in the sexp, not the end of the current one."
-  (interactive)
-  (if (and (not (paredit-in-string-p))
-           (save-excursion
-             (ignore-errors
-               (forward-sexp)
-               (forward-sexp)
-               t)))
-      (progn
-        (forward-sexp)
-        (forward-sexp)
-        (backward-sexp))
-    (paredit-forward)))
-
-(defun live-paredit-reindent-defun (&optional argument)
-  "Reindent the definition that the point is on. If the point is
-  in a string or a comment, fill the paragraph instead, and with
-  a prefix argument, justify as well. Doesn't mess about with
-  Clojure fn arglists when filling-paragraph in docstrings."
-  (interactive "P")
-  (cond ((paredit-in-comment-p) (fill-paragraph argument))
-        ((paredit-in-string-p) (progn
-                                 (save-excursion
-                                   (paredit-forward-up)
-                                   (insert "\n"))
-                                 (fill-paragraph argument)
-                                 (save-excursion
-                                   (paredit-forward-up)
-                                   (delete-char 1))))
-        (t (save-excursion
-             (end-of-defun)
-             (beginning-of-defun)
-             (indent-sexp)))))
-
-(defun live-paredit-forward-kill-sexp (&optional arg)
-  (interactive "p")
-  (cond ((or (paredit-in-comment-p)
-             (paredit-in-string-p)) (kill-word (or arg 1)))
-        (t (kill-sexp (or arg 1)))))
-
-(defun live-paredit-backward-kill-sexp (&optional arg)
-  (interactive "p")
-  (cond ((or (paredit-in-comment-p)
-             (paredit-in-string-p)) (backward-kill-word (or arg 1)))
-        (t (backward-kill-sexp (or arg 1)))))
-
 (defun toggle-window-split ()
   (interactive)
   (if (= (count-windows) 2)
@@ -800,29 +841,6 @@ in the sexp, not the end of the current one."
              (set-window-start w2 s1)
              (setq i (1+ i)))))))
 
-(defun paredit--is-at-start-of-sexp ()
-  (and (looking-at "(\\|\\[")
-       (not (nth 3 (syntax-ppss))) ;; inside string
-       (not (nth 4 (syntax-ppss))))) ;; inside comment
-
-(defun paredit-duplicate-closest-sexp ()
-  (interactive)
-  ;; skips to start of current sexp
-  (while (not (paredit--is-at-start-of-sexp))
-    (paredit-backward))
-  (set-mark-command nil)
-  ;; while we find sexps we move forward on the line
-  (while (and (bounds-of-thing-at-point 'sexp)
-              (<= (point) (car (bounds-of-thing-at-point 'sexp)))
-              (not (= (point) (line-end-position))))
-    (forward-sexp)
-    (while (looking-at " ")
-      (forward-char)))
-  (kill-ring-save (mark) (point))
-  ;; go to the next line and copy the sexprs we encountered
-  (paredit-newline)
-  (yank)
-  (exchange-point-and-mark))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -833,7 +851,6 @@ in the sexp, not the end of the current one."
 (require 'align-cljlet)
 (require 'mark-multiple)
 (require 'mark-more-like-this)
-(require 'paredit)
 
 (global-set-key [f1] 'ido-switch-buffer)
 (global-set-key [f2] 'ack-and-a-half)
@@ -916,20 +933,6 @@ in the sexp, not the end of the current one."
 
 ;; bind git-gutter toggle command
 (global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
-
-;; Some paredit keybindings conflict with windmove and SLIME,
-;; adjust those and make some new bindings.
-(define-key paredit-mode-map (kbd "<C-left>") nil)
-(define-key paredit-mode-map (kbd "<C-right>") nil)
-(define-key paredit-mode-map "\M-r" nil)
-(define-key paredit-mode-map (kbd "C-M-f") 'live-paredit-forward)
-(define-key paredit-mode-map (kbd "C-M-k") 'live-paredit-forward-kill-sexp)
-(define-key paredit-mode-map (kbd "C-M-<backspace>") 'live-paredit-backward-kill-sexp)
-(define-key paredit-mode-map (kbd "M-q") 'live-paredit-reindent-defun)
-(define-key paredit-mode-map (kbd "M-<up>") 'live-paredit-previous-top-level-form)
-(define-key paredit-mode-map (kbd "M-<down>") 'live-paredit-next-top-level-form)
-(define-key paredit-mode-map (kbd "M-)") 'paredit-wrap-round-from-behind)
-(define-key paredit-mode-map (kbd "C-S-d") 'paredit-duplicate-closest-sexp)
 
 
 ;; This adds an extra keybinding to interactive search (C-s) that runs
