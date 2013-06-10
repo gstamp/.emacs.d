@@ -65,7 +65,8 @@
                       sass-mode
                       company
                       puppet-mode
-                      tabkey2)
+                      tabkey2
+                      hideshowvis)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
@@ -1064,6 +1065,17 @@ If point was already at that position, move point to beginning of line."
                               (if (string= major-mode "ruby-mode")
                                   (whitespace-cleanup))))
 
+(add-to-list 'hs-special-modes-alist
+             '(ruby-mode
+               "\\(def\\|do\\|{\\)" "\\(end\\|end\\|}\\)" "#"
+               (lambda (arg) (ruby-end-of-block)) nil))
+
+(add-hook 'ruby-mode-hook 'hs-minor-mode)
+
+(global-set-key (kbd "C-c S") 'hs-show-all)
+(global-set-key (kbd "C-c H") 'hs-hide-all)
+(global-set-key (kbd "C-c s") 'hs-show-block)
+(global-set-key (kbd "C-c h") 'hs-hide-block)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Autocomplete
