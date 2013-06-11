@@ -65,8 +65,7 @@
                       sass-mode
                       company
                       puppet-mode
-                      tabkey2
-                      hideshowvis)
+                      tabkey2)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
