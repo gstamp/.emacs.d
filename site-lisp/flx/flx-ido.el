@@ -13,7 +13,7 @@
 ;; Version: 0.2
 ;; Last-Updated:
 ;;           By:
-;;     Update #: 52
+;;     Update #: 60
 ;; URL:
 ;; Keywords:
 ;; Compatibility:
@@ -67,6 +67,11 @@
 (eval-when-compile (require 'cl))
 (require 'ido)
 (require 'flx)
+
+
+(defcustom flx-ido-use-faces t
+  "Use `flx-highlight-face' to indicate characters contributing to best score."
+  :group 'ido)
 
 (unless (fboundp 'ido-delete-runs)
   (defun ido-delete-runs (list)
@@ -124,17 +129,21 @@ item, in which case, the ending items are deleted."
 
 
 (defun flx-ido-decorate (things &optional clear)
-  (let ((decorate-count (min ido-max-prospects
-                             (length things))))
-    (nconc
-     (loop for thing in things
-           for i from 0 below decorate-count
-           collect (if clear
-                       (flx-propertize thing nil)
-                     (flx-propertize (car thing) (cdr thing))))
-     (if clear
-         (nthcdr decorate-count things)
-       (mapcar 'car (nthcdr decorate-count things))))))
+  (if flx-ido-use-faces
+      (let ((decorate-count (min ido-max-prospects
+                                 (length things))))
+        (nconc
+         (loop for thing in things
+               for i from 0 below decorate-count
+               collect (if clear
+                           (flx-propertize thing nil)
+                         (flx-propertize (car thing) (cdr thing))))
+         (if clear
+             (nthcdr decorate-count things)
+           (mapcar 'car (nthcdr decorate-count things)))))
+    (if clear
+        things
+      (mapcar 'car things))))
 
 (defun flx-ido-match-internal (query items)
   (let* ((matches (loop for item in items
@@ -176,13 +185,15 @@ item, in which case, the ending items are deleted."
 
   ad-do-it)
 
-(defadvice ido-read-internal (around flx-ido-reset-hash activate)
-  "Clear flx narrowed hash beforehand.
-
-Remove flx properties after."
+(defadvice ido-read-internal (before flx-ido-reset-hash activate)
+  "Clear flx narrowed hash beforehand."
   (when flx-ido-mode
-    (clrhash flx-ido-narrowed-matches-hash))
-  ad-do-it)
+    (clrhash flx-ido-narrowed-matches-hash)))
+
+(defadvice ido-restrict-to-matches (before flx-ido-reset-hash activate)
+  "Clear flx narrowed hash."
+  (when flx-ido-mode
+    (clrhash flx-ido-narrowed-matches-hash)))
 
 (defadvice ido-set-matches-1 (around flx-ido-set-matches-1 activate)
   "Choose between the regular ido-set-matches-1 and my-ido-fuzzy-match"
@@ -204,4 +215,3 @@ Remove flx properties after."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; flx-ido.el ends here
-

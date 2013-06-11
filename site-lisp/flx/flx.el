@@ -227,7 +227,7 @@ See documentation for logic."
       (loop for sub on sorted-list
             do (when (> (car sub) val)
                  (return sub)))
-      sorted-list))
+    sorted-list))
 
 (defun flx-get-matches (hash query &optional greater-than q-index)
   "Return list of all unique indexes into str where query can match.
