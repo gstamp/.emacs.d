@@ -1,0 +1,4 @@
+# name: puts "var= #{var}"
+# key: d
+# --
+puts "$1 = #{$1}"$0
