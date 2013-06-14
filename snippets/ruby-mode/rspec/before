@@ -1,0 +1,6 @@
+#-*- require-final-newline: nil -*-
+#name : before
+# --
+before(${1::each}) do
+  $0
+end

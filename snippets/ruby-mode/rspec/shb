@@ -1,0 +1,5 @@
+#-*- require-final-newline: nil -*-
+#name : should be
+# --
+${1:target}.should be(${2:result})
+$0
