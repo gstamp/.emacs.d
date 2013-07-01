@@ -826,8 +826,6 @@ If point was already at that position, move point to beginning of line."
 
 (require 'clojure-mode)
 (require 'align-cljlet)
-(require 'mark-multiple)
-(require 'mark-more-like-this)
 
 (global-set-key [f1] 'ido-switch-buffer)
 (global-set-key [f2] 'ack-and-a-half)
@@ -889,8 +887,15 @@ If point was already at that position, move point to beginning of line."
 (global-set-key (kbd "C-S-o") '"\C-p\C-o") ; open line above
 (global-set-key [home] 'smart-beginning-of-line)
 (define-key dot-mode-map (kbd "C->") nil) ; fix conflict with dot-mode
-(global-set-key (kbd "C-<") 'mark-previous-like-this)
-(global-set-key (kbd "C->") 'mark-next-like-this)
+
+(require 'multiple-cursors)
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(global-unset-key (kbd "M-<down-mouse-1>"))
+(global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
 
 (global-set-key (kbd "C-;") 'mark-line-or-next)
 
