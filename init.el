@@ -166,18 +166,6 @@
 ;; Part of bookmarks plugin.  Only highlight bookmarks on fringe.
 (setq bm-highlight-style 'bm-highlight-only-fringe)
 
-;; ignore slime complaining about the version mismatch (& set default
-;; ports)
-(setq slime-protocol-version 'ignore)
-(defvar slime-port 4005)
-(defvar durendal-port 4005)
-
-;; defaults to iso-8895-1  encoding otherwise.
-(setq slime-net-coding-system 'utf-8-unix)
-
-;; stop slime giving me annoying messages
-(setq font-lock-verbose nil)
-
 ;; gerkin config
 (setq feature-default-language "en")
 
@@ -565,57 +553,6 @@ in the sexp, not the end of the current one."
                                         ; fix up whitepace at line
   )
 
-(defun slime-send-dwim (arg)
-  "Send the appropriate forms to REPL to be evaluated."
-  (interactive "P")
-  (save-excursion
-    (cond 
-     ;;Region selected - evaluate region
-     ((not (equal mark-active nil))
-      (copy-region-as-kill (mark) (point)))
-     ;; At/before sexp - evaluate next sexp
-     ((or (looking-at "(")
-          (save-excursion
-            (ignore-errors (forward-char 1))
-            (looking-at "(")))
-      (forward-list 1)
-      (let ((end (point))
-            (beg (save-excursion
-                   (backward-list 1)
-                   (point))))
-        (copy-region-as-kill beg end)))
-     ;; At/after sexp - evaluate last sexp
-     ((or (looking-at ")")
-          (save-excursion
-            (backward-char 1)
-            (looking-at ")")))
-      (if (looking-at ")")
-          (forward-char 1))
-      (let ((end (point))
-            (beg (save-excursion
-                   (backward-list 1)
-                   (point))))
-        (copy-region-as-kill beg end)))
-     ;; Default - evaluate enclosing top-level sexp
-     (t (progn
-          (while (ignore-errors (progn
-                                  (backward-up-list)
-                                  t)))
-          (forward-list 1)
-          (let ((end (point))
-                (beg (save-excursion
-                       (backward-list 1)
-                       (point))))
-            (copy-region-as-kill beg end)))))
-    (set-buffer (slime-output-buffer))
-    (unless (eq (current-buffer) (window-buffer))
-      (pop-to-buffer (current-buffer) t))
-    (goto-char (point-max))
-    (yank)
-    (if arg (progn
-	      (slime-repl-return)
-	      (other-window 1)))))
-
 (defun duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.
 If there's no region, the current line will be duplicated. However, if
@@ -643,8 +580,6 @@ there's a region, all lines that region covers will be duplicated."
 (defadvice open-line (after after-open-line activate)
   (forward-line 1)
   (indent-according-to-mode))
-
-(setq slime-protocol-version 'ignore)
 
 (defun get-buffers-matching-mode (mode)
   "Returns a list of buffers where their major-mode is equal to MODE"
@@ -687,14 +622,6 @@ If point was already at that position, move point to beginning of line."
                                            c-mode c++-mode objc-mode
                                            LaTeX-mode TeX-mode))
       (indent-region (region-beginning) (region-end) nil)))
-
-;; Pinched from Programothesis.  Thanks!
-(defun define-function ()
-  (interactive)
-  (let ((name (symbol-at-point)))
-    (backward-paragraph)
-    (insert "\n(defn " (symbol-name name) " [])\n")
-    (backward-char 3)))
 
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy the current line."
@@ -859,10 +786,8 @@ If point was already at that position, move point to beginning of line."
 
 (global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
 
-(define-key clojure-mode-map (kbd "C-c f") 'define-function)
 (global-set-key [(control ?.)] (lambda () (interactive) (dot-mode 1)
                                  (message "Dot mode activated.")))
-(global-set-key "\C-c\C-v" 'slime-eval-print-last-expression)
 (global-set-key "\C-x\C-m" 'execute-extended-command) ;; M-x replacement
 (global-set-key "\C-c\C-m" 'execute-extended-command) ;; M-x replacement
 (define-key global-map (kbd "C-|") 'toggle-windows-split)
@@ -888,10 +813,6 @@ If point was already at that position, move point to beginning of line."
 (global-set-key (kbd "C-;") 'mark-line-or-next)
 
 (global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "C-c C-,") 'slime-send-dwim)
-(global-set-key (kbd "C-c C-.") '(lambda ()
-                                   (interactive)
-                                   (slime-send-dwim 1)))
 (global-set-key (kbd "C-x 2") 'split-window-below-and-choose-last-buffer)
 (global-set-key (kbd "C-x 3") 'split-window-right-and-choose-last-buffer)
 
@@ -940,37 +861,6 @@ If point was already at that position, move point to beginning of line."
   (let ((st (make-syntax-table clojure-mode-syntax-table)))
     (modify-syntax-entry ?- "w" st)
     st))
-
-(defun live-transpose-words-with-hyphens (arg)
-  "Treat hyphens as a word character when transposing words"
-  (interactive "*p")
-  (with-syntax-table clojure-mode-with-hyphens-as-word-sep-syntax-table
-    (transpose-words arg)))
-
-(define-key clojure-mode-map (kbd "M-t") 'live-transpose-words-with-hyphens)
-
-(defun clojure-hide-successful-compile (msg)
-  ;;When you add a hook to the slime compilation-finished hook it
-  ;;seems to override the default behaviour. So I manually call the
-  ;;original code.
-  (slime-maybe-show-compilation-log msg)
-  
-  (with-struct (slime-compilation-result. notes duration successp)
-      slime-last-compilation-result
-    (when successp
-      (dolist (w (window-list))
-        (if (string= (buffer-name (window-buffer w)) "*SLIME Compilation*")
-            (progn
-              (kill-buffer "*SLIME Compilation*")
-              (delete-window w)
-              ))))))
-
-(add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
-
-
-;; Redirect output from other threads.
-;; Disabled - enabling this seems to cause bugs in slime
-;; (add-hook 'slime-mode-hook 'slime-redirect-inferior-output)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Keybindings
@@ -1321,6 +1211,123 @@ PWD is not in a git repo (or the git command is not found)."
        "\\|\\.\\(arc\\|lzh\\|zip\\|zoo\\)$"
        "\\|\\.t\\(ar\\.\\)?gz$"
        "\\|\\.t\\(ar\\.bz2\\|bz\\)$"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Slime And Clojure
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; ignore slime complaining about the version mismatch (& set default
+;; ports)
+(setq slime-protocol-version 'ignore)
+(defvar slime-port 4005)
+(defvar durendal-port 4005)
+
+;; defaults to iso-8895-1  encoding otherwise.
+(setq slime-net-coding-system 'utf-8-unix)
+
+;; stop slime giving me annoying messages
+(setq font-lock-verbose nil)
+
+;; Pinched from Programothesis.  Thanks!
+(defun define-function ()
+  (interactive)
+  (let ((name (symbol-at-point)))
+    (backward-paragraph)
+    (insert "\n(defn " (symbol-name name) " [])\n")
+    (backward-char 3)))
+
+(define-key clojure-mode-map (kbd "C-c f") 'define-function)
+
+(defun slime-send-dwim (arg)
+  "Send the appropriate forms to REPL to be evaluated."
+  (interactive "P")
+  (save-excursion
+    (cond 
+     ;;Region selected - evaluate region
+     ((not (equal mark-active nil))
+      (copy-region-as-kill (mark) (point)))
+     ;; At/before sexp - evaluate next sexp
+     ((or (looking-at "(")
+          (save-excursion
+            (ignore-errors (forward-char 1))
+            (looking-at "(")))
+      (forward-list 1)
+      (let ((end (point))
+            (beg (save-excursion
+                   (backward-list 1)
+                   (point))))
+        (copy-region-as-kill beg end)))
+     ;; At/after sexp - evaluate last sexp
+     ((or (looking-at ")")
+          (save-excursion
+            (backward-char 1)
+            (looking-at ")")))
+      (if (looking-at ")")
+          (forward-char 1))
+      (let ((end (point))
+            (beg (save-excursion
+                   (backward-list 1)
+                   (point))))
+        (copy-region-as-kill beg end)))
+     ;; Default - evaluate enclosing top-level sexp
+     (t (progn
+          (while (ignore-errors (progn
+                                  (backward-up-list)
+                                  t)))
+          (forward-list 1)
+          (let ((end (point))
+                (beg (save-excursion
+                       (backward-list 1)
+                       (point))))
+            (copy-region-as-kill beg end)))))
+    (set-buffer (slime-output-buffer))
+    (unless (eq (current-buffer) (window-buffer))
+      (pop-to-buffer (current-buffer) t))
+    (goto-char (point-max))
+    (yank)
+    (if arg (progn
+	      (slime-repl-return)
+	      (other-window 1)))))
+
+(defun live-transpose-words-with-hyphens (arg)
+  "Treat hyphens as a word character when transposing words"
+  (interactive "*p")
+  (with-syntax-table clojure-mode-with-hyphens-as-word-sep-syntax-table
+    (transpose-words arg)))
+
+(define-key clojure-mode-map (kbd "M-t") 'live-transpose-words-with-hyphens)
+
+(defun clojure-hide-successful-compile (msg)
+  ;;When you add a hook to the slime compilation-finished hook it
+  ;;seems to override the default behaviour. So I manually call the
+  ;;original code.
+  (slime-maybe-show-compilation-log msg)
+  
+  (with-struct (slime-compilation-result. notes duration successp)
+      slime-last-compilation-result
+    (when successp
+      (dolist (w (window-list))
+        (if (string= (buffer-name (window-buffer w)) "*SLIME Compilation*")
+            (progn
+              (kill-buffer "*SLIME Compilation*")
+              (delete-window w)
+              ))))))
+
+(add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
+
+;; TODO: shouldn't be a global keybinding.
+(global-set-key (kbd "C-c C-,") 'slime-send-dwim)
+(global-set-key "\C-c\C-v" 'slime-eval-print-last-expression)
+
+(global-set-key (kbd "C-c C-.") '(lambda ()
+                                   (interactive)
+                                   (slime-send-dwim 1)))
+
+;; Redirect output from other threads.
+;; Disabled - enabling this seems to cause bugs in slime
+;; (add-hook 'slime-mode-hook 'slime-redirect-inferior-output)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: IMenu Sections
