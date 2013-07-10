@@ -466,6 +466,7 @@ in the sexp, not the end of the current one."
 ;; c-c left, c-c right - to move between previous open window settings
 (winner-mode 1)
 
+;; Delete selection when typing over it
 (delete-selection-mode)
 
 (global-auto-revert-mode)  ; auto revert if there are external changes
