@@ -107,16 +107,6 @@
 ;; Load up some colour themes
 (load-theme 'solarized-dark t)
 
-;; Customize save places not to save for certain file types.
-(require 'saveplace)
-(setq save-place-skip-check-regexp
-      (concat
-       save-place-skip-check-regexp
-       "\\|\\.org$"
-       "\\|\\.\\(arc\\|lzh\\|zip\\|zoo\\)$"
-       "\\|\\.t\\(ar\\.\\)?gz$"
-       "\\|\\.t\\(ar\\.bz2\\|bz\\)$"))
-
 ;; JS indent levels
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
@@ -1317,6 +1307,19 @@ PWD is not in a git repo (or the git command is not found)."
 (require 'org-html5presentation)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Save Place
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Customize save places not to save for certain file types.
+(require 'saveplace)
+(setq save-place-skip-check-regexp
+      (concat
+       save-place-skip-check-regexp
+       "\\|\\.org$"
+       "\\|\\.\\(arc\\|lzh\\|zip\\|zoo\\)$"
+       "\\|\\.t\\(ar\\.\\)?gz$"
+       "\\|\\.t\\(ar\\.bz2\\|bz\\)$"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: IMenu Sections
