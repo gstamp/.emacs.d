@@ -1038,10 +1038,20 @@ If point was already at that position, move point to beginning of line."
      (define-key wdired-mode-map (kbd "M-<up>") 'dired-back-to-top)
      (define-key wdired-mode-map (kbd "M-<down>") 'dired-jump-to-bottom)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: HS Minor Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key (kbd "C-c S") 'hs-show-all)
+(global-set-key (kbd "C-c H") 'hs-hide-all)
+(global-set-key (kbd "C-c s") 'hs-show-block)
+(global-set-key (kbd "C-c h") 'hs-hide-block)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Ruby
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defalias 'inf-ruby-keys 'inf-ruby-setup-keybindings)
 
 (defun ruby-insert-end ()
   "Insert \"end\" at point and reindent current line."
@@ -1060,11 +1070,10 @@ If point was already at that position, move point to beginning of line."
   (local-set-key [(control meta shift f1)] 'ruby-eval-buffer)
 
   (company-mode)
-  nil
-  )
-(add-hook 'ruby-mode-hook
-          'init-rubymode
-          )
+  nil)
+
+(after 'ruby-mode
+  (init-rubymode))
 
 (add-hook 'before-save-hook (lambda ()
                               (if (string= major-mode "ruby-mode")
@@ -1075,12 +1084,10 @@ If point was already at that position, move point to beginning of line."
                "\\(def\\|do\\|{\\)" "\\(end\\|end\\|}\\)" "#"
                (lambda (arg) (ruby-end-of-block)) nil))
 
-(add-hook 'ruby-mode-hook 'hs-minor-mode)
+(defun turn-on-hs-minor-mode ()
+  (hs-minor-mode 1))
 
-(global-set-key (kbd "C-c S") 'hs-show-all)
-(global-set-key (kbd "C-c H") 'hs-hide-all)
-(global-set-key (kbd "C-c s") 'hs-show-block)
-(global-set-key (kbd "C-c h") 'hs-hide-block)
+(add-hook 'ruby-mode-hook 'turn-on-hs-minor-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Autocomplete
