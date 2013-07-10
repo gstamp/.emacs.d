@@ -207,9 +207,6 @@
         (sequence "ONHOLD" "|" "CANCELLED")))
 ;; When a task is finished log when it's done
 (setq org-log-done 'time)
-;; Don't use the standard org keys for todo and priority management
-;; http://orgmode.org/manual/Conflicts.html
-(setq org-replace-disputed-keys 1)
 
 ;; Redraw more frequently
 (setq redisplay-dont-pause nil)
@@ -1133,6 +1130,10 @@ same directory as the org-buffer and insert a link to this file."
    (sql . t)
    (ruby . t)
    ))
+
+;; Don't use the standard org keys for todo and priority management
+;; http://orgmode.org/manual/Conflicts.html
+(setq org-replace-disputed-keys 1)
 
 (setq org-confirm-babel-evaluate nil)
 
