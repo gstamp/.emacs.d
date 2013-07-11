@@ -115,10 +115,6 @@
 ;; formats a region. We want spaces.
 (setq-default intent-tabs-mode nil)
 
-;; Make tabkey2 on by default
-(require 'tabkey2)
-(tabkey2-mode)
-
 ;; Setup flx (https://github.com/lewang/flx)
 (require 'flx-ido)
 (flx-ido-mode 1)
@@ -132,8 +128,8 @@
 ;; Allow emacs to access the x clipboard
 (setq x-select-enable-clipboard t)
 
-;; Set the GC limit to 20MB to avoid over GCage.
-(setq gc-cons-threshold 20000000)
+;; Set the GC limit to 40MB to avoid over GCage.
+(setq gc-cons-threshold 40000000)
 
 ;;  The variable vc-follow-symlinks controls what Emacs does if you
 ;;  try to visit a symbolic link pointing to a version-controlled
@@ -163,9 +159,6 @@
 (setq whitespace-style '(trailing lines tabs)
       whitespace-line-column 80)        ; no trailing space or tabs
 
-;; Part of bookmarks plugin.  Only highlight bookmarks on fringe.
-(setq bm-highlight-style 'bm-highlight-only-fringe)
-
 ;; gerkin config
 (setq feature-default-language "en")
 
@@ -186,7 +179,7 @@
 (remove-hook 'prog-mode-hook 'esk-turn-on-idle-highlight-mode)
 
 ;; Redraw more frequently
-(setq redisplay-dont-pause nil)
+(setq redisplay-dont-pause 't)
 
 ;; Add some extra snippets
 (require 'yasnippet)
@@ -201,22 +194,6 @@
 (setq ffip-limit 3500)
 
 (setq feature-cucumber-command "bundle exec cucumber {options} {feature}")
-
-;; Enable undo in region
-(setq undo-in-region t)
-(setq undo-tree-enable-undo-in-region t)
-
-;; Keep region when undoing in region
-(defadvice undo-tree-undo (around keep-region activate)
-  (if (use-region-p)
-      (let ((m (set-marker (make-marker) (mark)))
-            (p (set-marker (make-marker) (point))))
-        ad-do-it
-        (goto-char p)
-        (set-mark m)
-        (set-marker p nil)
-        (set-marker m nil))
-    ad-do-it))
 
 (when (equal system-type 'darwin)
   (progn
@@ -424,51 +401,8 @@ in the sexp, not the end of the current one."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Setup: Some random mode stuff
+;;;; Setup: Window Rearrangement
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; c-c left, c-c right - to move between previous open window settings
-(winner-mode 1)
-
-;; Delete selection when typing over it
-(delete-selection-mode)
-
-(global-auto-revert-mode)  ; auto revert if there are external changes
-(setq global-auto-revert-non-file-buffers t) ; auto revert dired as well
-(setq auto-revert-verbose nil)
-(global-linum-mode 0) ; line numbers on by default
-(show-paren-mode t)   ; show matching parens
-
-
-;; Set up dot mode, c-. to retype last thing you entered.
-(require 'dot-mode)
-(add-hook 'find-file-hooks 'dot-mode-on)
-
-(global-undo-tree-mode)
-
-;; Recentf mode keeps track of recently opened files
-(require 'recentf)
-(recentf-mode 1)
-
-(setq auto-mode-alist
-      (cons '("\\.md" . markdown-mode) auto-mode-alist))
-
-;; Markdown doesn't always exist at the default location
-(if (file-exists-p "/usr/local/bin/markdown")
-    (setq markdown-command "/usr/local/bin/markdown"))
-
-;; Puppet mode
-(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
-
-;; yaml setup
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Setup: Defuns
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 (defun toggle-windows-split()
   "Switch back and forth between one window and whatever split of windows we might have in the frame. The idea is to maximize the current buffer, while being able to go back to the previous split of windows in the frame simply by calling this command again."
@@ -481,198 +415,9 @@ in the sexp, not the end of the current one."
               (delete-other-windows))
           (jump-to-register ?u)))))
 
-(defun rename-current-buffer-file ()
-  "Renames current buffer and file it is visiting."
-  (interactive)
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " filename)))
-        (if (get-buffer new-name)
-            (error "A buffer named '%s' already exists!" new-name)
-          (rename-file filename new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil)
-          (message "File '%s' successfully renamed to '%s'"
-                   name (file-name-nondirectory new-name)))))))
+(define-key global-map (kbd "C-|") 'toggle-windows-split)
 
-(defun delete-current-buffer-file ()
-  "Removes file connected to current buffer and kills buffer."
-  (interactive)
-  (let ((filename (buffer-file-name))
-        (buffer (current-buffer))
-        (name (buffer-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (ido-kill-buffer)
-      (when (yes-or-no-p "Are you sure you want to remove this file? ")
-        (delete-file filename)
-        (kill-buffer buffer)
-        (message "File '%s' successfully removed" filename)))))
-
-(defun split-window-right-and-choose-last-buffer ()
-  "Like split-window-right but selects the last buffer"
-  (interactive)
-  (split-window-right)
-  (other-window 1)
-  (switch-to-next-buffer)
-  (other-window -1))
-
-(defun split-window-below-and-choose-last-buffer ()
-  "Like split-window-below but selects the last buffer"
-  (interactive)
-  (split-window-below)
-  (other-window 1)
-  (switch-to-next-buffer)
-  (other-window -1))
-
-(defun iwb ()
-  "indent whole buffer"
-  (interactive)
-  (delete-trailing-whitespace)
-  (indent-region (point-min) (point-max) nil)
-  (untabify (point-min) (point-max)))
-
-(defun join-with-next-line ()
-  "join with next line"
-  (interactive)
-  (next-line)
-  (delete-indentation) ; Join this line to previous and
-                                        ; fix up whitepace at line
-  )
-
-(defun duplicate-current-line-or-region (arg)
-  "Duplicates the current line or region ARG times.
-If there's no region, the current line will be duplicated. However, if
-there's a region, all lines that region covers will be duplicated."
-  (interactive "p")
-  (let (beg end (origin (point)))
-    (if (and mark-active (> (point) (mark)))
-        (exchange-point-and-mark))
-    (setq beg (line-beginning-position))
-    (if mark-active
-        (exchange-point-and-mark))
-    (setq end (line-end-position))
-    (let ((region (buffer-substring-no-properties beg end)))
-      (dotimes (i arg)
-        (goto-char end)
-        (newline)
-        (insert region)
-        (setq end (point)))
-      (goto-char (+ origin (* (length region) arg) arg)))))
-(global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
-
-;; Make open-line work more like VI (bound to ctrl-o)
-(defadvice open-line (before new-open-line activate)
-  (end-of-visible-line))
-(defadvice open-line (after after-open-line activate)
-  (forward-line 1)
-  (indent-according-to-mode))
-
-(defun get-buffers-matching-mode (mode)
-  "Returns a list of buffers where their major-mode is equal to MODE"
-  (let ((buffer-mode-matches '()))
-    (dolist (buf (buffer-list))
-      (with-current-buffer buf
-        (if (eq mode major-mode)
-            (add-to-list 'buffer-mode-matches buf))))
-    buffer-mode-matches))
-
-(defun multi-occur-in-this-mode ()
-  "Show all lines matching REGEXP in buffers with this major mode."
-  (interactive)
-  (multi-occur
-   (get-buffers-matching-mode major-mode)
-   (car (occur-read-primary-args))))
-
-(defun toggle-selective-display ()
-  (interactive)
-  (set-selective-display (if selective-display nil 1)))
-
-(defun smart-beginning-of-line ()
-  "Move point to first non-whitespace character or beginning-of-line.
-
-Move point to the first non-whitespace character on this line.
-If point was already at that position, move point to beginning of line."
-  (interactive) 
-  (if (not (string-equal major-mode "org-mode"))
-      (let ((oldpos (point)))
-        (back-to-indentation)
-        (and (= oldpos (point))
-             (beginning-of-line)))
-    (move-beginning-of-line nil)))
-
-;; this will indent the yanked region automatically in the provided
-;; modes
-(defadvice yank (after indent-region activate)
-  (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
-                                           clojure-mode
-                                           c-mode c++-mode objc-mode
-                                           LaTeX-mode TeX-mode))
-      (indent-region (region-beginning) (region-end) nil)))
-
-(defadvice kill-ring-save (before slick-copy activate compile)
-  "When called interactively with no active region, copy the current line."
-  (interactive
-   (if mark-active
-       (list (region-beginning) (region-end))
-     (progn
-       (message "Current line is copied.")
-       (list (line-beginning-position) (line-beginning-position 2)) ) ) ))
-
-(defadvice kill-region (before slick-copy activate compile)
-  "When called interactively with no active region, cut the current line."
-  (interactive
-   (if mark-active
-       (list (region-beginning) (region-end))
-     (progn
-       (list (line-beginning-position) (line-beginning-position 2)) ) ) ))
-
-(fset 'save-and-compile
-      "\C-x\C-s\C-c\C-k")
-
-(defun mark-line-or-next ()
-  "Marks the current line or extends the mark if there is no current selection"
-  (interactive)
-  (if mark-active
-      (forward-line)
-    (progn
-      (beginning-of-line)
-      (push-mark (point))
-      (end-of-line)
-      (forward-char)
-      (activate-mark))))
-
-(defun smart-kill-whole-line (&optional arg)
-  "A simple wrapper around `kill-whole-line' that respects indentation."
-  (interactive "P")
-  (kill-whole-line arg)
-  (back-to-indentation))
-
-;; Stops the mini buffer when switching back to emacs with mouse
-(defun stop-using-minibuffer ()
-  "kill the minibuffer"
-  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
-    (abort-recursive-edit)))
-(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
-
-(defun recentf-ido-find-file ()
-  "Find a recent file using ido."
-  (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
-    (when file
-      (find-file file))))
-
-(defun ert-run ()
-  "Evaluate the current buffer and run ert"
-  (interactive)
-
-  (eval-buffer)
-  (ert 't)
-  )
-
-(defun toggle-window-split ()
+(defun toggle-split-direction ()
   (interactive)
   (if (= (count-windows) 2)
       (let* ((this-win-buffer (window-buffer))
@@ -696,6 +441,28 @@ If point was already at that position, move point to beginning of line."
           (set-window-buffer (next-window) next-win-buffer)
           (select-window first-win)
           (if this-win-2nd (other-window 1))))))
+
+(global-set-key [(shift f9)] 'toggle-split-direction)
+
+(defun split-window-right-and-choose-last-buffer ()
+  "Like split-window-right but selects the last buffer"
+  (interactive)
+  (split-window-right)
+  (other-window 1)
+  (switch-to-next-buffer)
+  (other-window -1))
+
+(global-set-key (kbd "C-x 3") 'split-window-right-and-choose-last-buffer)
+
+(defun split-window-below-and-choose-last-buffer ()
+  "Like split-window-below but selects the last buffer"
+  (interactive)
+  (split-window-below)
+  (other-window 1)
+  (switch-to-next-buffer)
+  (other-window -1))
+
+(global-set-key (kbd "C-x 2") 'split-window-below-and-choose-last-buffer)
 
 (defun rotate-windows ()
   "Rotate your windows"
@@ -722,27 +489,215 @@ If point was already at that position, move point to beginning of line."
              (set-window-start w2 s1)
              (setq i (1+ i)))))))
 
+(global-set-key [(shift f10)] 'rotate-windows)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Buffer Management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+(global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
+
+(defun delete-current-buffer-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (ido-kill-buffer)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
+
+(global-set-key (kbd "C-x C-k") 'delete-current-buffer-file)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Editor helpers
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun join-with-next-line ()
+  "join with next line"
+  (interactive)
+  (next-line)
+  (delete-indentation))
+
+(global-set-key [(control shift j)] 'join-with-next-line)
+
+(defun iwb ()
+  "indent whole buffer"
+  (interactive)
+  (delete-trailing-whitespace)
+  (indent-region (point-min) (point-max) nil)
+  (untabify (point-min) (point-max)))
+
+;; TODO: setup a keybinding for this
+
+
+(defun duplicate-current-line-or-region (arg)
+  "Duplicates the current line or region ARG times.
+If there's no region, the current line will be duplicated. However, if
+there's a region, all lines that region covers will be duplicated."
+  (interactive "p")
+  (let (beg end (origin (point)))
+    (if (and mark-active (> (point) (mark)))
+        (exchange-point-and-mark))
+    (setq beg (line-beginning-position))
+    (if mark-active
+        (exchange-point-and-mark))
+    (setq end (line-end-position))
+    (let ((region (buffer-substring-no-properties beg end)))
+      (dotimes (i arg)
+        (goto-char end)
+        (newline)
+        (insert region)
+        (setq end (point)))
+      (goto-char (+ origin (* (length region) arg) arg)))))
+
+(global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
+
+;; Make open-line work more like VI (bound to ctrl-o)
+(defadvice open-line (before new-open-line activate)
+  (end-of-visible-line))
+(defadvice open-line (after after-open-line activate)
+  (forward-line 1)
+  (indent-according-to-mode))
+
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+
+Move point to the first non-whitespace character on this line.
+If point was already at that position, move point to beginning of line."
+  (interactive) 
+  (if (not (string-equal major-mode "org-mode"))
+      (let ((oldpos (point)))
+        (back-to-indentation)
+        (and (= oldpos (point))
+             (beginning-of-line)))
+    (move-beginning-of-line nil)))
+
+(global-set-key [home] 'smart-beginning-of-line)
+
+;; this will indent the yanked region automatically in the provided
+;; modes
+(defadvice yank (after indent-region activate)
+  (if (member major-mode '(emacs-lisp-mode scheme-mode
+                                           lisp-mode
+                                           clojure-mode
+                                           ruby-mode
+                                           c-mode
+                                           c++-mode
+                                           objc-mode
+                                           LaTeX-mode
+                                           TeX-mode))
+      (indent-region (region-beginning) (region-end) nil)))
+
+(defadvice kill-ring-save (before slick-copy activate compile)
+  "When called interactively with no active region, copy the current line."
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (progn
+       (message "Current line is copied.")
+       (list (line-beginning-position) (line-beginning-position 2)) ) ) ))
+
+(defadvice kill-region (before slick-copy activate compile)
+  "When called interactively with no active region, cut the current line."
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (progn
+       (list (line-beginning-position) (line-beginning-position 2)) ) ) ))
+
+(defun mark-line-or-next ()
+  "Marks the current line or extends the mark if there is no current selection"
+  (interactive)
+  (if mark-active
+      (forward-line)
+    (progn
+      (beginning-of-line)
+      (push-mark (point))
+      (end-of-line)
+      (forward-char)
+      (activate-mark))))
+
+(global-set-key (kbd "C-;") 'mark-line-or-next)
+
+(defun smart-kill-whole-line (&optional arg)
+  "A simple wrapper around `kill-whole-line' that respects indentation."
+  (interactive "P")
+  (kill-whole-line arg)
+  (back-to-indentation))
+
+(global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Helper Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; TODO: This wants to be a real function
+(fset 'save-and-compile
+      "\C-x\C-s\C-c\C-k")
+
+(global-set-key [f6] 'save-and-compile)  ; Hit this to eval an entire file
+
+
+;; Stops the mini buffer when switching back to emacs with mouse
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+    (abort-recursive-edit)))
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+
+(defun recentf-ido-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+    (when file
+      (find-file file))))
+
+(defun ert-run ()
+  "Evaluate the current buffer and run ert testing framework"
+  (interactive)
+
+  (eval-buffer)
+  (ert 't)
+  )
+(global-set-key [f5] 'ert-run)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'clojure-mode)
 (require 'align-cljlet)
 
 (global-set-key [f1] 'ido-switch-buffer)
 (global-set-key [f2] 'ack-and-a-half)
 (global-set-key [f3] 'kmacro-start-macro-or-insert-counter)
 (global-set-key [f4] 'kmacro-end-or-call-macro)
-(global-set-key [f5] 'ert-run)
-(global-set-key [f6] 'save-and-compile)  ; Hit this to eval an entire file
 (global-set-key [f8] 'find-file-at-point)
 (global-set-key [f10] 'multi-term)
 (global-set-key [f11] 'ido-kill-buffer)
 
-(global-set-key [(control f1)] 'toggle-selective-display)
-(global-set-key [(control f2)] 'multi-occur-in-this-mode)
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
 (global-set-key [(control f4)] 'kill-this-buffer)
 (autoload 'linum-mode "linum" "toggle line numbers on/off" t)
@@ -751,55 +706,24 @@ If point was already at that position, move point to beginning of line."
 ;; Turn on the menu bar for exploring new modes
 (global-set-key (kbd "C-<f10>") 'menu-bar-mode)
 
-(global-set-key [(shift f2)] 'bm-toggle)
-(global-set-key [(shift f3)] 'bm-next)
-(global-set-key [(shift f4)] 'bm-prev)
-(global-set-key [(shift f6)] 'elein-swank)
-(global-set-key [(shift f9)] 'toggle-window-split)
-(global-set-key [(shift f10)] 'rotate-windows)
-
-(global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 
 ;; Jump from file to containing directory
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 (global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
-(global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
-(global-set-key (kbd "C-x C-k") 'delete-current-buffer-file)
 
 (global-set-key (kbd "M-g M-l") 'shell-pop)
 
-(global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
-
-(global-set-key [(control ?.)] (lambda () (interactive) (dot-mode 1)
-                                 (message "Dot mode activated.")))
 (global-set-key "\C-x\C-m" 'execute-extended-command) ;; M-x replacement
 (global-set-key "\C-c\C-m" 'execute-extended-command) ;; M-x replacement
-(define-key global-map (kbd "C-|") 'toggle-windows-split)
 (global-set-key [(control tab)] 'other-window)
 (global-set-key "\r" 'newline-and-indent)
-(global-set-key [(control shift j)] 'join-with-next-line)
 
 (global-set-key [(control c) (control a)] 'align-cljlet)
 (global-set-key (kbd "<S-return>") 'open-line)
 (global-set-key (kbd "C-S-o") '"\C-p\C-o") ; open line above
-(global-set-key [home] 'smart-beginning-of-line)
-(define-key dot-mode-map (kbd "C->") nil) ; fix conflict with dot-mode
-
-(require 'multiple-cursors)
-
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-(global-unset-key (kbd "M-<down-mouse-1>"))
-(global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
-
-(global-set-key (kbd "C-;") 'mark-line-or-next)
 
 (global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "C-x 2") 'split-window-below-and-choose-last-buffer)
-(global-set-key (kbd "C-x 3") 'split-window-right-and-choose-last-buffer)
 
 ;; Move more quickly
 (global-set-key (kbd "C-S-n") (lambda () (interactive) (ignore-errors (next-line 5))))
@@ -821,31 +745,6 @@ If point was already at that position, move point to beginning of line."
       (occur (if isearch-regexp isearch-string
                (regexp-quote isearch-string))))))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Setup: Keybindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Indent tests correctly
-(eval-after-load 'clojure-mode
-  '(define-clojure-indent
-     (describe 'defun)
-     (testing 'defun)
-     (given 'defun)
-     (using 'defun)
-     (with 'defun)
-     (it 'defun)
-     (do-it 'defun)))
-
-;; Save the buffer before running the tests
-(defadvice clojure-test-run-tests (before save-first activate)
-  (save-buffer))
-
-;;Treat hyphens as a word character when transposing words
-(defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
-  (let ((st (make-syntax-table clojure-mode-syntax-table)))
-    (modify-syntax-entry ?- "w" st)
-    st))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Keybindings
@@ -980,7 +879,7 @@ If point was already at that position, move point to beginning of line."
 (setq org-confirm-babel-evaluate nil)
 
 ;; Colour org mode source code
-(setq org-src-fontify-natively t)
+(setq org-src-fontify-natively 1)
 ;; Valid task states in org mode
 ;; Shift left/right switches between modes in the current sequence.
 ;; Control shift left/right switches to a different sequence.
@@ -1023,9 +922,13 @@ same directory as the org-buffer and insert a link to this file."
    (ruby . t)
    ))
 
-(global-set-key [f9] 'org-agenda)
 ;; Store an org mode link C-cC-l to use it.
 (define-key global-map "\C-cl" 'org-store-link)
+
+
+
+
+(global-set-key [f9] 'org-agenda)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1042,6 +945,8 @@ same directory as the org-buffer and insert a link to this file."
 
 (setq ffip-full-paths 't) ; Not really part of ido but works well with
                                         ; vertically displayed lists.
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Powerline
@@ -1191,11 +1096,59 @@ PWD is not in a git repo (or the git command is not found)."
     (osx-notify (buffer-name (current-buffer)) message)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Dot Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Set up dot mode, c-. to retype last thing you entered.
+(require 'dot-mode)
+(add-hook 'find-file-hooks 'dot-mode-on)
+(global-set-key [(control ?.)] (lambda () (interactive) (dot-mode 1)
+                                 (message "Dot mode activated.")))
+(define-key dot-mode-map (kbd "C->") nil) ; fix conflict with dot-mode
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'restclient)
 (require 'rcodetools)
+
+;; Make tabkey2 on by default
+(require 'tabkey2)
+(tabkey2-mode)
+
+;; c-c left, c-c right - to move between previous open window settings
+(winner-mode 1)
+
+;; Delete selection when typing over it
+(delete-selection-mode)
+
+(global-auto-revert-mode)  ; auto revert if there are external changes
+(setq global-auto-revert-non-file-buffers t) ; auto revert dired as well
+(setq auto-revert-verbose nil)
+(global-linum-mode 0) ; line numbers on by default
+(show-paren-mode t)   ; show matching parens
+
+(global-undo-tree-mode)
+
+;; Recentf mode keeps track of recently opened files
+(require 'recentf)
+(recentf-mode 1)
+
+(setq auto-mode-alist
+      (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
+;; Markdown doesn't always exist at the default location
+(if (file-exists-p "/usr/local/bin/markdown")
+    (setq markdown-command "/usr/local/bin/markdown"))
+
+;; Puppet mode
+(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+
+;; yaml setup
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Save Place
@@ -1215,6 +1168,42 @@ PWD is not in a git repo (or the git command is not found)."
 ;;;; Setup: Slime And Clojure
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'clojure-mode)
+
+;; Indent tests correctly
+(after 'clojure-mode
+  '(define-clojure-indent
+     (describe 'defun)
+     (testing 'defun)
+     (given 'defun)
+     (using 'defun)
+     (with 'defun)
+     (it 'defun)
+     (do-it 'defun))
+  
+
+  ;; Save the buffer before running the tests
+  (defadvice clojure-test-run-tests (before save-first activate)
+    (save-buffer))
+
+  ;;Treat hyphens as a word character when transposing words
+  (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
+    (let ((st (make-syntax-table clojure-mode-syntax-table)))
+      (modify-syntax-entry ?- "w" st)
+      st))
+  ;; Pinched from Programothesis.  Thanks!
+  (defun define-function ()
+    (interactive)
+    (let ((name (symbol-at-point)))
+      (backward-paragraph)
+      (insert "\n(defn " (symbol-name name) " [])\n")
+      (backward-char 3)))
+
+  (define-key clojure-mode-map (kbd "C-c f") 'define-function)
+  )
+
+(global-set-key [(shift f6)] 'elein-swank)
+
 ;; ignore slime complaining about the version mismatch (& set default
 ;; ports)
 (setq slime-protocol-version 'ignore)
@@ -1226,16 +1215,6 @@ PWD is not in a git repo (or the git command is not found)."
 
 ;; stop slime giving me annoying messages
 (setq font-lock-verbose nil)
-
-;; Pinched from Programothesis.  Thanks!
-(defun define-function ()
-  (interactive)
-  (let ((name (symbol-at-point)))
-    (backward-paragraph)
-    (insert "\n(defn " (symbol-name name) " [])\n")
-    (backward-char 3)))
-
-(define-key clojure-mode-map (kbd "C-c f") 'define-function)
 
 (defun slime-send-dwim (arg)
   "Send the appropriate forms to REPL to be evaluated."
@@ -1327,8 +1306,60 @@ PWD is not in a git repo (or the git command is not found)."
 ;; (add-hook 'slime-mode-hook 'slime-redirect-inferior-output)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Undo
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Enable undo in region
+(setq undo-in-region t)
+
+(after 'undo-tree-autoloads
+  (setq undo-tree-enable-undo-in-region t)
+
+  ;; Keep region when undoing in region
+  (defadvice undo-tree-undo (around keep-region activate)
+    (if (use-region-p)
+        (let ((m (set-marker (make-marker) (mark)))
+              (p (set-marker (make-marker) (point))))
+          ad-do-it
+          (goto-char p)
+          (set-mark m)
+          (set-marker p nil)
+          (set-marker m nil))
+      ad-do-it)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Multiple Cursors
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(after 'multiple-cursors-autoloads
+
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
+  (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+  (global-unset-key (kbd "M-<down-mouse-1>"))
+  (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Bookmark Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(after 'bm-autoloads
+  ;; Part of bookmarks plugin.  Only highlight bookmarks on fringe.
+  (setq bm-highlight-style 'bm-highlight-only-fringe)
+
+  (global-set-key [(shift f2)] 'bm-toggle)
+  (global-set-key [(shift f3)] 'bm-next)
+  (global-set-key [(shift f4)] 'bm-prev)
+  (global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Fiplr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; For finding files in a project
 
 (require 'fiplr)
 (setq fiplr-ignored-globs '((directories (".git" ".svn" "vendor" "tmp"))
