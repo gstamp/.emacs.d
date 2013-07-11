@@ -185,17 +185,6 @@
 ;; Emacs starter kit also turns on idle-highlight-mode.  Not a fan.
 (remove-hook 'prog-mode-hook 'esk-turn-on-idle-highlight-mode)
 
-;; Colour org mode source code
-(setq org-src-fontify-natively t)
-;; Valid task states in org mode
-;; Shift left/right switches between modes in the current sequence.
-;; Control shift left/right switches to a different sequence.
-(setq org-todo-keywords
-      '((sequence "TODO" "INPROGRESS" "|" "DONE")
-        (sequence "ONHOLD" "|" "CANCELLED")))
-;; When a task is finished log when it's done
-(setq org-log-done 'time)
-
 ;; Redraw more frequently
 (setq redisplay-dont-pause nil)
 
@@ -749,7 +738,6 @@ If point was already at that position, move point to beginning of line."
 (global-set-key [f5] 'ert-run)
 (global-set-key [f6] 'save-and-compile)  ; Hit this to eval an entire file
 (global-set-key [f8] 'find-file-at-point)
-(global-set-key [f9] 'org-agenda)
 (global-set-key [f10] 'multi-term)
 (global-set-key [f11] 'ido-kill-buffer)
 
@@ -776,8 +764,6 @@ If point was already at that position, move point to beginning of line."
 ;; Jump from file to containing directory
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 (global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
-;; Store an org mode link C-cC-l to use it.
-(define-key global-map "\C-cl" 'org-store-link)
 (global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
 (global-set-key (kbd "C-x C-k") 'delete-current-buffer-file)
 
@@ -988,7 +974,24 @@ If point was already at that position, move point to beginning of line."
 ;;;; Setup: Org mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Don't use the standard org keys for todo and priority management
+;; http://orgmode.org/manual/Conflicts.html
+(setq org-replace-disputed-keys 1)
+(setq org-confirm-babel-evaluate nil)
+
+;; Colour org mode source code
+(setq org-src-fontify-natively t)
+;; Valid task states in org mode
+;; Shift left/right switches between modes in the current sequence.
+;; Control shift left/right switches to a different sequence.
+(setq org-todo-keywords
+      '((sequence "TODO" "INPROGRESS" "|" "DONE")
+        (sequence "ONHOLD" "|" "CANCELLED")))
+;; When a task is finished log when it's done
+(setq org-log-done 'time)
+
 (require 'org-confluence)
+(require 'org-html5presentation)
 
 (defun org-screenshot ()
   "Take a screenshot into a time stamped unique-named file in the
@@ -1020,11 +1023,10 @@ same directory as the org-buffer and insert a link to this file."
    (ruby . t)
    ))
 
-;; Don't use the standard org keys for todo and priority management
-;; http://orgmode.org/manual/Conflicts.html
-(setq org-replace-disputed-keys 1)
+(global-set-key [f9] 'org-agenda)
+;; Store an org mode link C-cC-l to use it.
+(define-key global-map "\C-cl" 'org-store-link)
 
-(setq org-confirm-babel-evaluate nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Ido
@@ -1194,7 +1196,6 @@ PWD is not in a git repo (or the git command is not found)."
 
 (require 'restclient)
 (require 'rcodetools)
-(require 'org-html5presentation)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Save Place
