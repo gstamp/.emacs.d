@@ -772,8 +772,7 @@ If point was already at that position, move point to beginning of line."
 
 (global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
-(global-set-key (kbd "C-x o") 'ack-and-a-half-find-file)
-(global-set-key (kbd "C-x C-o") 'ack-and-a-half-find-file)
+
 ;; Jump from file to containing directory
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 (global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
@@ -1197,7 +1196,6 @@ PWD is not in a git repo (or the git command is not found)."
 (require 'rcodetools)
 (require 'org-html5presentation)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Save Place
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1327,7 +1325,15 @@ PWD is not in a git repo (or the git command is not found)."
 ;; Disabled - enabling this seems to cause bugs in slime
 ;; (add-hook 'slime-mode-hook 'slime-redirect-inferior-output)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Fiplr
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'fiplr)
+(setq fiplr-ignored-globs '((directories (".git" ".svn" "vendor" "tmp"))
+                            (files ("*.jpg" "*.png" "*.zip" "*~"))))
+(global-set-key (kbd "C-x o") 'fiplr-find-file)
+(global-set-key (kbd "C-x C-o") 'fiplr-find-file)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: IMenu Sections
