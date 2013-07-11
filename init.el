@@ -533,6 +533,16 @@ in the sexp, not the end of the current one."
 ;;;; Setup: Editor helpers
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun align-to-equals (begin end)
+  "Align region to equal signs"
+  (interactive "r")
+  (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
+
+(defun finder ()
+  "Open the current working directory in finder."
+  (interactive)
+  (shell-command (concat "open " (shell-quote-argument default-directory))))
+
 (defun join-with-next-line ()
   "join with next line"
   (interactive)
