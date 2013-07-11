@@ -899,44 +899,44 @@ If point was already at that position, move point to beginning of line."
 ;; When a task is finished log when it's done
 (setq org-log-done 'time)
 
-(require 'org-confluence)
-(require 'org-html5presentation)
+(after 'org
 
-(defun org-screenshot ()
-  "Take a screenshot into a time stamped unique-named file in the
+  (require 'org-confluence)
+  (require 'org-html5presentation)
+
+  (defun org-screenshot ()
+    "Take a screenshot into a time stamped unique-named file in the
 same directory as the org-buffer and insert a link to this file."
-  (interactive)
-  (if (not (file-exists-p "images"))
-      (make-directory "images"))
-  (setq filename
-        (concat
-         (make-temp-name
-          (concat (buffer-file-name)
-                  "_"
-                  (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
-  (setq just-filename (car (last (split-string filename "/") )))
-  (call-process "import" nil nil nil filename)
-  (rename-file filename "images/")
-  (insert (concat "[[./images/" just-filename "]]"))
-  (org-display-inline-images))
+    (interactive)
+    (if (not (file-exists-p "images"))
+        (make-directory "images"))
+    (setq filename
+          (concat
+           (make-temp-name
+            (concat (buffer-file-name)
+                    "_"
+                    (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+    (setq just-filename (car (last (split-string filename "/") )))
+    (call-process "import" nil nil nil filename)
+    (rename-file filename "images/")
+    (insert (concat "[[./images/" just-filename "]]"))
+    (org-display-inline-images))
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (clojure . t)
-   (sh . t)
-   (js . t)
-   (java . t)
-   (awk . t)
-   (sql . t)
-   (ruby . t)
-   ))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (clojure . t)
+     (sh . t)
+     (js . t)
+     (java . t)
+     (awk . t)
+     (sql . t)
+     (ruby . t)
+     ))
 
-;; Store an org mode link C-cC-l to use it.
-(define-key global-map "\C-cl" 'org-store-link)
-
-
-
+  ;; Store an org mode link C-cC-l to use it.
+  (define-key org-mode-map "\C-cl" 'org-store-link)
+  )
 
 (global-set-key [f9] 'org-agenda)
 
