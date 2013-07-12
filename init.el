@@ -693,7 +693,6 @@ If point was already at that position, move point to beginning of line."
   )
 (global-set-key [f5] 'ert-run)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -717,6 +716,9 @@ If point was already at that position, move point to beginning of line."
 (global-set-key (kbd "C-<f10>") 'menu-bar-mode)
 
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
+
+;; Selects the definition which encloses the point
+(global-set-key (kbd "C-M-h") 'mark-defun)
 
 ;; Jump from file to containing directory
 (global-set-key (kbd "C-x C-j") 'dired-jump)
