@@ -956,8 +956,6 @@ same directory as the org-buffer and insert a link to this file."
 (setq ffip-full-paths 't) ; Not really part of ido but works well with
                                         ; vertically displayed lists.
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Powerline
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
