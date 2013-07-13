@@ -65,7 +65,9 @@
                       sass-mode
                       company
                       puppet-mode
-                      tabkey2)
+                      tabkey2
+                      robe
+                      ruby-mode)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
@@ -861,6 +863,10 @@ If point was already at that position, move point to beginning of line."
   (hs-minor-mode 1))
 
 (add-hook 'ruby-mode-hook 'turn-on-hs-minor-mode)
+
+;; Init robe
+(add-hook 'ruby-mode-hook 'robe-mode)
+(push 'company-robe company-backends)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Autocomplete
