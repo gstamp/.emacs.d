@@ -713,7 +713,6 @@ If point was already at that position, move point to beginning of line."
 (global-set-key [(control f4)] 'kill-this-buffer)
 (autoload 'linum-mode "linum" "toggle line numbers on/off" t)
 (global-set-key [(control f5)] 'linum-mode)
-(global-set-key [(control f6)] 'elein-reswank)
 ;; Turn on the menu bar for exploring new modes
 (global-set-key (kbd "C-<f10>") 'menu-bar-mode)
 
@@ -1181,6 +1180,78 @@ PWD is not in a git repo (or the git command is not found)."
 
 (require 'clojure-mode)
 
+(after `clojure-mode-autoloads
+
+  ;; ignore slime complaining about the version mismatch (& set default
+  ;; ports)
+  (setq slime-protocol-version 'ignore)
+  (defvar slime-port 4005)
+  (defvar durendal-port 4005)
+
+  ;; defaults to iso-8895-1  encoding otherwise.
+  (setq slime-net-coding-system 'utf-8-unix)
+
+  ;; stop slime giving me annoying messages
+  (setq font-lock-verbose nil)
+
+  (defun slime-send-dwim (arg)
+    "Send the appropriate forms to REPL to be evaluated."
+    (interactive "P")
+    (save-excursion
+      (cond 
+       ;;Region selected - evaluate region
+       ((not (equal mark-active nil))
+        (copy-region-as-kill (mark) (point)))
+       ;; At/before sexp - evaluate next sexp
+       ((or (looking-at "(")
+            (save-excursion
+              (ignore-errors (forward-char 1))
+              (looking-at "(")))
+        (forward-list 1)
+        (let ((end (point))
+              (beg (save-excursion
+                     (backward-list 1)
+                     (point))))
+          (copy-region-as-kill beg end)))
+       ;; At/after sexp - evaluate last sexp
+       ((or (looking-at ")")
+            (save-excursion
+              (backward-char 1)
+              (looking-at ")")))
+        (if (looking-at ")")
+            (forward-char 1))
+        (let ((end (point))
+              (beg (save-excursion
+                     (backward-list 1)
+                     (point))))
+          (copy-region-as-kill beg end)))
+       ;; Default - evaluate enclosing top-level sexp
+       (t (progn
+            (while (ignore-errors (progn
+                                    (backward-up-list)
+                                    t)))
+            (forward-list 1)
+            (let ((end (point))
+                  (beg (save-excursion
+                         (backward-list 1)
+                         (point))))
+              (copy-region-as-kill beg end)))))
+      (set-buffer (slime-output-buffer))
+      (unless (eq (current-buffer) (window-buffer))
+        (pop-to-buffer (current-buffer) t))
+      (goto-char (point-max))
+      (yank)
+      (if arg (progn
+                (slime-repl-return)
+                (other-window 1)))))
+  (define-key clojure-mode-map (kbd "C-c -") 'slime-send-dwim)
+  (define-key clojure-mode-map (kbd "C-c =") '(lambda ()
+                                                (interactive)
+                                                (slime-send-dwim 1)))
+
+
+  )
+
 ;; Indent tests correctly
 (after 'clojure-mode
   '(define-clojure-indent
@@ -1213,71 +1284,11 @@ PWD is not in a git repo (or the git command is not found)."
   (define-key clojure-mode-map (kbd "C-c f") 'define-function)
   (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)
   (define-key clojure-mode-map [(shift f6)] 'elein-swank)
+  (define-key clojure-mode-map [(control f6)] 'elein-reswank)
+
   )
 
 
-;; ignore slime complaining about the version mismatch (& set default
-;; ports)
-(setq slime-protocol-version 'ignore)
-(defvar slime-port 4005)
-(defvar durendal-port 4005)
-
-;; defaults to iso-8895-1  encoding otherwise.
-(setq slime-net-coding-system 'utf-8-unix)
-
-;; stop slime giving me annoying messages
-(setq font-lock-verbose nil)
-
-(defun slime-send-dwim (arg)
-  "Send the appropriate forms to REPL to be evaluated."
-  (interactive "P")
-  (save-excursion
-    (cond 
-     ;;Region selected - evaluate region
-     ((not (equal mark-active nil))
-      (copy-region-as-kill (mark) (point)))
-     ;; At/before sexp - evaluate next sexp
-     ((or (looking-at "(")
-          (save-excursion
-            (ignore-errors (forward-char 1))
-            (looking-at "(")))
-      (forward-list 1)
-      (let ((end (point))
-            (beg (save-excursion
-                   (backward-list 1)
-                   (point))))
-        (copy-region-as-kill beg end)))
-     ;; At/after sexp - evaluate last sexp
-     ((or (looking-at ")")
-          (save-excursion
-            (backward-char 1)
-            (looking-at ")")))
-      (if (looking-at ")")
-          (forward-char 1))
-      (let ((end (point))
-            (beg (save-excursion
-                   (backward-list 1)
-                   (point))))
-        (copy-region-as-kill beg end)))
-     ;; Default - evaluate enclosing top-level sexp
-     (t (progn
-          (while (ignore-errors (progn
-                                  (backward-up-list)
-                                  t)))
-          (forward-list 1)
-          (let ((end (point))
-                (beg (save-excursion
-                       (backward-list 1)
-                       (point))))
-            (copy-region-as-kill beg end)))))
-    (set-buffer (slime-output-buffer))
-    (unless (eq (current-buffer) (window-buffer))
-      (pop-to-buffer (current-buffer) t))
-    (goto-char (point-max))
-    (yank)
-    (if arg (progn
-	      (slime-repl-return)
-	      (other-window 1)))))
 
 (defun live-transpose-words-with-hyphens (arg)
   "Treat hyphens as a word character when transposing words"
@@ -1305,13 +1316,7 @@ PWD is not in a git repo (or the git command is not found)."
 
 (add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
 
-;; TODO: shouldn't be a global keybinding.
-(global-set-key (kbd "C-c C-,") 'slime-send-dwim)
 (global-set-key "\C-c\C-v" 'slime-eval-print-last-expression)
-
-(global-set-key (kbd "C-c C-.") '(lambda ()
-                                   (interactive)
-                                   (slime-send-dwim 1)))
 
 ;; Redirect output from other threads.
 ;; Disabled - enabling this seems to cause bugs in slime

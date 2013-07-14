@@ -150,8 +150,8 @@ Custom changes follow:
 * `S-F6   ` Start swank (using elein)
 * `C-c C-v` Slime eval and print last expression
 * `C-c C-a` Align clojure statements (let, hashes etc)
-* `C-c C-,` Send form to SLIME repl
-* `C-c C-.` Send form to SLIME repl and evalute
+* `C-c C--` Send form to SLIME repl
+* `C-c C-=` Send form to SLIME repl and evalute
 
 ### Shell/Command Execution
 
