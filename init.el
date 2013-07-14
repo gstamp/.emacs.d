@@ -729,7 +729,6 @@ If point was already at that position, move point to beginning of line."
 (global-set-key [(control tab)] 'other-window)
 (global-set-key "\r" 'newline-and-indent)
 
-(global-set-key [(control c) (control a)] 'align-cljlet)
 (global-set-key (kbd "<S-return>") 'open-line)
 (global-set-key (kbd "C-S-o") '"\C-p\C-o") ; open line above
 
@@ -1212,6 +1211,8 @@ PWD is not in a git repo (or the git command is not found)."
       (backward-char 3)))
 
   (define-key clojure-mode-map (kbd "C-c f") 'define-function)
+  (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)
+
   )
 
 (global-set-key [(shift f6)] 'elein-swank)
