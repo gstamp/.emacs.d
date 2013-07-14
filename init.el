@@ -722,10 +722,6 @@ If point was already at that position, move point to beginning of line."
 ;; Selects the definition which encloses the point
 (global-set-key (kbd "C-M-h") 'mark-defun)
 
-;; Jump from file to containing directory
-(global-set-key (kbd "C-x C-j") 'dired-jump)
-(global-set-key (kbd "C-x M-j") '(lambda () (interactive) (dired-jump 1)))
-
 (global-set-key (kbd "M-g M-l") 'shell-pop)
 
 (global-set-key "\C-x\C-m" 'execute-extended-command) ;; M-x replacement
