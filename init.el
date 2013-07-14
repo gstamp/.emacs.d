@@ -664,13 +664,6 @@ If point was already at that position, move point to beginning of line."
 ;;;; Setup: Helper Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; TODO: This wants to be a real function
-(fset 'save-and-compile
-      "\C-x\C-s\C-c\C-k")
-
-(global-set-key [f6] 'save-and-compile)  ; Hit this to eval an entire file
-
-
 ;; Stops the mini buffer when switching back to emacs with mouse
 (defun stop-using-minibuffer ()
   "kill the minibuffer"
@@ -695,7 +688,7 @@ If point was already at that position, move point to beginning of line."
 (global-set-key [f5] 'ert-run)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Setup: Keybindings
+;;;; Setup: General Keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'align-cljlet)
@@ -1244,6 +1237,11 @@ PWD is not in a git repo (or the git command is not found)."
                                                 (interactive)
                                                 (slime-send-dwim 1)))
 
+  ;; TODO: This wants to be a real function
+  (fset 'save-and-compile
+        "\C-x\C-s\C-c\C-k")
+
+  (global-set-key [f6] 'save-and-compile)  ; Hit this to eval an entire file
 
   )
 
@@ -1280,6 +1278,7 @@ PWD is not in a git repo (or the git command is not found)."
   (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)
   (define-key clojure-mode-map [(shift f6)] 'elein-swank)
   (define-key clojure-mode-map [(control f6)] 'elein-reswank)
+  (define-key clojure-mode-map "\C-c\C-v" 'slime-eval-print-last-expression)
 
   )
 
@@ -1311,7 +1310,6 @@ PWD is not in a git repo (or the git command is not found)."
 
 (add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
 
-(global-set-key "\C-c\C-v" 'slime-eval-print-last-expression)
 
 ;; Redirect output from other threads.
 ;; Disabled - enabling this seems to cause bugs in slime
