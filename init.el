@@ -713,8 +713,6 @@ If point was already at that position, move point to beginning of line."
 ;; Selects the definition which encloses the point
 (global-set-key (kbd "C-M-h") 'mark-defun)
 
-(global-set-key (kbd "M-g M-l") 'shell-pop)
-
 (global-set-key "\C-x\C-m" 'execute-extended-command) ;; M-x replacement
 (global-set-key "\C-c\C-m" 'execute-extended-command) ;; M-x replacement
 (global-set-key [(control tab)] 'other-window)
@@ -1066,6 +1064,7 @@ PWD is not in a git repo (or the git command is not found)."
 (require 'shell-pop)
 (shell-pop-set-internal-mode "ansi-term")
 (shell-pop-set-window-height 30)
+(global-set-key (kbd "M-g M-l") 'shell-pop)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Html
