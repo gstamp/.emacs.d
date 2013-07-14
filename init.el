@@ -67,7 +67,8 @@
                       puppet-mode
                       tabkey2
                       robe
-                      ruby-mode)
+                      ruby-mode
+                      git-gutter)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
@@ -381,12 +382,10 @@ in the sexp, not the end of the current one."
 
 (require 'git-gutter)
 
-(defun git-gutter-save-hook ()
-  (when (zerop (call-process-shell-command "git rev-parse --show-toplevel"))
-    (git-gutter)))
+(global-git-gutter-mode t)
 
-;; Update changes information after save buffer
-(add-hook 'after-save-hook 'git-gutter-save-hook)
+;; bind git-gutter toggle command
+(global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: CSV Mode
@@ -738,10 +737,6 @@ If point was already at that position, move point to beginning of line."
 (global-set-key (kbd "C-S-p") (lambda () (interactive) (ignore-errors (previous-line 5))))
 (global-set-key (kbd "C-S-f") (lambda () (interactive) (ignore-errors (forward-char 5))))
 (global-set-key (kbd "C-S-b") (lambda () (interactive) (ignore-errors (backward-char 5))))
-
-;; bind git-gutter toggle command
-(global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
-
 
 ;; This adds an extra keybinding to interactive search (C-s) that runs
 ;; occur on the current search string/regexp, immediately showing all
