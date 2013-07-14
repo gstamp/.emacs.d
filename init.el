@@ -1212,10 +1212,9 @@ PWD is not in a git repo (or the git command is not found)."
 
   (define-key clojure-mode-map (kbd "C-c f") 'define-function)
   (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)
-
+  (define-key clojure-mode-map [(shift f6)] 'elein-swank)
   )
 
-(global-set-key [(shift f6)] 'elein-swank)
 
 ;; ignore slime complaining about the version mismatch (& set default
 ;; ports)
