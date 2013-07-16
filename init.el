@@ -816,6 +816,7 @@ If point was already at that position, move point to beginning of line."
   (end-of-line))
 
 (require 'rspec-mode)
+(require 'bundler)
 
 ;; Local key bindings
 
