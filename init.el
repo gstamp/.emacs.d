@@ -1110,9 +1110,8 @@ PWD is not in a git repo (or the git command is not found)."
 
 (require 'restclient)
 (require 'rcodetools)
-
-;; Make tabkey2 on by default
-(require 'tabkey2)
+(require 'rwd-bell)
+(require 'tabkey2) ; Make tabkey2 on by default
 (tabkey2-mode)
 
 ;; c-c left, c-c right - to move between previous open window settings
@@ -1388,5 +1387,7 @@ PWD is not in a git repo (or the git command is not found)."
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
+
+
 
 
