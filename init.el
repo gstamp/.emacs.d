@@ -1094,17 +1094,6 @@ PWD is not in a git repo (or the git command is not found)."
     (osx-notify (buffer-name (current-buffer)) message)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Setup: Dot Mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Set up dot mode, c-. to retype last thing you entered.
-(require 'dot-mode)
-(add-hook 'find-file-hooks 'dot-mode-on)
-(global-set-key [(control ?.)] (lambda () (interactive) (dot-mode 1)
-                                 (message "Dot mode activated.")))
-(define-key dot-mode-map (kbd "C->") nil) ; fix conflict with dot-mode
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

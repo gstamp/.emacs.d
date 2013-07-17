@@ -48,7 +48,6 @@ Custom changes follow:
 * `C-y    ` Paste (aka yank)
 * `M-y    ` Cycle last paste through previous kills
 * `C-=    ` Mark stuff quickly. Press multiple times
-* `C-.    ` Retype the last thing you typed (dot-mode)
 
 ### General
 
