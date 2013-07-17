@@ -47,7 +47,7 @@ Custom changes follow:
 * `M-w    ` Copy
 * `C-y    ` Paste (aka yank)
 * `M-y    ` Cycle last paste through previous kills
-* `C-=    ` Mark stuff quickly. Press multiple times
+* `C-=    ` Expand mark. Press multiple times
 
 ### General
 
