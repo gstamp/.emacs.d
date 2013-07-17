@@ -890,7 +890,6 @@ If point was already at that position, move point to beginning of line."
 
 (after 'org
 
-  (require 'org-confluence)
   (require 'org-html5presentation)
 
   (defun org-screenshot ()
