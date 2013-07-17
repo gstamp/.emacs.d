@@ -1096,6 +1096,7 @@ PWD is not in a git repo (or the git command is not found)."
 ;;;; Setup: Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'multiple-cursors)
 (require 'restclient)
 (require 'rcodetools)
 (require 'rwd-bell)
@@ -1328,7 +1329,7 @@ PWD is not in a git repo (or the git command is not found)."
 ;;;; Setup: Multiple Cursors
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(after 'multiple-cursors-autoloads
+(after 'multiple-cursors
 
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
