@@ -1333,9 +1333,9 @@ PWD is not in a git repo (or the git command is not found)."
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C-S-c C-e") 'mc/edit-ends-of-lines)
   (global-set-key (kbd "C-S-c C-a") 'mc/edit-beginnings-of-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C->") 'mc/mark-next-symbol-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-symbol-like-this)
+  (global-set-key (kbd "C-*") 'mc/mark-all-like-this-dwim)
   (global-unset-key (kbd "M-<down-mouse-1>"))
   (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click))
 
