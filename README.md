@@ -193,6 +193,23 @@ Custom changes follow:
 
 ### Ruby/Rails
 
+Interactive Ruby
+
+* `M-x inf-ruby` Start IRB
+* `M-x rinari-console` Start rails console
+* `M-x bundle-console` Start bundle console
+* `M-x robe-start` Start robe for quick navigation with `M-.` and `M-,` (need to start IRB/console session first)
+
+* `C-c C-l  ` Load current buffer into IRB/console session
+* `C-c C-b  ` Send the current block to the IRB/console session
+* `C-c C-x  ` Send the current definition to the IRB/console session
+* `C-c C-z  ` Goto IRB/console session
+* `C-c C-d  ` See ruby docs for symbol at point (needs robe to be started)
+* `C-c C-k  ` Refresh rails environment for robe
+
+Other
+
+* `C-c {    ` Toggle between { } and do end style blocks
 * `C-c C-e  ` Insert end and reindent
 * `M-C-F1   ` Run xmp to evaluate buffer
 * `M-S-C-F1 ` Eval entire buffer
@@ -215,9 +232,15 @@ Custom changes follow:
 * `C-c ; f y` Find stylesheet
 * `M-x rinari-test` Run tests
 * `M-x rinari-rake` Run rake
-* `M-x rinari-console` Run console
 * `M-x rinari-sql` Browse the applications database.
 * `M-x rinari-web-server` Browse the applications web server
+
+RSpec
+
+* `C-c , t  ` Toggle between code and test
+* `C-c , v  ` Verify current spec
+* `C-c , a  ` Verify all specs
+* `C-c , s  ` Verify the spec at the cursor
 
 ### Org Mode
 
