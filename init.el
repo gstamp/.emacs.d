@@ -1360,11 +1360,15 @@ PWD is not in a git repo (or the git command is not found)."
 
 ;; For finding files in a project
 
+(after 'fiplr
+
+  (setq *grizzl-read-max-results* 18)
+  (setq fiplr-ignored-globs '((directories (".git" ".svn" "vendor" "tmp"))
+                              (files ("*.jpg" "*.png" "*.zip" "*~"))))
+  (global-set-key (kbd "C-x o") 'fiplr-find-file)
+  (global-set-key (kbd "C-x C-o") 'fiplr-find-file))
+
 (require 'fiplr)
-(setq fiplr-ignored-globs '((directories (".git" ".svn" "vendor" "tmp"))
-                            (files ("*.jpg" "*.png" "*.zip" "*~"))))
-(global-set-key (kbd "C-x o") 'fiplr-find-file)
-(global-set-key (kbd "C-x C-o") 'fiplr-find-file)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: IMenu Sections
