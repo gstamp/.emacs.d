@@ -1267,40 +1267,40 @@ PWD is not in a git repo (or the git command is not found)."
   (define-key clojure-mode-map [(control f6)] 'elein-reswank)
   (define-key clojure-mode-map "\C-c\C-v" 'slime-eval-print-last-expression)
 
+  (defun live-transpose-words-with-hyphens (arg)
+    "Treat hyphens as a word character when transposing words"
+    (interactive "*p")
+    (with-syntax-table clojure-mode-with-hyphens-as-word-sep-syntax-table
+      (transpose-words arg)))
+
+  (define-key clojure-mode-map (kbd "M-t") 'live-transpose-words-with-hyphens)
+
+  (defun clojure-hide-successful-compile (msg)
+    ;;When you add a hook to the slime compilation-finished hook it
+    ;;seems to override the default behaviour. So I manually call the
+    ;;original code.
+    (slime-maybe-show-compilation-log msg)
+    
+    (with-struct (slime-compilation-result. notes duration successp)
+        slime-last-compilation-result
+      (when successp
+        (dolist (w (window-list))
+          (if (string= (buffer-name (window-buffer w)) "*SLIME Compilation*")
+              (progn
+                (kill-buffer "*SLIME Compilation*")
+                (delete-window w)
+                ))))))
+
+  (add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
+
+
+  ;; Redirect output from other threads.
+  ;; Disabled - enabling this seems to cause bugs in slime
+  ;; (add-hook 'slime-mode-hook 'slime-redirect-inferior-output)
+
+  
   )
 
-
-
-(defun live-transpose-words-with-hyphens (arg)
-  "Treat hyphens as a word character when transposing words"
-  (interactive "*p")
-  (with-syntax-table clojure-mode-with-hyphens-as-word-sep-syntax-table
-    (transpose-words arg)))
-
-(define-key clojure-mode-map (kbd "M-t") 'live-transpose-words-with-hyphens)
-
-(defun clojure-hide-successful-compile (msg)
-  ;;When you add a hook to the slime compilation-finished hook it
-  ;;seems to override the default behaviour. So I manually call the
-  ;;original code.
-  (slime-maybe-show-compilation-log msg)
-  
-  (with-struct (slime-compilation-result. notes duration successp)
-      slime-last-compilation-result
-    (when successp
-      (dolist (w (window-list))
-        (if (string= (buffer-name (window-buffer w)) "*SLIME Compilation*")
-            (progn
-              (kill-buffer "*SLIME Compilation*")
-              (delete-window w)
-              ))))))
-
-(add-hook 'slime-compilation-finished-hook 'clojure-hide-successful-compile)
-
-
-;; Redirect output from other threads.
-;; Disabled - enabling this seems to cause bugs in slime
-;; (add-hook 'slime-mode-hook 'slime-redirect-inferior-output)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Undo
