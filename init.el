@@ -806,6 +806,11 @@ If point was already at that position, move point to beginning of line."
 ;;;; Setup: Ruby
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Tell Riniari about extra prompt patterns
+(after 'riniari-autoloads
+  (setq rinari-inf-ruby-prompt-pattern
+        (concat rinari-inf-ruby-prompt-pattern "\\|\\(\\[.*\\] .* »\\)")))
+
 (defalias 'inf-ruby-keys 'inf-ruby-setup-keybindings)
 
 (defun ruby-insert-end ()
