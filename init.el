@@ -687,6 +687,13 @@ If point was already at that position, move point to beginning of line."
   )
 (global-set-key [f5] 'ert-run)
 
+(defun url-decode-region (start end)
+  "Replace a region with the same contents, only URL decoded."
+  (interactive "r")
+  (let ((text (url-unhex-string (buffer-substring start end))))
+    (delete-region start end)
+    (insert text)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: General Keybindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -806,10 +813,13 @@ If point was already at that position, move point to beginning of line."
 ;;;; Setup: Ruby
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; 'Fix' 'WARNING: terminal is not fully functional' from less/etc.
+(setenv "PAGER" "cat")
+
 ;; Tell Riniari about extra prompt patterns
-(after 'riniari-autoloads
+(after 'rinari-minor-mode
   (setq rinari-inf-ruby-prompt-pattern
-        (concat rinari-inf-ruby-prompt-pattern "\\|\\(\\[.*\\] .* »\\)")))
+        (concat rinari-inf-ruby-prompt-pattern "\\|\\(.*»\\)")))
 
 (defalias 'inf-ruby-keys 'inf-ruby-setup-keybindings)
 
