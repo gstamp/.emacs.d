@@ -68,7 +68,8 @@
                       tabkey2
                       robe
                       ruby-mode
-                      git-gutter)
+                      git-gutter
+                      company-inf-ruby)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
@@ -845,6 +846,9 @@ If point was already at that position, move point to beginning of line."
 
 (after 'ruby-mode
   (init-rubymode))
+
+(after 'company
+  (add-to-list 'company-backends 'company-inf-ruby))
 
 (add-hook 'before-save-hook (lambda ()
                               (if (string= major-mode "ruby-mode")
