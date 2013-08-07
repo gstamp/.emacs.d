@@ -4,6 +4,18 @@
 ;; configuration can be found at https://github.com/gstamp/.emacs.d
 ;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Setup: Helper macros
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; This is simply a wrapper around eval-after-load.
+(defmacro after (mode &rest body)
+  "`eval-after-load' MODE evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,mode
+     '(progn ,@body)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup: Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -246,14 +258,6 @@
 ;; (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 ;; ..or globally..
 ;; (global-rainbow-delimiters-mode)
-
-
-;; This is simply a wrapper around eval-after-load.
-(defmacro after (mode &rest body)
-  "`eval-after-load' MODE evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,mode
-     '(progn ,@body)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1153,6 +1157,9 @@ PWD is not in a git repo (or the git command is not found)."
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+
+;; Revert ESK default. Don't autofill comments.
+(remove-hook 'prog-mode-hook 'esk-local-comment-auto-fill)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Save Place
