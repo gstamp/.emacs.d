@@ -81,7 +81,8 @@
                       robe
                       ruby-mode
                       git-gutter
-                      company-inf-ruby)
+                      company-inf-ruby
+                      github-browse-file)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
