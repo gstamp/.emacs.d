@@ -838,6 +838,30 @@ If point was already at that position, move point to beginning of line."
 (require 'rspec-mode)
 (require 'bundler)
 
+(after 'rspec-mode
+
+  (defun rspec-run-and-arrange ()
+    (interactive)
+
+    (if (not (rspec-buffer-is-spec-p))
+        (rspec-toggle-spec-and-target))
+
+    (rspec-verify)
+    (delete-other-windows)
+    (if (get-buffer "*rspec-compilation*")
+        (let ((result-window (split-window-below)))
+
+          (set-window-buffer result-window "*rspec-compilation*")
+          (rspec-toggle-spec-and-target)
+
+          (split-window-right-and-choose-last-buffer)
+
+          (enlarge-window 10)
+          )))
+
+  (define-key rspec-mode-map (kbd "M-\"") 'rspec-run-and-arrange)
+  )
+
 ;; Local key bindings
 
 (defun init-rubymode ()
