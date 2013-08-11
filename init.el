@@ -122,7 +122,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Load up some colour themes
-(load-theme 'solarized-dark t)
+(color-theme-sanityinc-tomorrow-eighties)
 
 ;; JS indent levels
 (setq js-indent-level 2)
