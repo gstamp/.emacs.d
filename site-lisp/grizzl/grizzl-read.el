@@ -4,7 +4,7 @@
 ;;
 ;; Author:   Chris Corbyn <chris@w3style.co.uk>
 ;; URL:      https://github.com/d11wtq/grizzl
-;; Version:  0.1.0
+;; Version:  0.1.2
 ;; Keywords: convenience, usability
 
 ;; This file is NOT part of GNU Emacs.
@@ -39,7 +39,8 @@
 ;; The arrow keys can be used to navigate within the results.
 ;;
 
-(require 'cl)
+(eval-when-compile
+  (require 'cl-lib))
 
 ;;; --- Configuration Variables
 
@@ -60,7 +61,9 @@
   "Internal keymap used by the minor-mode in `grizzl-completing-read'.")
 
 (define-key *grizzl-keymap* (kbd "<up>")   'grizzl-set-selection+1)
+(define-key *grizzl-keymap* (kbd "C-p")    'grizzl-set-selection+1)
 (define-key *grizzl-keymap* (kbd "<down>") 'grizzl-set-selection-1)
+(define-key *grizzl-keymap* (kbd "C-n")    'grizzl-set-selection-1)
 
 (define-minor-mode grizzl-mode
   "Toggle the internal mode used by `grizzl-completing-read'."
@@ -141,14 +144,14 @@ Each key pressed in the minibuffer filters down the list of matches."
   "Convert the set of string MATCHES into propertized text objects."
   (if (= 0 (length matches))
       (list (propertize "-- NO MATCH --" 'face 'outline-3))
-    (cdr (reduce (lambda (acc str)
-                   (let* ((idx (car acc))
-                          (lst (cdr acc))
-                          (sel (= idx (grizzl-current-selection))))
-                     (cons (1+ idx)
-                           (cons (grizzl-format-match str sel) lst))))
-                 matches
-                 :initial-value '(0)))))
+    (cdr (cl-reduce (lambda (acc str)
+                      (let* ((idx (car acc))
+                             (lst (cdr acc))
+                             (sel (= idx (grizzl-current-selection))))
+                        (cons (1+ idx)
+                              (cons (grizzl-format-match str sel) lst))))
+                    matches
+                    :initial-value '(0)))))
 
 (defun grizzl-format-match (match-str selected)
   "Default match string formatter in `grizzl-completing-read'.
