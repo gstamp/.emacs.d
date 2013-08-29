@@ -253,6 +253,9 @@
         (set-face-attribute 'default nil :font "Monaco-12"))
     ))
 
+;; Open the buffer list in the same window
+(add-to-list 'same-window-buffer-names "*Buffer List*")
+
 ;; Add rainbow delimiters to all programming modes
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;; Alternatively it can be hooked up to specific modes:
