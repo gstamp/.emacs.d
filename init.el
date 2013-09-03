@@ -82,7 +82,9 @@
                       ruby-mode
                       git-gutter
                       company-inf-ruby
-                      github-browse-file)
+                      github-browse-file
+                      key-chord
+                      )
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
@@ -263,6 +265,29 @@
 ;; ..or globally..
 ;; (global-rainbow-delimiters-mode)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Setup: Keychord mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'key-chord)
+
+(key-chord-define-global "BB" 'ido-switch-buffer)
+(key-chord-define-global "FF" 'fiplr-find-file)
+(key-chord-define-global "SS" 'save-buffer)
+(key-chord-define-global "ww" 'window-configuration-to-register)
+(key-chord-define-global "wj" 'jump-to-register)
+(key-chord-define-global "jk" 'beginning-of-buffer)
+(key-chord-define-global "jl" 'end-of-buffer)
+
+(defun switch-to-previous-buffer ()
+  "Switch to previously open buffer.
+Repeated invocations toggle between the two most recently open buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(key-chord-define-global "JJ" 'switch-to-previous-buffer)
+
+(key-chord-mode +1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Setup: Paredit
