@@ -69,7 +69,7 @@ You can [watch an intro to multiple-cursors at Emacs Rocks](http://emacsrocks.co
  - `mc/mark-all-like-this-in-defun`: Marks all parts of the current defun that matches the current region.
  - `mc/mark-all-words-like-this-in-defun`: Like `mc/mark-all-like-this-in-defun` but only for whole words.
  - `mc/mark-all-symbols-like-this-in-defun`: Like `mc/mark-all-like-this-in-defun` but only for whole symbols.
- - `mc/mark-all-like-this-dwim`: Tries to be smart about marking everything you want. Can be pressed multiple times.
+ - `mc/mark-all-dwim`: Tries to be smart about marking everything you want. Can be pressed multiple times.
 
 ### Special
 
@@ -136,7 +136,7 @@ the location with:
 ## Known limitations
 
 * isearch-forward and isearch-backward aren't supported with multiple cursors.
-  You should feel free to add a simplified version that can work with it.
+  If you want this functionality, you can use [phi-search](https://github.com/zk-phi/phi-search).
 * Commands run with `M-x` won't be repeated for all cursors.
 * All key bindings that refer to lambdas are always run for all cursors. If you
   need to limit it, you will have to give it a name.
@@ -153,11 +153,11 @@ You'll find the repo at:
     https://github.com/magnars/multiple-cursors.el
 
 To fetch the test dependencies, install
-[carton](https://github.com/rejeep/carton) if you haven't already,
+[cask](https://github.com/rejeep/cask.el) if you haven't already,
 then:
 
     $ cd /path/to/multiple-cursors
-    $ carton
+    $ cask
 
 Run the tests with:
 
@@ -170,6 +170,7 @@ Run the tests with:
 * [Ivan Andrus](https://github.com/gvol) added showing number of cursors in mode-line
 * [Fuco](https://github.com/Fuco1) added the first version of `mc/mark-all-like-this-dwim`
 * [Zach Kost-Smith](https://github.com/smithzvk) added `mc/mark-pop`
+* [Maciej Katafiasz](https://github.com/mathrick) added `mc/mark-all-dwim`
 
 Thanks!
 

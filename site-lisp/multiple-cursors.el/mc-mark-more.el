@@ -173,9 +173,9 @@ With zero ARG, skip the last one and mark next."
   (dotimes (i num-lines)
     (mc/create-fake-cursor-at-point)
     (ecase direction
-      (forwards (loop do (next-line 1 nil)
+      (forwards (loop do (next-logical-line 1 nil)
                       while (mc/all-fake-cursors (point) (1+ (point)))))
-      (backwards (loop do (previous-line 1 nil)
+      (backwards (loop do (previous-logical-line 1 nil)
                        while (mc/all-fake-cursors (point) (1+ (point))))))))
 
 ;;;###autoload
@@ -268,18 +268,21 @@ With zero ARG, skip the last one and mark next."
   (interactive "r")
   (let ((search (read-from-minibuffer "Mark all in region: "))
         (case-fold-search nil))
-    (mc/remove-fake-cursors)
-    (goto-char beg)
-    (while (search-forward search end t)
-      (push-mark (match-beginning 0))
-      (mc/create-fake-cursor-at-point))
-    (let ((first (mc/furthest-cursor-before-point)))
-      (if (not first)
-          (error "Search failed for %S" search)
-        (mc/pop-state-from-overlay first))))
-  (if (> (mc/num-cursors) 1)
-      (multiple-cursors-mode 1)
-    (multiple-cursors-mode 0)))
+    (if (string= search "")
+        (message "Mark aborted")
+      (progn
+        (mc/remove-fake-cursors)
+        (goto-char beg)
+        (while (search-forward search end t)
+          (push-mark (match-beginning 0))
+          (mc/create-fake-cursor-at-point))
+        (let ((first (mc/furthest-cursor-before-point)))
+          (if (not first)
+              (error "Search failed for %S" search)
+            (mc/pop-state-from-overlay first)))
+        (if (> (mc/num-cursors) 1)
+            (multiple-cursors-mode 1)
+          (multiple-cursors-mode 0))))))
 
 (when (not (fboundp 'set-temporary-overlay-map))
   ;; Backport this function from newer emacs versions
@@ -415,6 +418,27 @@ With prefix, it behaves the same as original `mc/mark-all-like-this'"
             (mc/mark-all-like-this)))
         (when (<= (mc/num-cursors) before)
           (mc/mark-all-like-this))))))
+
+(defun mc/mark-all-dwim (arg)
+  "Tries even harder to guess what you want to mark all of.
+
+If the region is active and spans multiple lines, it will behave
+as if `mc/mark-all-in-region'. With the prefix ARG, it will call
+`mc/edit-lines' instead.
+
+If the region is inactive or on a single line, it will behave like 
+`mc/mark-all-like-this-dwim'."
+  (interactive "P")
+  (if (and (use-region-p)
+           (not (> (mc/num-cursors) 1))
+           (not (= (line-number-at-pos (region-beginning))
+                   (line-number-at-pos (region-end)))))
+      (if arg
+          (call-interactively 'mc/edit-lines)
+       (call-interactively 'mc/mark-all-in-region))
+    (progn
+      (setq this-command 'mc/mark-all-like-this-dwim)
+      (mc/mark-all-like-this-dwim arg))))
 
 (defun mc--in-defun ()
   (bounds-of-thing-at-point 'defun))
