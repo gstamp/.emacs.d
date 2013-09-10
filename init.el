@@ -88,6 +88,8 @@
                       multiple-cursors
                       golden-ratio
                       powerline
+                      flx
+                      flx-ido
                       )
   "A list of packages to ensure are installed at launch.")
 

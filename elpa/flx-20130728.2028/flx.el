@@ -1,37 +1,20 @@
 ;;; flx.el --- fuzzy matching with good sorting
 
-;; this file is not part of Emacs
+;; Copyright © 2013 Le Wang
 
-;; Copyright (C) 2013 Le Wang
 ;; Author: Le Wang
 ;; Maintainer: Le Wang
 ;; Description: fuzzy matching with good sorting
-;; Author: Le Wang
-;; Maintainer: Le Wang
-
 ;; Created: Wed Apr 17 01:01:41 2013 (+0800)
-;; Version: 0.1
-;; Last-Updated:
-;;           By:
-;;     Update #: 17
-;; URL:
-;; Keywords:
-;; Compatibility:
+;; Version: 20130728.2028
+;; X-Original-Version: 0.1
+;; Package-Requires: ((cl-lib "0.3"))
+;; URL: https://github.com/lewang/flx
 
-;;; Installation:
+;; This file is NOT part of GNU Emacs.
 
-;;
-;;
-;;
+;;; License
 
-;;; Commentary:
-
-;;
-;;
-;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
 ;; published by the Free Software Foundation; either version 3, or
@@ -46,28 +29,29 @@
 ;; along with this program; see the file COPYING.  If not, write to
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
 ;; Floor, Boston, MA 02110-1301, USA.
+
+;;; Commentary:
+
+;; Implementation notes
+;; --------------------
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Use defsubst instead of defun
+;;
+;; * Using bitmaps to check for matches worked out to be SLOWER than just
+;;   scanning the string and using `flx-get-matches'.
+;;
+;; * Consing causes GC, which can often slowdown Emacs more than the benefits
+;;   of an optimization.
+
+;;; Acknowledgments
+
+;; Scott Frazer's blog entry http://scottfrazersblog.blogspot.com.au/2009/12/emacs-better-ido-flex-matching.html
+;; provided a lot of inspiration.
+;; ido-hacks was helpful for ido optimization
 
 ;;; Code:
 
-
-
-;;; credit to scott frazer's blog entry here:http://scottfrazersblog.blogspot.com.au/2009/12/emacs-better-ido-flex-matching.html
-;;; credit to ido-hacks for ido optimization
-
-;;; Use defsubst instead of defun
-
-;;; Notes:
-;;;
-;;; * Using bitmaps to check for matches worked out to be SLOWER than just
-;;;   scanning the string and using `flx-get-matches'.
-;;;
-;;; * Consing causes GC, which can often slowdown Emacs more than the benefits
-;;;   of an optimization.
-;;;
-
-(eval-when-compile (require 'cl))
+(require 'cl-lib)
 
 (defface flx-highlight-face  '((t (:inherit font-lock-variable-name-face :bold t :underline t)))
   "Face used by flx for highlighting flx match characters."
@@ -80,7 +64,7 @@
   (let* ((res (make-hash-table :test 'eq :size 32))
          (str-len (length str))
          char)
-    (loop for index from (1- str-len) downto 0
+    (cl-loop for index from (1- str-len) downto 0
           do (progn
                (setq char (downcase (aref str index)))
                (push index (gethash char res))))
@@ -88,23 +72,26 @@
     res))
 
 ;;; Do we need more word separators than ST?
-(defsubst flx-is-word (char)
-  "returns t if char is word"
+(defsubst flx-word-p (char)
+  "Check if CHAR is a word character."
   (and char
-       (not (memq char '(?\  ?- ?_ ?. ?/ ?\\)))))
+       (not (memq char '(?\  ?- ?_ ?: ?. ?/ ?\\)))))
 
-(defsubst flx-is-capital (char)
-  "returns t if char is word"
+(defsubst flx-capital-p (char)
+  "Check if CHAR is an uppercase character."
   (and char
-       (and (<= char ?Z)
-            (<= ?A char))))
+       (flx-word-p char)
+       (= char (upcase char))))
 
-(defsubst flx-is-boundary (last-char char)
+(defsubst flx-boundary-p (last-char char)
+  "Check is LAST-CHAR is the end of a word and CHAR the start of the next.
+
+The function is camel-case aware."
   (or (null last-char)
-      (and (not (flx-is-capital last-char))
-           (flx-is-capital char))
-      (and (not (flx-is-word last-char))
-           (flx-is-word char))))
+      (and (not (flx-capital-p last-char))
+           (flx-capital-p char))
+      (and (not (flx-word-p last-char))
+           (flx-word-p char))))
 
 (defsubst flx-inc-vec (vec &optional inc beg end)
   "increment each element of vectory by INC(default=1)
@@ -117,8 +104,8 @@ from BEG (inclusive) to end (not inclusive).
   (or end
       (setq end (length vec)))
   (while (< beg end)
-    (incf (aref vec beg) inc)
-    (incf beg))
+    (cl-incf (aref vec beg) inc)
+    (cl-incf beg))
   vec)
 
 ;; So we store one fixnum per character.  Is this too memory inefficient?
@@ -133,9 +120,9 @@ See documentation for logic."
          (penalty-lead ?.)
          (groups-alist (list (list -1 0))))
     ;; ++++ final char bonus
-    (incf (aref scores str-last-index) 1)
+    (cl-incf (aref scores str-last-index) 1)
     ;; Establish baseline mapping
-    (loop for char across str
+    (cl-loop for char across str
           for index from 0
           with last-char = nil
           with group-word-count = 0
@@ -145,14 +132,14 @@ See documentation for logic."
                       ;; considered words of length 1.  This is so "foo/__ab"
                       ;; gets penalized compared to "foo/ab".
                       (if (zerop group-word-count) nil last-char)))
-                 (when (flx-is-boundary effective-last-char char)
-                   (setcdr (cdar groups-alist) (cons index (cddar groups-alist))))
-                 (when (and (not (flx-is-word last-char))
-                            (flx-is-word char))
-                   (incf group-word-count)))
+                 (when (flx-boundary-p effective-last-char char)
+                   (setcdr (cdar groups-alist) (cons index (cl-cddar groups-alist))))
+                 (when (and (not (flx-word-p last-char))
+                            (flx-word-p char))
+                   (cl-incf group-word-count)))
                ;; ++++ -45 penalize extension
                (when (eq last-char penalty-lead)
-                 (incf (aref scores index) -45))
+                 (cl-incf (aref scores index) -45))
                (when (eq group-separator char )
                  (setcar (cdar groups-alist) group-word-count)
                  (setq group-word-count 0)
@@ -166,7 +153,7 @@ See documentation for logic."
       (unless (zerop separator-count)
         (flx-inc-vec scores (* -2 group-count)))
       ;; score each group further
-      (loop for group in groups-alist
+      (cl-loop for group in groups-alist
             for index from separator-count downto 0
             with last-group-limit = nil
             with basepath-found = nil
@@ -194,17 +181,17 @@ See documentation for logic."
                                -3
                              (+ -5 (1- index)))))
                    (flx-inc-vec scores num (1+ group-start) last-group-limit))
-                 (loop for word in (cddr group)
+                 (cl-loop for word in (cddr group)
                        for word-index from (1- words-length) downto 0
                        with last-word = (or last-group-limit
                                             str-len)
                        do (progn
-                            (incf (aref scores word)
+                            (cl-incf (aref scores word)
                                   ;; ++++  beg word bonus AND
                                   85)
-                            (loop for index from word below last-word
+                            (cl-loop for index from word below last-word
                                   for char-i from 0
-                                  do (incf (aref scores index)
+                                  do (cl-incf (aref scores index)
                                            (-
                                             ;; ++++ word order penalty
                                             (* -3 word-index)
@@ -224,10 +211,10 @@ See documentation for logic."
 
   if VAL is nil, return entire list."
   (if val
-      (loop for sub on sorted-list
+      (cl-loop for sub on sorted-list
             do (when (> (car sub) val)
-                 (return sub)))
-    sorted-list))
+                 (cl-return sub)))
+      sorted-list))
 
 (defun flx-get-matches (hash query &optional greater-than q-index)
   "Return list of all unique indexes into str where query can match.
@@ -304,15 +291,15 @@ e.g. (\"aab\" \"ab\") returns
                              0))
                     (contiguous-count 0)
                     last-match)
-                (loop for index in match-positions
+                (cl-loop for index in match-positions
                       do (progn
                            (if (and last-match
                                     (= (1+ last-match) index))
-                               (incf contiguous-count)
+                               (cl-incf contiguous-count)
                              (setq contiguous-count 0))
-                           (incf score (aref heatmap index))
+                           (cl-incf score (aref heatmap index))
                            (when (> contiguous-count 0)
-                             (incf score (+ 45 (* 15 (min contiguous-count 4)))))
+                             (cl-incf score (+ 45 (* 15 (min contiguous-count 4)))))
                            (setq last-match index)))
                 (if (or (null best-score)
                         (> score (car best-score)))
@@ -332,7 +319,7 @@ SCORE of nil means to clear the properties."
                (substring-no-properties obj))))
 
     (unless (null score)
-      (loop for char in (cdr score)
+      (cl-loop for char in (cdr score)
             do (progn
                  (when (and last-char
                             (not (= (1+ last-char) char)))
@@ -358,12 +345,4 @@ SCORE of nil means to clear the properties."
 
 (provide 'flx)
 
-
-
-
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; flx.el ends here

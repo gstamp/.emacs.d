@@ -1,45 +1,20 @@
 ;;; flx-ido.el --- flx integration for ido
 
-;; this file is not part of Emacs
+;; Copyright © 2013 Le Wang
 
-;; Copyright (C) 2013 Le Wang
 ;; Author: Le Wang
 ;; Maintainer: Le Wang
 ;; Description: flx integration for ido
-;; Author: Le Wang
-;; Maintainer: Le Wang
-
 ;; Created: Sun Apr 21 20:38:36 2013 (+0800)
-;; Version: 0.2
-;; Last-Updated:
-;;           By:
-;;     Update #: 60
-;; URL:
-;; Keywords:
-;; Compatibility:
+;; Version: 20130814.2156
+;; X-Original-Version: 0.2
+;; URL: https://github.com/lewang/flx
+;; Package-Requires: ((flx "0.1") (cl-lib "0.3"))
 
-;;; Installation:
+;; This file is NOT part of GNU Emacs.
 
-;; Add to your init file:
-;;
-;;     (require 'flx-ido)
-;;     (ido-mode 1)
-;;     (ido-everywhere 1)
-;;     (flx-ido-mode 1)
-;;     ;; disable ido faces to see flx highlights.
-;;     (setq ido-use-faces nil)
-;;
-;;
-;;
+;;; License
 
-;;; Commentary:
-
-;;
-;;
-;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
 ;; published by the Free Software Foundation; either version 3, or
@@ -54,19 +29,38 @@
 ;; along with this program; see the file COPYING.  If not, write to
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
 ;; Floor, Boston, MA 02110-1301, USA.
+
+;;; Commentary:
+
+;; This package provides a more powerful alternative to `ido-mode''s
+;; built-in flex matching.
+
+;;; Acknowledgments
+
+;; Scott Frazer's blog entry http://scottfrazersblog.blogspot.com.au/2009/12/emacs-better-ido-flex-matching.html
+;; provided a lot of inspiration.
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ido-hacks was helpful for ido optimization and fontification ideas
 
-;;;
-;;; credit to Scott Frazer's blog entry here:http://scottfrazersblog.blogspot.com.au/2009/12/emacs-better-ido-flex-matching.html
-;;;
+;;; Installation:
 
+;; Add the following code to your init file:
+;;
+;;     (require 'flx-ido)
+;;     (ido-mode 1)
+;;     (ido-everywhere 1)
+;;     (flx-ido-mode 1)
+;;     ;; disable ido faces to see flx highlights.
+;;     (setq ido-use-faces nil)
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
 (require 'ido)
 (require 'flx)
+
+(defcustom flx-ido-threshhold 6000
+  "flx will not kick in until collection is filtered below this size with \"flex\"."
+  :group 'ido)
 
 
 (defcustom flx-ido-use-faces t
@@ -103,7 +97,7 @@ item, in which case, the ending items are deleted."
           best-match
           exact
           res)
-      (loop for key being the hash-key of flx-ido-narrowed-matches-hash
+      (cl-loop for key being the hash-key of flx-ido-narrowed-matches-hash
             do (when (and (>= (length query-key) (length key))
                           (eq t
                               (compare-strings query-key 0 (min (length query-key)
@@ -115,7 +109,7 @@ item, in which case, the ending items are deleted."
                  (when (= (length key)
                           (length query-key))
                    (setq exact t)
-                   (return))))
+                   (cl-return))))
       (setq res (cond (exact
                        (gethash best-match flx-ido-narrowed-matches-hash))
                       (best-match
@@ -133,7 +127,7 @@ item, in which case, the ending items are deleted."
       (let ((decorate-count (min ido-max-prospects
                                  (length things))))
         (nconc
-         (loop for thing in things
+         (cl-loop for thing in things
                for i from 0 below decorate-count
                collect (if clear
                            (flx-propertize thing nil)
@@ -146,16 +140,18 @@ item, in which case, the ending items are deleted."
       (mapcar 'car things))))
 
 (defun flx-ido-match-internal (query items)
-  (let* ((matches (loop for item in items
-                        for string = (if (consp item) (car item) item)
-                        for score = (flx-score string query flx-file-cache)
-                        if score
-                        collect (cons item score)
-                        into matches
-                        finally return matches)))
-    (flx-ido-decorate (ido-delete-runs
-                       (sort matches
-                             (lambda (x y) (> (cadr x) (cadr y))))))))
+  (if (< (length items) flx-ido-threshhold)
+      (let* ((matches (cl-loop for item in items
+                            for string = (if (consp item) (car item) item)
+                            for score = (flx-score string query flx-file-cache)
+                            if score
+                            collect (cons item score)
+                            into matches
+                            finally return matches)))
+        (flx-ido-decorate (ido-delete-runs
+                           (sort matches
+                                 (lambda (x y) (> (cadr x) (cadr y)))))))
+    (throw :too-big :too-big)))
 
 (defun flx-ido-key-for-query (query)
   (concat ido-current-directory query))
@@ -167,7 +163,7 @@ item, in which case, the ending items are deleted."
 
 (defun flx-ido-match (query items)
   "Better sorting for flx ido matching."
-  (destructuring-bind (exact res-items)
+  (cl-destructuring-bind (exact res-items)
       (flx-ido-narrowed query items)
     (flx-ido-cache query (if exact
                              res-items
@@ -196,9 +192,11 @@ item, in which case, the ending items are deleted."
     (clrhash flx-ido-narrowed-matches-hash)))
 
 (defadvice ido-set-matches-1 (around flx-ido-set-matches-1 activate)
-  "Choose between the regular ido-set-matches-1 and my-ido-fuzzy-match"
-  (if flx-ido-mode
-      (setq ad-return-value (flx-ido-match ido-text (ad-get-arg 0)))
+  "Choose between the regular ido-set-matches-1 and flx-ido-match"
+  (when (or (not flx-ido-mode)
+            (eq :too-big
+                (catch :too-big
+                  (setq ad-return-value (flx-ido-match ido-text (ad-get-arg 0))))))
     ad-do-it))
 
 ;;;###autoload
@@ -211,7 +209,4 @@ item, in which case, the ending items are deleted."
 
 (provide 'flx-ido)
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; flx-ido.el ends here
