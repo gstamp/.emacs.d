@@ -84,6 +84,7 @@
                       company-inf-ruby
                       github-browse-file
                       key-chord
+                      fiplr
                       )
   "A list of packages to ensure are installed at launch.")
 

@@ -136,7 +136,7 @@ If the :END option is specified, up to :END results are returned."
 
 (defun grizzl-cons-result (term matches results)
   "Build a new result for TERM and hash-table MATCHES consed with RESULTS."
-  (cons (cons term matches) results))
+    (cons (cons term matches) results))
 
 (defun grizzl-rewind-result (term index result)
   "Adjusts RESULT according to TERM, ready for a new search."
@@ -146,7 +146,7 @@ If the :END option is specified, up to :END results are returned."
              (old-len (length old-term)))
         (if (and (>= new-len old-len)
                  (string-equal old-term (substring term 0 old-len)))
-            result
+              result
           (grizzl-rewind-result term index (cdr result))))
     (grizzl-cons-result "" (grizzl-base-matches index) nil)))
 
@@ -200,9 +200,9 @@ If the :END option is specified, up to :END results are returned."
 (defun grizzl-search-increment (sub-table result)
   "Use the search lookup table to filter already-accumulated results."
   (cl-flet ((next-offset (key current sub-table)
-                         (find-if (lambda (v)
-                                    (> v current))
-                                  (gethash key sub-table))))
+              (find-if (lambda (v)
+                         (> v current))
+                       (gethash key sub-table))))
     (maphash (lambda (k v)
                (let* ((oldpos (car v))
                       (oldrank (cadr v))
