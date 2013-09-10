@@ -85,6 +85,8 @@
                       github-browse-file
                       key-chord
                       fiplr
+                      multiple-cursors
+                      golden-ratio
                       )
   "A list of packages to ensure are installed at launch.")
 
